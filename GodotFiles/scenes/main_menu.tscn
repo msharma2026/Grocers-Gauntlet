@@ -5,6 +5,10 @@
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_l6cm7")
+button_map = Dictionary[String, String]({
+"": "",
+"start": "entrance"
+})
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(554, 368)
