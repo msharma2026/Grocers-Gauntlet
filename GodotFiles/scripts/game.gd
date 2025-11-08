@@ -1,22 +1,20 @@
+class_name Game
 extends Node2D
 
+# Note 1: For the 'screens' dictionary, the Key (string) MUST exactly match the 
+# destination screen_id in 'main_menu.gd' you plan to emit via a button signal.
+# Note 2: The 'change_screen' signal must be manually updated in the 
+# Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
-@export var main_menu : PackedScene
-@export var entrance : PackedScene
+@export var screens : Dictionary[String, PackedScene]
 
 var current_screen : Screen = null
 
 
-var screens = {}
-
 func _ready() -> void:
-	screens = {
-			"main_menu": main_menu,
-			"entrance": entrance
-	}
 	_change_screen("main_menu")
 	
-	
+
 func _change_screen(screen : String) -> void:
 	if current_screen != null:
 		remove_child(current_screen)
