@@ -1,4 +1,4 @@
 class_name GameState
-extends Node2D
+extends Node
 
 var health_percent: int
