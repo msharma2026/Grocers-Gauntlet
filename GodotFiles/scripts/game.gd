@@ -16,11 +16,7 @@ func _ready() -> void:
 	}
 	_change_screen("main_menu")
 	
-
-
-
-
-
+	
 func _change_screen(screen : String) -> void:
 	if current_screen != null:
 		remove_child(current_screen)
