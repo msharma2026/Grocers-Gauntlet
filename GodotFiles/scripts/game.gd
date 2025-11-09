@@ -1,3 +1,5 @@
+# game.gd
+
 class_name Game
 extends Node2D
 
@@ -8,20 +10,20 @@ extends Node2D
 
 @export var screens : Dictionary[String, PackedScene]
 
-var current_screen : Screen = null
+var current_screen : Screen
 
 
 func _ready() -> void:
 	_change_screen("main_menu")
 	
 
-func _change_screen(screen : String) -> void:
+func _change_screen(screen_id: String) -> void:
 	if current_screen != null:
 		remove_child(current_screen)
 		current_screen.queue_free()
 	
-	print_debug(screens[screen])
-	var new_screen : Screen = screens[screen].instantiate()
+	print_debug(screens[screen_id])
+	var new_screen : Screen = screens[screen_id].instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
