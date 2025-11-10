@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt8xj88jim3id"]
+
+[ext_resource type="Script" uid="uid://dd85utx3mu7jf" path="res://scripts/aisles.gd" id="1_ddv56"]
+
+[node name="Aisles" type="Node2D"]
+script = ExtResource("1_ddv56")
+
+[node name="AisleMarker1" type="Marker2D" parent="."]
+position = Vector2(200, 101)
+
+[node name="AisleMarker2" type="Marker2D" parent="."]
+position = Vector2(550, 100)
+
+[node name="AisleMarker3" type="Marker2D" parent="."]
+position = Vector2(899, 105)

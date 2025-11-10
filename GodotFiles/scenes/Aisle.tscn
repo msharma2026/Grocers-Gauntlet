@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://p5684obmofd2"]
+
+[ext_resource type="Script" uid="uid://dqmw47ca75vpm" path="res://scripts/aisle.gd" id="1_lfq0s"]
+[ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="2_m1e57"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mg17p"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y4ow5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_m1e57")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"hovering",
+"speed": 5.0
+}]
+
+[node name="Aisle" type="Area2D"]
+script = ExtResource("1_lfq0s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mg17p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_y4ow5")
+animation = &"hovering"
