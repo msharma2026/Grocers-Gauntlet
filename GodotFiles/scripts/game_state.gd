@@ -17,6 +17,8 @@ var charisma: int
 var dexterity: int
 var defense: int
 var current_markup_rate: float
+var budget: float
+var map_depth: int = 0
 
 # Cart information
 var inventory: Array[Item]

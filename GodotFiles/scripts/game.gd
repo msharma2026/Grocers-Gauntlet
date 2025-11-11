@@ -18,10 +18,15 @@ func _ready() -> void:
 	
 
 func _change_screen(screen_id: String) -> void:
+	
+	if !screens.has(screen_id):
+		push_warning("Unknown screen_id: %s" % screen_id)
+		return
+	
 	if current_screen != null:
 		remove_child(current_screen)
 		current_screen.queue_free()
-	
+
 	print_debug(screens[screen_id])
 	var new_screen : Screen = screens[screen_id].instantiate()
 	add_child(new_screen)

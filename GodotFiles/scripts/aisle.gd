@@ -2,7 +2,7 @@ extends Area2D
 
 signal aisle_clicked(screen_id: String)
 
-@export var screen_id: String = ""
+var screen_id: String = ""
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
