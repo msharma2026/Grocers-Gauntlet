@@ -6,10 +6,10 @@
 script = ExtResource("1_ddv56")
 
 [node name="AisleMarker1" type="Marker2D" parent="."]
-position = Vector2(200, 101)
+position = Vector2(200, 60)
 
 [node name="AisleMarker2" type="Marker2D" parent="."]
-position = Vector2(550, 100)
+position = Vector2(550, 60)
 
 [node name="AisleMarker3" type="Marker2D" parent="."]
-position = Vector2(899, 105)
+position = Vector2(899, 60)

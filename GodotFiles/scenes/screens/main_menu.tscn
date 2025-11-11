@@ -7,7 +7,7 @@
 script = ExtResource("1_l6cm7")
 button_map = Dictionary[String, String]({
 "main": "main_menu",
-"start": "entrance"
+"start": "aisles"
 })
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cevx0w7kyq7lk"]
+[gd_scene load_steps=5 format=3 uid="uid://cevx0w7kyq7lk"]
 
 [ext_resource type="Script" uid="uid://blgwssin6bdfx" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://cmqvsgjb33vrv" path="res://scenes/screens/main_menu.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://ds70rs0xwhvar" path="res://scenes/screens/entrance.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="4_lbhrr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_uwrxv")
 screens = Dictionary[String, PackedScene]({
+"aisles": ExtResource("4_lbhrr"),
 "entrance": ExtResource("3_lnu2h"),
 "main_menu": ExtResource("2_yqjtg")
 })

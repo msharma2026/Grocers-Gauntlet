@@ -52,7 +52,7 @@ func _collect_markers() -> Array[Marker2D]:
 		if child is Marker2D and child.name.begins_with("AisleMarker"):
 			markers.append(child)
 	
-	markers.sort_custom(self, "_sort_markers")
+	markers.sort_custom(Callable(self, "_sort_markers"))
 	return markers
 
 
