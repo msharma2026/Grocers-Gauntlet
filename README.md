@@ -1,19 +1,21 @@
-#Code documentation
+# Code Documentation
 
-##Main Node:
-###Game -> 
-*Script (On transition dequeue current screen, instantiate and add to tree next screen)
+## Main Node
+### Game
+- **Script:** On transition, dequeue the current screen, instantiate and add to the tree the next screen.
 
-##AutoLoads:
-	###game_data 
-        *(Persistent script can be called from anywhere, stores persistent game data such as inventory, where you are on the map, stats, etc) 
-		
+## AutoLoads
+### game_data
+- **Description:** Persistent script accessible from anywhere.  
+  Stores persistent game data such as inventory, current map position, stats, etc.
 
-##Screen List: (each with their own script that inherits from Screen Note: Must at some point emit screen change in each screen) 
-	###Main Menu
-	###Inventory
-    ###Battle?
-	###Map
-	###Event* 
-    *(maybe inherit from another Event class?) 
-	
+## Screen List
+Each screen has its own script that inherits from `Screen`.  
+**Note:** Each must at some point emit a `screen_change` signal.
+
+- **Main Menu**
+- **Inventory**
+- **Battle?**
+- **Map**
+- **Event**
+  - (Maybe inherit from another `Event` class?)
