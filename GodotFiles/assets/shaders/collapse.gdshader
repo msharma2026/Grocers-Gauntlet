@@ -1,12 +1,10 @@
 shader_type canvas_item;
 
-
+uniform float collapse_depth : hint_range(0.0,30.0) = 0.0;
 
 void fragment() {
 	vec4 t = texture(TEXTURE,UV);
-	float d = length(UV - 0.5);
-	float radius = smoothstep(0.0, 1.0, mod(TIME * 0.3, 1.0)) * 25.0;
-	vec2 s = TEXTURE_PIXEL_SIZE * radius;
+	vec2 s = TEXTURE_PIXEL_SIZE * collapse_depth;
 	vec4 chosen = t;
 	for(float x = -1.0 ; x <= 1.0; x++) {
 		for(float y = -1.0; y <= 1.0; y++) {

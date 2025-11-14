@@ -1,11 +1,11 @@
 shader_type canvas_item;
 
-
+uniform float blur_amount: hint_range(0.0,5.0) = 0.0;
 
 void fragment() {
 	vec2 pixel = TEXTURE_PIXEL_SIZE;
 	vec4 sum = vec4(0.0);
-	float sample_radius = 3.0;
+	float sample_radius  = blur_amount;
 	float divider = 0.0;
 	vec4 base_color = texture(TEXTURE,UV);
 	// Called for every pixel the material is visible on.
