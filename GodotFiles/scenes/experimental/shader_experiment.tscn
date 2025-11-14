@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://bcxtv117w5bji"]
+
+[ext_resource type="Texture2D" uid="uid://b7v53io0t1ue7" path="res://assets/sprites/placeholder.png" id="1_bq1u3"]
+[ext_resource type="Shader" uid="uid://s58uga7ng1df" path="res://assets/shaders/pulsate_red.gdshader" id="1_k5vxq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6mjir"]
+shader = ExtResource("1_k5vxq")
+shader_parameter/speed = 2.0
+
+[node name="ShaderExperiment" type="Sprite2D"]
+texture_filter = 1
+material = SubResource("ShaderMaterial_6mjir")
+texture = ExtResource("1_bq1u3")
