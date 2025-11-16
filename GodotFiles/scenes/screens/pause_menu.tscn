@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3nb0638d8xam"]
+
+[ext_resource type="Script" uid="uid://bmqq2r3k88e4x" path="res://scripts/pause_menu.gd" id="1_n87rw"]
+
+[node name="PauseMenu" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_n87rw")
+button_map = Dictionary[String, String]({
+"Exit Game": "quit",
+"Main Menu": "main_menu",
+"Resume": "resume"
+})
