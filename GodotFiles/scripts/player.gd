@@ -2,16 +2,14 @@
 class_name Player
 extends CharacterBody2D
 
-@export var health: float = 100.0
-@export var max_health: float = 100.0
+@export var max_health: int = 100.0
 
 signal health_updated(new_health, max_health)
 
 @onready var _player: AnimatedSprite2D = $AnimatedSprite2D
-
+@onready var game_state: GameState = get_node("/root/game_data")
 
 func _ready() -> void:
-	health_updated.emit(game_data.health_percentage, 100)
 	pass
 	
 	
@@ -24,7 +22,7 @@ func _physics_process(delta: float) -> void:
 	
 
 func take_damage(amount: float) -> void:
-	health -= amount
+	game_state.health_percentage -= amount
 	# Prevents health being negative
-	health = clampf(health, 0, max_health)
-	health_updated.emit(health, max_health)
+	game_state.health_percentage = clampf(game_state.health_percentage, 0, max_health)
+	health_updated.emit(game_state.health_percentage, max_health)

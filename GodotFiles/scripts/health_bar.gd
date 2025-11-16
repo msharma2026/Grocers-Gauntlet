@@ -2,10 +2,10 @@
 class_name HealthBar
 extends ProgressBar
 
-var max_health_value: float
-var health_value: float
+#var max_health_value: int
+#var health_value: int
 
 
-func update_health_bar(new_health: float, new_max_health: float) -> void:
-	max_health_value = new_max_health
-	health_value = new_health
+func update_health_bar(new_health: int, new_max_health: int) -> void:
+	max_value = new_max_health
+	value = new_health

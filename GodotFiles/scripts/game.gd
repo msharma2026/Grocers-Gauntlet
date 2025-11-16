@@ -20,6 +20,7 @@ var pause_menu_instance: PauseMenu = null
 
 func _ready() -> void:
 	player.health_updated.connect(health_bar.update_health_bar)
+	health_bar.update_health_bar(player.game_state.health_percentage, 100)
 	_change_screen("main_menu")
 	
 # Checks if 'Escape' key was pressed to bring up the pause menu

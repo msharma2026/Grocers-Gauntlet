@@ -12,7 +12,7 @@ enum PlayerStatus {
 
 # Player stats
 var current_status: int
-var health_percentage: int
+var health_percentage: int = 100
 var charisma: int
 var dexterity: int
 var defense: int
