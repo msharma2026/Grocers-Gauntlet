@@ -8,14 +8,18 @@ extends Node2D
 # Note 2: The 'change_screen' signal must be manually updated in the 
 # Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
-@export var screens : Dictionary[String, PackedScene]
-@export var pause_menu_scene : PackedScene
+@export var screens: Dictionary[String, PackedScene]
+@export var pause_menu_scene: PackedScene
 
-var current_screen : Screen
-var pause_menu_instance : PauseMenu = null
+var current_screen: Screen
+var pause_menu_instance: PauseMenu = null
+
+@onready var player: CharacterBody2D = $Player
+@onready var health_bar: ProgressBar = $UI/HealthBar
 
 
 func _ready() -> void:
+	player.health_updated.connect(health_bar.update_health_bar)
 	_change_screen("main_menu")
 	
 # Checks if 'Escape' key was pressed to bring up the pause menu

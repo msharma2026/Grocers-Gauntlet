@@ -6,6 +6,7 @@
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_l6cm7")
 button_map = Dictionary[String, String]({
+"Exit Game": "quit",
 "main": "main_menu",
 "start": "aisles"
 })

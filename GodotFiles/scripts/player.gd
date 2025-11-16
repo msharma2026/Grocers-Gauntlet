@@ -11,6 +11,7 @@ signal health_updated(new_health, max_health)
 
 
 func _ready() -> void:
+	health_updated.emit(game_data.health_percentage, 100)
 	pass
 	
 	
