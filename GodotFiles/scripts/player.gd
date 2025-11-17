@@ -33,3 +33,15 @@ func take_damage(amount: float) -> void:
 	# Prevents health being negative
 	game_state.health_percentage = clampf(game_state.health_percentage, 0, max_health)
 	health_updated.emit(game_state.health_percentage, max_health)
+	
+func bind_player_inputs():
+	move_left = MoveLeft.new()
+	move_right = MoveRight.new()
+	move_up = MoveUp.new()
+	move_down = MoveDown.new()
+	
+func unbind_player_inputs():
+	move_left = null
+	move_right = null
+	move_up = null
+	move_down = null
