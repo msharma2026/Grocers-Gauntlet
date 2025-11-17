@@ -1,7 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://p5684obmofd2"]
+[gd_scene load_steps=11 format=3 uid="uid://p5684obmofd2"]
 
 [ext_resource type="Script" uid="uid://dqmw47ca75vpm" path="res://scripts/aisle.gd" id="1_lfq0s"]
 [ext_resource type="Texture2D" uid="uid://dhx8re0ayvd2f" path="res://assets/sprites/sign-export.png" id="2_lfq0s"]
+[ext_resource type="Shader" uid="uid://bqdpkolhppwyr" path="res://assets/shaders/collapse.gdshader" id="2_m1e57"]
+[ext_resource type="Texture2D" uid="uid://da32rvxnbqcwq" path="res://assets/sprites/textures/ceiling_light_texture.png" id="4_mg17p"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mg17p"]
+shader = ExtResource("2_m1e57")
+shader_parameter/collapse_depth = 0.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_y4ow5"]
 animations = [{
@@ -25,13 +31,61 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg17p"]
 size = Vector2(129, 129)
 
+[sub_resource type="Animation" id="Animation_y4ow5"]
+resource_name = "spawn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/collapse_depth")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [30.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_rqwud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/collapse_depth")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eb1x8"]
+_data = {
+&"RESET": SubResource("Animation_rqwud"),
+&"spawn": SubResource("Animation_y4ow5")
+}
+
 [node name="Aisle" type="Area2D"]
 script = ExtResource("1_lfq0s")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_mg17p")
 sprite_frames = SubResource("SpriteFrames_y4ow5")
 animation = &"hovering"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_mg17p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_eb1x8")
+}
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.5
+texture = ExtResource("4_mg17p")
+texture_scale = 2.2

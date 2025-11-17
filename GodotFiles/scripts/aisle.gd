@@ -21,6 +21,7 @@ func _ready() -> void:
 	connect("mouse_entered", Callable(self, "_on_hover"))
 	connect("mouse_exited", Callable(self, "_revert_sprite"))
 	animated_sprite.play("default")
+	$AnimationPlayer.play("spawn")
 
 
 func _on_click(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
