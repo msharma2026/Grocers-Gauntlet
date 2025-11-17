@@ -25,7 +25,7 @@ var move_down: Command
 
 
 func _ready() -> void:
-	character_facing = Facing.IS_FACING_UP
+	pass 
 	
 
 func _process(delta: float) -> void:

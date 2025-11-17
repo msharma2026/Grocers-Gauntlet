@@ -16,6 +16,7 @@ var start_position: Vector2
 
 func _ready() -> void:
 	max_health = game_state.MAX_HEALTH
+	character_facing = Facing.IS_FACING_UP
 	game_state.is_dead = false
 	
 	if game_state.is_first_run:
