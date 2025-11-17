@@ -1,4 +1,4 @@
-# game_state.gd
+# game_data.gd
 
 class_name GameState
 extends Node
@@ -8,7 +8,7 @@ enum PlayerStatus {
 	IS_HAGGLING,     # Player is in the Haggling minigame (value 1)
 	IS_HEISTING,     # Player is in the Heisting minigame (value 2)
 	IS_CHECKOUT,     # Player is in the Kiosk final boss (value 3)
-	IS_GAME_OVER,    # Player is in dead state (value 4)
+	IS_DEAD,         # Player is in dead state (value 4)
 }
 
 const MAX_HEALTH: int = 100
@@ -20,11 +20,10 @@ const START_BUDGET: float = 100.0
 
 # Game stats
 var is_first_run: bool
-var current_status: int
+var current_status: PlayerStatus
 var map_depth: int  #set to 0 in game.gd _ready()
 
 # Player stats
-var is_dead: bool
 var health_percentage: int = 100
 var charisma: int
 var dexterity: int
