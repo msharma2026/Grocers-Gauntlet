@@ -27,7 +27,6 @@ func _ready() -> void:
 	add_child(player)
 	add_child(ui_bar)
 	
-	
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(game_data.health_percentage, 100)
 	_change_screen("main_menu")
