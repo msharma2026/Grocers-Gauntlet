@@ -5,27 +5,46 @@ extends Character
 
 signal health_updated(new_health, max_health)
 
-@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var game_state: GameState = get_node("/root/game_data")
 
-var max_health: int = game_state.MAX_HEALTH
-var is_first_run: bool = true
-var start_pos := Vector2(0,0)
+var max_health: int 
+var start_position: Vector2
+
+# Commented out so that healthbar works in current state
+#func _init(position: Vector2) -> void:
+	##start_position = position
 
 func _ready() -> void:
-	if is_first_run:
-		game_state.health_percentage = game_state.MAX_HEALTH
-		is_first_run = false
+	max_health = game_state.MAX_HEALTH
+	game_state.is_dead = false
 	
-	global_position = start_pos
+	if game_state.is_first_run:
+		game_state.health_percentage = game_state.MAX_HEALTH
+		game_state.current_status = game_state.IS_NAVIGATING
+		game_state.is_first_run = false
+	
+	bind_player_inputs()
+	#global_position = start_position
 	
 	
 func _process(delta: float) -> void:
-	pass
+	if game_state.is_dead:
+		return
+	
+	super(delta)
 	
 	
 func _physics_process(delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("move_left"):
+		move_left.execute(self)
+	elif Input.is_action_just_pressed("move_right"):
+		move_right.execute(self)
+	elif Input.is_action_just_pressed("move_up"):
+		move_up.execute(self)
+	elif Input.is_action_just_pressed("move_down"):
+		move_down.execute(self)
+	
+	super(delta)
 	
 
 func take_damage(amount: float) -> void:

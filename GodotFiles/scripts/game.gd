@@ -16,9 +16,10 @@ var pause_menu_instance: PauseMenu = null
 
 @onready var player: CharacterBody2D = $Player
 @onready var health_bar: ProgressBar = $UI/HealthBar
-
+@onready var game_state: GameState = get_node("/root/game_data")
 
 func _ready() -> void:
+	game_state.map_depth = 0
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(player.game_state.health_percentage, 100)
 	_change_screen("main_menu")
