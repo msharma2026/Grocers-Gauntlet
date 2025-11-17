@@ -10,6 +10,8 @@ enum PlayerStatus {
 	IS_CHECKOUT      # Player is in the Kiosk final boss (value 3)
 }
 
+const MAX_HEALTH: int = 100
+
 # Player stats
 var current_status: int
 var health_percentage: int = 100
