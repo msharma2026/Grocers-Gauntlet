@@ -9,6 +9,7 @@ extends Node2D
 # Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/Player.tscn")
+const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
@@ -22,7 +23,11 @@ var pause_menu_instance: PauseMenu = null
 func _ready() -> void:
 	game_data.map_depth = 0
 	var player = PLAYER_SCENE.instantiate()
+	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
+	add_child(ui_bar)
+	
+	#health_bar = ui_bar.get_node("HealthBar")
 	
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(game_data.health_percentage, 100)
