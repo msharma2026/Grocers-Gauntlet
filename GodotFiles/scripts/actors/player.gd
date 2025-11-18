@@ -1,6 +1,6 @@
 #player.gd
 
-class_name Player
+class_name Player_
 extends Character
 
 signal health_updated(new_health, max_health)

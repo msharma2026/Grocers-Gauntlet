@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [gd_scene load_steps=9 format=3 uid="uid://bt8xj88jim3id"]
 
 [ext_resource type="Script" uid="uid://dd85utx3mu7jf" path="res://scripts/aisles.gd" id="1_ddv56"]
@@ -24,23 +23,17 @@ seamless_blend_skirt = 0.566
 shader = ExtResource("4_v5lti")
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_4jxdk")
 shader_parameter/speed = 0.02
-=======
-[gd_scene load_steps=2 format=3 uid="uid://bt8xj88jim3id"]
-
-[ext_resource type="Script" uid="uid://dd85utx3mu7jf" path="res://scripts/Aisles.gd" id="1_ddv56"]
->>>>>>> acaf9a14e649d47ff33dcea691d9476c473d393d
 
 [node name="Aisles" type="Node2D"]
 script = ExtResource("1_ddv56")
 
 [node name="AisleMarker1" type="Marker2D" parent="."]
-position = Vector2(200, 60)
+position = Vector2(137, 60)
 
 [node name="AisleMarker2" type="Marker2D" parent="."]
-position = Vector2(550, 60)
+position = Vector2(480, 60)
 
 [node name="AisleMarker3" type="Marker2D" parent="."]
-<<<<<<< HEAD
 material = SubResource("ShaderMaterial_v5lti")
 position = Vector2(794, 60)
 
@@ -75,6 +68,3 @@ offset_left = -3.0
 offset_top = 257.0
 offset_right = 1293.0
 offset_bottom = 750.0
-=======
-position = Vector2(899, 60)
->>>>>>> acaf9a14e649d47ff33dcea691d9476c473d393d
