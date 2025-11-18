@@ -3,8 +3,6 @@
 class_name ShoppingCarts
 extends Node
 
-@onready var game_state: GameState = get_node("/root/game_data")
-
 var Carts = {
 	"rogues_basket": {
 		"charisma": 40,
@@ -19,10 +17,10 @@ var Carts = {
 }
 
 func set_cart(cart_id: String) -> String:
-	game_state.cart_type = cart_id
-	game_state.charisma = Carts[cart_id]["charisma"]
-	game_state.dexterity = Carts[cart_id]["dexterity"]
-	game_state.defense = Carts[cart_id]["defense"]
+	game_data.cart_type = cart_id
+	game_data.charisma = Carts[cart_id]["charisma"]
+	game_data.dexterity = Carts[cart_id]["dexterity"]
+	game_data.defense = Carts[cart_id]["defense"]
 	return cart_id
 
 	

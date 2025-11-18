@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://ds70rs0xwhvar"]
 
-[ext_resource type="Script" uid="uid://dq688bbiftr83" path="res://scripts/entrance.gd" id="1_ba6v0"]
+[ext_resource type="Script" uid="uid://dq688bbiftr83" path="res://scripts/Entrance.gd" id="1_ba6v0"]
 [ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="2_j8c1m"]
 
 [node name="Entrance" type="Node2D"]

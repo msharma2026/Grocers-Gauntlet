@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Grocers-Gauntlet"
-run/main_scene="uid://cevx0w7kyq7lk"
+run/main_scene="uid://d1q1ohnp56urc"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-game_data="*res://scripts/game_state.gd"
+game_data="*res://scripts/GameData.gd"
 
 [input]
 

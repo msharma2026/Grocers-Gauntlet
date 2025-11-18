@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://p5684obmofd2"]
 
-[ext_resource type="Script" uid="uid://dqmw47ca75vpm" path="res://scripts/aisle.gd" id="1_lfq0s"]
+[ext_resource type="Script" uid="uid://dqmw47ca75vpm" path="res://scripts/Aisle.gd" id="1_lfq0s"]
 [ext_resource type="Texture2D" uid="uid://dhx8re0ayvd2f" path="res://assets/sprites/sign-export.png" id="2_lfq0s"]
 [ext_resource type="Shader" uid="uid://bqdpkolhppwyr" path="res://assets/shaders/collapse.gdshader" id="2_m1e57"]
 [ext_resource type="Texture2D" uid="uid://da32rvxnbqcwq" path="res://assets/sprites/textures/ceiling_light_texture.png" id="4_mg17p"]
