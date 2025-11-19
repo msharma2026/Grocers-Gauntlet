@@ -1,14 +1,15 @@
 [gd_scene load_steps=4 format=3 uid="uid://bcxtv117w5bji"]
 
-[ext_resource type="Shader" uid="uid://bdo4cbxupi0w8" path="res://assets/shaders/weird.gdshader" id="1_k5vxq"]
-[ext_resource type="Texture2D" uid="uid://dhx8re0ayvd2f" path="res://assets/sprites/sign-export.png" id="2_k5vxq"]
+[ext_resource type="Shader" uid="uid://c1kwnu8ckr0sg" path="res://assets/shaders/silhouette.gdshader" id="1_k5vxq"]
+[ext_resource type="Texture2D" uid="uid://bcdkk3sop6h07" path="res://assets/sprites/placeholder_2.png" id="2_k5vxq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6mjir"]
 shader = ExtResource("1_k5vxq")
-shader_parameter/speed = 7.64400036309
+shader_parameter/darkened_rate = 0.37900006550249987
 
 [node name="ShaderExperiment" type="Sprite2D"]
 texture_filter = 1
 material = SubResource("ShaderMaterial_6mjir")
-position = Vector2(65, 65)
+position = Vector2(165.5, 175)
+scale = Vector2(2.5703125, 2.71875)
 texture = ExtResource("2_k5vxq")

@@ -8,7 +8,7 @@ void fragment() {
 	float sample_radius  = blur_amount;
 	float divider = 0.0;
 	vec4 base_color = texture(TEXTURE,UV);
-	// Called for every pixel the material is visible on.
+	
 	for(float x = -sample_radius; x <= sample_radius; x++) {
 		for(float y = -sample_radius; y <= sample_radius; y++) {
 			vec2 offset = vec2(x,y) * pixel;
