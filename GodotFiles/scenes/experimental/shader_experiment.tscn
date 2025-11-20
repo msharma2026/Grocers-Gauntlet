@@ -1,11 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://bcxtv117w5bji"]
+[gd_scene load_steps=6 format=3 uid="uid://bcxtv117w5bji"]
 
-[ext_resource type="Shader" uid="uid://c1kwnu8ckr0sg" path="res://assets/shaders/silhouette.gdshader" id="1_k5vxq"]
+[ext_resource type="Shader" uid="uid://588y1jwk1wyo" path="res://assets/shaders/dirty.gdshader" id="1_k5vxq"]
 [ext_resource type="Texture2D" uid="uid://bcdkk3sop6h07" path="res://assets/sprites/placeholder_2.png" id="2_k5vxq"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6mjir"]
+noise_type = 4
+frequency = 0.0113
+fractal_octaves = 1
+fractal_weighted_strength = 0.47
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_d0kuh"]
+noise = SubResource("FastNoiseLite_6mjir")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6mjir"]
 shader = ExtResource("1_k5vxq")
-shader_parameter/darkened_rate = 0.37900006550249987
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_d0kuh")
+shader_parameter/dust_rise = 1.0
+shader_parameter/dust_cutoff = 0.2
 
 [node name="ShaderExperiment" type="Sprite2D"]
 texture_filter = 1
