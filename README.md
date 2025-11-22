@@ -1,4 +1,4 @@
-# Code Documentation
+# Documentation
 
 ## Main Node
 ### Game
