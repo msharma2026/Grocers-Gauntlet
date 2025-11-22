@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bdfkivfkh3rqc"
-path="res://.godot/imported/background_isles.png-0dd26a1f0ef13f2087ba070e27a5e258.ctex"
+uid="uid://b7v53io0t1ue7"
+path="res://.godot/imported/placeholder.png-dfb5593f2962e34969a0ca51d67c25e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/background/background_isles.png"
-dest_files=["res://.godot/imported/background_isles.png-0dd26a1f0ef13f2087ba070e27a5e258.ctex"]
+source_file="res://assets/sprites/placeholders/placeholder.png"
+dest_files=["res://.godot/imported/placeholder.png-dfb5593f2962e34969a0ca51d67c25e4.ctex"]
 
 [params]
 

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://x4tp0d48phn4"]
+
+[ext_resource type="Script" uid="uid://dwhbm4qj8rds5" path="res://scripts/fog_layer.gd" id="1_c1yf4"]
+[ext_resource type="PackedScene" uid="uid://bwq1n1p6r0i72" path="res://scenes/FX/fog.tscn" id="2_c1yf4"]
+
+[node name="FogLayer" type="CanvasLayer"]
+script = ExtResource("1_c1yf4")
+
+[node name="Fog" parent="." instance=ExtResource("2_c1yf4")]

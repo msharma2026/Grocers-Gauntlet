@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://clfotva4ptfv5"]
+
+[ext_resource type="Shader" uid="uid://s58uga7ng1df" path="res://assets/shaders/pulsate_red.gdshader" id="1_evc6e"]
+[ext_resource type="Texture2D" uid="uid://cyxb8q81x74jq" path="res://assets/sprites/textures/texture_ball.png" id="2_sjaqu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_feyth"]
+shader = ExtResource("1_evc6e")
+shader_parameter/speed = 2.0
+
+[node name="PointLight2D" type="PointLight2D"]
+light_mask = 2
+visibility_layer = 3
+material = SubResource("ShaderMaterial_feyth")
+color = Color(0.7400888, 0.58061385, 0.57542586, 1)
+range_item_cull_mask = 3
+texture = ExtResource("2_sjaqu")
+texture_scale = 1.3

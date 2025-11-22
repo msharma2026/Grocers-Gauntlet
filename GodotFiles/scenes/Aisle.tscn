@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://p5684obmofd2"]
 
-[ext_resource type="Script" uid="uid://dqmw47ca75vpm" path="res://scripts/Aisle.gd" id="1_lfq0s"]
-[ext_resource type="Texture2D" uid="uid://dhx8re0ayvd2f" path="res://assets/sprites/sign-export.png" id="2_lfq0s"]
+[ext_resource type="Script" uid="uid://c1hav6elu437r" path="res://scripts/aisle.gd" id="1_lfq0s"]
+[ext_resource type="Texture2D" uid="uid://dhx8re0ayvd2f" path="res://assets/sprites/placeholders/sign-export.png" id="2_lfq0s"]
 [ext_resource type="Shader" uid="uid://bqdpkolhppwyr" path="res://assets/shaders/collapse.gdshader" id="2_m1e57"]
 [ext_resource type="Texture2D" uid="uid://da32rvxnbqcwq" path="res://assets/sprites/textures/ceiling_light_texture.png" id="4_mg17p"]
 
@@ -31,6 +31,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mg17p"]
 size = Vector2(129, 129)
 
+[sub_resource type="Animation" id="Animation_rqwud"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/collapse_depth")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
 [sub_resource type="Animation" id="Animation_y4ow5"]
 resource_name = "spawn"
 length = 0.3
@@ -45,21 +60,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [30.0, 0.0]
-}
-
-[sub_resource type="Animation" id="Animation_rqwud"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/collapse_depth")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eb1x8"]

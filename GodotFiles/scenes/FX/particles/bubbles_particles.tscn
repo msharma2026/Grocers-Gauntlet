@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctwcmtipuq62q"]
+
+[ext_resource type="Texture2D" uid="uid://bnpm2hc4nq70l" path="res://assets/sprites/textures/bubble_texture_sheet.png" id="1_xujxb"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_fc3gk"]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_555h2"]
+_data = [Vector2(0, 0.20224726), 0.0, 0.79454285, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wue7l"]
+curve = SubResource("Curve_555h2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vv8pu"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(30, 2, 1)
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 19.999998
+linear_accel_max = 39.999996
+linear_accel_curve = SubResource("CurveTexture_wue7l")
+scale_min = 0.049999997
+scale_max = 0.29999998
+color = Color(0.9924994, 0.9370121, 0.9375681, 1)
+anim_speed_min = 1.0
+anim_speed_max = 2.0
+
+[node name="GPUParticles2D" type="GPUParticles2D"]
+light_mask = 0
+texture_filter = 1
+material = SubResource("CanvasItemMaterial_fc3gk")
+amount = 16
+texture = ExtResource("1_xujxb")
+lifetime = 3.0
+trail_lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_vv8pu")

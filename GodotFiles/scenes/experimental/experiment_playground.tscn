@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://oci3eadhu775"]
+
+[ext_resource type="Texture2D" uid="uid://dj8tjcw74y2ic" path="res://assets/sprites/placeholders/background/background_placeholder_2.png" id="1_wlqsb"]
+[ext_resource type="PackedScene" uid="uid://cpmqqg4okjjnw" path="res://scenes/experimental/particles_experiment.tscn" id="2_1ovyg"]
+[ext_resource type="PackedScene" uid="uid://bwq1n1p6r0i72" path="res://scenes/FX/fog.tscn" id="3_wlqsb"]
+[ext_resource type="PackedScene" uid="uid://bcxtv117w5bji" path="res://scenes/experimental/shader_experiment.tscn" id="4_1ovyg"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wlqsb"]
+closed = false
+polygon = PackedVector2Array(40.333344, 42.000008, 55.333344, 48.666664, 57.333344, 49.333336, 59.333344, 49.666664, 79.89127, 50.7429, 96.66667, 49.000008, 104, 47.333336, 112.33334, 42.666664, 117.66667, 37.666664, 122, 34.666664, 124.33334, 31.333336, 130.33334, 13.333336)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_1ovyg"]
+closed = false
+polygon = PackedVector2Array(30.45166, 3.0967712, 29.419403, 11.870972, 27.354889, 18.064514, 24.774231, 23.225815, 15.483917, 30.451614, 1.5484314, 33.548386, -11.354797, 32.51613, -19.09674, 27.870972)
+
+[node name="ExperimentalPlayground" type="Node2D"]
+
+[node name="BackgroundPlaceholder2" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(556, 324.00003)
+scale = Vector2(3.125, 3.2350001)
+texture = ExtResource("1_wlqsb")
+
+[node name="BackgroundPlaceholder3" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1178, 325.00003)
+scale = Vector2(3.125, 3.2350001)
+texture = ExtResource("1_wlqsb")
+
+[node name="BackgroundPlaceholder4" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-68.99999, 325.00003)
+scale = Vector2(3.125, 3.2350001)
+texture = ExtResource("1_wlqsb")
+
+[node name="ParticleExperiment" parent="." instance=ExtResource("2_1ovyg")]
+position = Vector2(547, 386)
+scale = Vector2(3, 3)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ParticleExperiment"]
+position = Vector2(-77.333336, -3.3333325)
+occluder = SubResource("OccluderPolygon2D_wlqsb")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.82621825, 0.90576744, 0.9484994, 1)
+
+[node name="Fog" parent="." instance=ExtResource("3_wlqsb")]
+offset_left = 1.9999999
+offset_top = 235.00009
+offset_right = 2435.9077
+offset_bottom = 1192.8434
+scale = Vector2(0.47372377, 0.428045)
+color = Color(0.37422806, 0.95665854, 0.54109603, 1)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(-189, -67)
+rotation = -1.16588
+energy = 1.67
+blend_mode = 2
+shadow_enabled = true
+shadow_color = Color(0.08276115, 0.08276115, 0.08276115, 0)
+max_distance = 9226.0
+
+[node name="ShaderExperiment" parent="." instance=ExtResource("4_1ovyg")]
+position = Vector2(821.99994, 369)
+scale = Vector2(1.9375, 1.9375)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="ShaderExperiment"]
+occluder = SubResource("OccluderPolygon2D_1ovyg")
