@@ -1,12 +1,11 @@
-#player.gd
-
 class_name Player
 extends Character
 
 signal health_updated(new_health, max_health)
 
 var max_health: int 
-var start_position: Vector2
+# Bottom-center of screen
+var start_position: Vector2 = Vector2(576, 500) 
 
 
 func _ready() -> void:
@@ -18,9 +17,34 @@ func _ready() -> void:
 		game_data.current_status = game_data.IS_NAVIGATING
 		game_data.is_first_run = false
 	
-	bind_player_inputs()
-	#global_position = start_position
+	# On top of every scene
+	z_index = 10 
+	global_position = start_position
 	
+	sprite.scale = Vector2(0.5, 0.5)
+		
+	var frames = SpriteFrames.new()
+			
+	var texture
+	if ResourceLoader.exists("res://assets/sprites/placeholders/player.png"):
+		texture = load("res://assets/sprites/placeholders/player.png")
+		print("DEBUG: Loaded res://assets/sprites/placeholders/player.png")
+	elif ResourceLoader.exists("res://icon.svg"):
+		texture = load("res://icon.svg")
+		print("DEBUG: player.png not found, using icon.svg fallback.")
+	else:
+		print("DEBUG: No textures found for player.")
+	
+	if texture:
+		frames.add_animation("idle")
+		frames.add_frame("idle", texture)
+		frames.add_animation("move_horizontal")
+		frames.add_frame("move_horizontal", texture)
+		frames.add_animation("move_vertical")
+		frames.add_frame("move_vertical", texture)
+				
+	sprite.sprite_frames = frames
+	sprite.play("idle")
 	
 func _process(delta: float) -> void:
 	if game_data.current_status == GAME_OVER:
@@ -29,17 +53,9 @@ func _process(delta: float) -> void:
 	super(delta)
 	
 	
-func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("move_left"):
-		move_left.execute(self)
-	elif Input.is_action_just_pressed("move_right"):
-		move_right.execute(self)
-	elif Input.is_action_just_pressed("move_up"):
-		move_up.execute(self)
-	elif Input.is_action_just_pressed("move_down"):
-		move_down.execute(self)
-	
-	super(delta)
+func _physics_process(_delta: float) -> void:
+	# MOVEMENT DISABLED
+	pass
 	
 
 func take_damage(amount: float) -> void:
