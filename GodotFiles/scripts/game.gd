@@ -23,6 +23,7 @@ var pause_menu_instance: PauseMenu = null
 func _ready() -> void:
 	game_data.map_depth = 0
 	var player = PLAYER_SCENE.instantiate()
+	player.name = "GlobalPlayer"
 	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
 	add_child(ui_bar)
@@ -71,13 +72,23 @@ func _quit_game() -> void:
 	get_tree().quit()
 
 
+const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigation.tscn")
+
 func _change_screen(screen_id: String) -> void:
 	# Makes clicking the 'Exit Game' button quit the game
 	if screen_id == "quit":
 		_quit_game()
 		return
 	
-	if !screens.has(screen_id):
+	var new_scene_resource: PackedScene
+	var is_haggle_screen = false
+	
+	if screen_id.begins_with("Haggle"):
+		new_scene_resource = AISLE_NAVIGATION_SCENE
+		is_haggle_screen = true
+	elif screens.has(screen_id):
+		new_scene_resource = screens[screen_id]
+	else:
 		push_warning("Unknown screen_id: %s" % screen_id)
 		return
 	
@@ -85,12 +96,18 @@ func _change_screen(screen_id: String) -> void:
 		remove_child(current_screen)
 		current_screen.queue_free()
 		
-
-	print_debug(screens[screen_id])
-	var new_screen : Screen = screens[screen_id].instantiate()
+	print_debug(new_scene_resource)
+	var new_screen : Screen = new_scene_resource.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
+	
+	# Manage Global Player Visibility
+	var global_player = get_node_or_null("GlobalPlayer")
+	if global_player:
+		global_player.visible = !is_haggle_screen
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if !is_haggle_screen else Node.PROCESS_MODE_DISABLED
+
 	
 	
 
