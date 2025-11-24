@@ -10,6 +10,7 @@ extends Node2D
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
+const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigation.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
@@ -84,15 +85,22 @@ func _change_screen(screen_ref) -> void:
 			_quit_game()
 			return
 		
+		if screen_id.begins_with("Haggle"):
+			_load_screen(AISLE_NAVIGATION_SCENE)
+			_update_player_visibility(true)
+			return
+		
 		if !screens.has(screen_id):
 			push_warning("Unknown screen_id: %s" % screen_id)
 			return
 		
 		_load_screen(screens[screen_id])
+		_update_player_visibility(false)
 		return
 	
 	if screen_ref is PackedScene:
 		_load_screen(screen_ref)
+		_update_player_visibility(false)
 		return
 	
 	push_warning("Unsupported screen reference provided")
@@ -107,20 +115,14 @@ func _load_screen(screen_scene: PackedScene) -> void:
 		remove_child(current_screen)
 		current_screen.queue_free()
 	
-	var new_screen: Screen = screen_scene.instantiate()
+	var new_screen : Screen = screen_scene.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
-	
-	# Manage Global Player Visibility
+
+
+func _update_player_visibility(visible: bool) -> void:
 	var global_player = get_node_or_null("GlobalPlayer")
 	if global_player:
-		# Show player only in Haggle (Aisle Navigation) mode
-		var show_player = screen_id.begins_with("Haggle")
-		global_player.visible = show_player
-		global_player.process_mode = Node.PROCESS_MODE_INHERIT if show_player else Node.PROCESS_MODE_DISABLED
-
-	
-	
-
-	
+		global_player.visible = visible
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if visible else Node.PROCESS_MODE_DISABLED
