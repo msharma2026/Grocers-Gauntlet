@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwpvjmlkcrv0e"]
+
+[ext_resource type="Script" uid="uid://bnfc62mdchtim" path="res://scripts/ShoppingCarts.gd" id="1_0a6uj"]
+
+[node name="ShoppingCarts" type="Node"]
+script = ExtResource("1_0a6uj")
