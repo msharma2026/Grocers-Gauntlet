@@ -8,7 +8,7 @@ extends Node2D
 # Note 2: The 'change_screen' signal must be manually updated in the 
 # Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
-const PLAYER_SCENE: PackedScene = preload("res://scenes/Player.tscn")
+const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
