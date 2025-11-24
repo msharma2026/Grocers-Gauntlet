@@ -1,7 +1,7 @@
 class_name ShoppingCarts
 extends Node
 
-var Carts = {
+@export var Carts = {
 	"rogues_basket": {
 		"charisma": 40,
 		"dexterity": 80,

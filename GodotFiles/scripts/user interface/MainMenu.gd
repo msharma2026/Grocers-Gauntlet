@@ -4,24 +4,28 @@ class_name MainMenu
 extends Screen
 
 # Button map holds the button's display name (Key) and the destination screen ID (Value).
-@export var button_map: Dictionary[String, String]
+@export var button_map: Array[ButtonConfig]
 
-var button: Array[Button]
 var current_y: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for button_id in button_map.keys():
-		var button_instance = Button.new()
+	var container := VBoxContainer.new()
+	container.position = Vector2(25, 25)
+	container.add_theme_constant_override("separation", 10)  # set spacing
+	add_child(container)
+	
+	for config in button_map:
+		var button_instance := Button.new()
 		button_instance.position.y = current_y
-		button_instance.text = button_id
-		button_instance.pressed.connect(_on_button_pressed.bind(button_map[button_id]))
-		add_child(button_instance)
+		button_instance.text = config.button_id
+		button_instance.icon = config.icon
 		
-		current_y += 20
+		button_instance.pressed.connect(_on_button_pressed.bind(config.nav_screen))
+		container.add_child(button_instance)
 	
 	
-func _on_button_pressed(screen_id: String) -> void:
-	change_screen.emit(screen_id)
+func _on_button_pressed(screen_ref) -> void:
+	change_screen.emit(screen_ref)
 	

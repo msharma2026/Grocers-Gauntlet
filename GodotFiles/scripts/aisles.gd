@@ -100,4 +100,4 @@ func get_random_aisle() -> String:
 
 func _on_aisle_clicked(screen_id: String) -> void:
 	print("Player selected: " + screen_id)
-	change_screen.emit("aisles")
+	change_screen.emit(screen_id)

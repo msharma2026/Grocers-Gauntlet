@@ -6,11 +6,13 @@ extends Node2D
 # Note 2: The 'change_screen' signal must be manually updated in the 
 # Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
-const PLAYER_SCENE: PackedScene = preload("res://scenes/Player.tscn")
+const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
+const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigation.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
+@export var starting_budget: float = 100.0
 
 var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
@@ -20,12 +22,16 @@ var pause_menu_instance: PauseMenu = null
 
 func _ready() -> void:
 	game_data.map_depth = 0
+	# Always override budget with the inspector value on startup
+	game_data.budget = starting_budget
+	
 	var player = PLAYER_SCENE.instantiate()
+	player.name = "GlobalPlayer"
 	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
 	add_child(ui_bar)
 	
-	#health_bar = ui_bar.get_node("HealthBar")
+	health_bar = ui_bar.get_node("HealthBar")
 	
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(game_data.health_percentage, 100)
@@ -69,27 +75,52 @@ func _quit_game() -> void:
 	get_tree().quit()
 
 
-func _change_screen(screen_id: String) -> void:
-	# Makes clicking the 'Exit Game' button quit the game
-	if screen_id == "quit":
-		_quit_game()
+func _change_screen(screen_ref) -> void:
+	if screen_ref is String:
+		var screen_id: String = screen_ref
+		
+		if screen_id == "quit":
+			_quit_game()
+			return
+		
+		if screen_id.begins_with("Haggle"):
+			_load_screen(AISLE_NAVIGATION_SCENE)
+			_update_player_visibility(true)
+			return
+		
+		if !screens.has(screen_id):
+			push_warning("Unknown screen_id: %s" % screen_id)
+			return
+		
+		_load_screen(screens[screen_id])
+		_update_player_visibility(false)
 		return
 	
-	if !screens.has(screen_id):
-		push_warning("Unknown screen_id: %s" % screen_id)
+	if screen_ref is PackedScene:
+		_load_screen(screen_ref)
+		_update_player_visibility(false)
+		return
+	
+	push_warning("Unsupported screen reference provided")
+
+
+func _load_screen(screen_scene: PackedScene) -> void:
+	if screen_scene == null:
+		push_warning("Null screen scene provided")
 		return
 	
 	if current_screen != null:
 		remove_child(current_screen)
 		current_screen.queue_free()
-		
-
-	print_debug(screens[screen_id])
-	var new_screen : Screen = screens[screen_id].instantiate()
+	
+	var new_screen : Screen = screen_scene.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
-	
-	
 
-	
+
+func _update_player_visibility(visible: bool) -> void:
+	var global_player = get_node_or_null("GlobalPlayer")
+	if global_player:
+		global_player.visible = visible
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if visible else Node.PROCESS_MODE_DISABLED
