@@ -54,8 +54,53 @@ func _on_button_pressed(action_ref) -> void:
 	if action_ref == "resume":
 		resume_game.emit()
 	elif action_ref == "main menu":
-		quit_to_main_menu.emit()
+		_are_you_sure_message("main menu")
 	elif action_ref == "exit game":
+		_are_you_sure_message("exit game")
+	elif action_ref == "quit_confirm_yes":
 		quit_game.emit()
+	elif action_ref == "quit_confirm_no":
+		resume_game.emit()
 	else:
 		change_screen.emit(action_ref)
+
+
+func _are_you_sure_message(action_ref: String) -> void:
+	for child in get_children():
+		child.queue_free()
+	
+	var confirm_canvas := CanvasLayer.new()
+	add_child(confirm_canvas)
+	
+	var confirm_container := VBoxContainer.new()
+	confirm_canvas.add_child(confirm_container)
+	confirm_container.add_theme_constant_override("separation", button_spacing)
+
+	var message := Label.new()
+	message.text = "Are you sure?"
+	confirm_container.add_child(message)
+	
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", button_spacing)
+	confirm_container.add_child(row)
+	
+	var yes_button := Button.new()
+	yes_button.text = "Yes"
+	if action_ref == "main menu":
+		yes_button.pressed.connect(func(): quit_to_main_menu.emit())
+	else:
+		yes_button.pressed.connect(_on_button_pressed.bind("quit_confirm_yes"))
+	row.add_child(yes_button)
+	
+	var no_button := Button.new()
+	no_button.text = "No"
+	no_button.pressed.connect(_on_button_pressed.bind("quit_confirm_no"))
+	row.add_child(no_button)
+	
+	var viewport_size = get_viewport_rect().size
+	var container_size = confirm_container.size
+	
+	if container_size == Vector2.ZERO:
+		container_size = confirm_container.get_combined_minimum_size()
+	
+	confirm_container.position = (viewport_size - container_size) * 0.5
