@@ -31,11 +31,16 @@ func _create_back_button() -> void:
 func _build_cart_menu() -> void:
 	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
+	var message := Label.new()
 	var container_size: Vector2
 	var viewport_size: Vector2
 	
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
+	
+	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	message.text = "Choose a Cart Configuration:"
+	container_node.add_child(message)
 	
 	for cart_config in carts:
 		var button := Button.new()

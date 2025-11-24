@@ -15,11 +15,16 @@ func _ready() -> void:
 func _build_main_menu() -> void:
 	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
+	var message := Label.new()
 	var container_size: Vector2
 	var viewport_size: Vector2
 	
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
+	
+	message.text = "Main Menu:"
+	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container_node.add_child(message)
 	
 	for button_config in button_map:
 		var menu_button := Button.new()
