@@ -6,7 +6,6 @@ extends Screen
 # Button map holds the button's display name (Key) and the destination screen ID (Value).
 @export var button_map: Array[ButtonConfig]
 
-var current_y: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,7 +17,6 @@ func _ready() -> void:
 	
 	for config in button_map:
 		var button_instance := Button.new()
-		button_instance.position.y = current_y
 		button_instance.text = config.button_id
 		button_instance.icon = config.icon
 		

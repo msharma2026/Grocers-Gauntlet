@@ -3,37 +3,33 @@
 class_name Entrance
 extends Screen
 
-const SHOPPING_CARTS_SCENE: PackedScene = preload("res://scenes/shopping_carts.tscn")
-const BUTTON_START: Vector2 = Vector2(50, 50)
-const BUTTON_SPACING: float = 50.0
 
-var cart_options: ShoppingCarts
+@export var carts: Array[CartConfig]
 
 
 func _ready() -> void:
-	cart_options = SHOPPING_CARTS_SCENE.instantiate()
-	add_child(cart_options)
 	_build_cart_menu()
 
 
 func _build_cart_menu() -> void:
-	var y_offset := 0.0
-	for cart_id in cart_options.Carts.keys():
-		var stats: Dictionary = cart_options.Carts[cart_id]
+	var container := VBoxContainer.new()
+	container.position = Vector2(50, 50)
+	container.add_theme_constant_override("separation", 10)
+	add_child(container)
+	
+	for cart_config in carts:
 		var button := Button.new()
-		button.position = BUTTON_START + Vector2(0, y_offset)
-		button.text = _format_cart_label(cart_id, stats)
-		button.pressed.connect(_on_cart_selected.bind(cart_id))
-		add_child(button)
-		y_offset += BUTTON_SPACING
+		button.text = _format_cart_label(cart_config)
+		button.pressed.connect(_on_cart_selected.bind(cart_config.cart_id))
+		container.add_child(button)
 
 
-func _format_cart_label(cart_id: String, stats: Dictionary) -> String:
+func _format_cart_label(cart_config: CartConfig) -> String:
 	return "%s (Cha %d / Dex %d / Def %d)" % [
-		_prettify_name(cart_id),
-		int(stats.get("charisma", 0)),
-		int(stats.get("dexterity", 0)),
-		int(stats.get("defense", 0))
+		_prettify_name(cart_config.cart_id),
+		cart_config.charisma,
+		cart_config.dexterity,
+		cart_config.defense
 	]
 
 
@@ -42,5 +38,21 @@ func _prettify_name(name: String) -> String:
 
 
 func _on_cart_selected(cart_id: String) -> void:
-	cart_options.set_cart(cart_id)
+	var config := _find_cart_config(cart_id)
+	if config == null:
+		push_warning("Unknown cart_id: %s" % cart_id)
+		return
+	
+	game_data.cart_type = cart_id
+	game_data.charisma = config.charisma
+	game_data.dexterity = config.dexterity
+	game_data.defense = config.defense
+	game_data.max_capacity = config.max_capacity
 	change_screen.emit("aisles")
+
+
+func _find_cart_config(cart_id: String) -> CartConfig:
+	for cart in carts:
+		if cart.cart_id == cart_id:
+			return cart
+	return null

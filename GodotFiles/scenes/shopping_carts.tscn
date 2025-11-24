@@ -1,6 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwpvjmlkcrv0e"]
+[gd_scene load_steps=5 format=3 uid="uid://bwpvjmlkcrv0e"]
 
 [ext_resource type="Script" uid="uid://bnfc62mdchtim" path="res://scripts/ShoppingCarts.gd" id="1_0a6uj"]
+[ext_resource type="Script" uid="uid://b8gy5q0r41pkd" path="res://scripts/CartConfig.gd" id="2_gxj6t"]
+
+[sub_resource type="Resource" id="Resource_uur8q"]
+script = ExtResource("2_gxj6t")
+cart_id = "rogues_basket"
+charisma = 40
+dexterity = 80
+defense = 30
+max_capacity = 100
+metadata/_custom_type_script = "uid://b8gy5q0r41pkd"
+
+[sub_resource type="Resource" id="Resource_orjp4"]
+script = ExtResource("2_gxj6t")
+cart_id = "paladins_chariot"
+charisma = 40
+dexterity = 30
+defense = 80
+max_capacity = 100
+metadata/_custom_type_script = "uid://b8gy5q0r41pkd"
 
 [node name="ShoppingCarts" type="Node"]
 script = ExtResource("1_0a6uj")
+Carts = Array[ExtResource("2_gxj6t")]([SubResource("Resource_uur8q"), SubResource("Resource_orjp4")])
