@@ -10,7 +10,23 @@ extends Screen
 func _ready() -> void:
 	_ensure_default_carts()
 	_build_cart_menu()
+	_create_back_button()
 
+func _create_back_button() -> void:
+	var canvas_layer_node := CanvasLayer.new()
+	var container_node := VBoxContainer.new()
+	var back_button := Button.new()
+	
+	add_child(canvas_layer_node)
+	canvas_layer_node.add_child(container_node)
+	container_node.add_child(back_button)
+	
+	back_button.text = "Go Back"
+	back_button.icon = null
+	back_button.pressed.connect(_on_back_selected.bind("main_menu"))
+	
+	container_node.position = Vector2(5, 5)
+	
 
 func _build_cart_menu() -> void:
 	var canvas_layer_node := CanvasLayer.new()
@@ -64,7 +80,9 @@ func _on_cart_selected(cart_id: String) -> void:
 	game_data.max_capacity = config.max_capacity
 	change_screen.emit("aisles")
 
-
+func _on_back_selected(screen_ref) -> void:
+	change_screen.emit(screen_ref)
+	
 func _find_cart_config(cart_id: String) -> CartConfig:
 	for cart in carts:
 		if cart.cart_id == cart_id:
