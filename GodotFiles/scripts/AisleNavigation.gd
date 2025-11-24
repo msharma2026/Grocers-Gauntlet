@@ -3,13 +3,20 @@ extends Screen
 
 @onready var npc: CharacterBody2D = $NPC
 
+# State variables
+var dialogue_overlay: DialogueOverlay
+var current_price: int = 50
+var item_name: String = "Mystery Meat"
+var npc_patience: int = 3
+
+const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/DialogueOverlay.tscn")
+
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
 	# Position player at the bottom entrance
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
 		player.global_position = Vector2(576, 550)
-		# Ensure player is visible and active (redundant check, handled in game.gd but good safety)
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
 
@@ -22,25 +29,99 @@ func _process(_delta: float) -> void:
 		if distance < 80.0: 
 			start_encounter()
 
-const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/DialogueOverlay.tscn")
-
 func start_encounter() -> void:
 	print("Encounter Started!")
-	set_process(false) # Stop checking
+	set_process(false) # Stop checking proximity
 	
-	var dialogue = DIALOGUE_SCENE.instantiate()
-	add_child(dialogue)
+	dialogue_overlay = DIALOGUE_SCENE.instantiate()
+	add_child(dialogue_overlay)
+	
+	# Setup initial state
+	current_price = randi_range(30, 80)
+	npc_patience = 3
 	
 	var lines: Array[String] = [
 		"Hey there, traveler...", 
 		"Looking for some fresh produce?", 
-		"I've got the best deals in the dungeon."
+		"I've got this fine " + item_name + " for just $" + str(current_price) + "."
 	]
-	dialogue.start_dialogue("Merchant", lines)
 	
-	dialogue.dialogue_finished.connect(_on_encounter_finished)
+	dialogue_overlay.start_dialogue("Merchant", lines)
+	dialogue_overlay.dialogue_finished.connect(_on_intro_finished)
+	dialogue_overlay.choice_selected.connect(_on_choice_made)
 
-func _on_encounter_finished() -> void:
-	print("Encounter Finished - Returning to Map or Starting Combat")
-	# For now, we just reset the process so you can walk away (or trigger it again if we didn't disable it)
-	# In the future, this is where we'd switch to the Haggle/Combat screen.
+func _on_intro_finished() -> void:
+	# Intro text done, now show choices
+	_show_main_choices()
+
+func _show_main_choices() -> void:
+	var options: Array[String] = [
+		"Buy ($" + str(current_price) + ")",
+		"Haggle (Charisma Check)",
+		"Leave"
+	]
+	dialogue_overlay.show_choices("What do you want to do?", options)
+
+func _on_choice_made(index: int) -> void:
+	match index:
+		0: # Buy
+			_handle_buy()
+		1: # Haggle
+			_handle_haggle()
+		2: # Leave
+			_handle_leave()
+
+func _handle_buy() -> void:
+	print("Player bought item for: ", current_price)
+	# Update GameData
+	game_data.budget -= current_price
+	# TODO: Add item to inventory
+	
+	dialogue_overlay.start_dialogue("Merchant", ["Pleasure doing business with you!"])
+	dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	dialogue_overlay.dialogue_finished.connect(func(): 
+		dialogue_overlay.close()
+		# Return to previous screen or just let player walk away?
+		# For now, let's just end the encounter logic
+		# Maybe warp back to map?
+		change_screen.emit("aisles")
+	)
+
+func _handle_haggle() -> void:
+	var success = randf() > 0.5 # Simple 50/50 for now, replace with Charisma check later
+	
+	if success:
+		current_price = int(current_price * 0.8)
+		dialogue_overlay.start_dialogue("Merchant", [
+			"Alright, alright, you drive a hard bargain.",
+			"How about $" + str(current_price) + "?"
+		])
+	else:
+		npc_patience -= 1
+		current_price = int(current_price * 1.1)
+		dialogue_overlay.start_dialogue("Merchant", [
+			"Don't push your luck, kid.",
+			"Price just went up to $" + str(current_price) + "!"
+		])
+	
+	# After this text, go back to choices
+	dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	if dialogue_overlay.dialogue_finished.is_connected(_show_main_choices):
+		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
+		
+	if npc_patience <= 0:
+		dialogue_overlay.dialogue_finished.connect(_handle_forced_buy)
+	else:
+		dialogue_overlay.dialogue_finished.connect(_show_main_choices)
+
+func _handle_forced_buy() -> void:
+	dialogue_overlay.start_dialogue("Merchant", [
+		"That's it! I'm out of patience.",
+		"You're buying this now!"
+	])
+	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_buy)
+	dialogue_overlay.dialogue_finished.connect(_handle_buy)
+
+func _handle_leave() -> void:
+	dialogue_overlay.close()
+	change_screen.emit("aisles")
