@@ -35,7 +35,7 @@ func _ready() -> void:
 	
 # Checks if 'Escape' key was pressed to bring up the pause menu
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause_menu"):
+	if event.is_action_pressed("pause_menu") and current_screen is not MainMenu:
 		if pause_menu_instance != null:
 			_resume_game()
 		else:

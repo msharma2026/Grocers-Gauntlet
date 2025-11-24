@@ -7,26 +7,37 @@ signal resume_game
 signal quit_to_main_menu
 signal quit_game
 
-var button: Array[Button]
-var current_y: int = 100
-
-@export var button_map: Dictionary[String, String]
+@export var button_map: Array[ButtonConfig]
 # Creates buttons for Resume, Main Menu, and Exit Game
 func _ready() -> void:
-	for button_id in button_map.keys():
-		var button_instance = Button.new()
-		button_instance.position.y = current_y
-		button_instance.text = button_id
-		button_instance.pressed.connect(_on_button_pressed.bind(button_map[button_id]))
-		add_child(button_instance)
+	var container := VBoxContainer.new()
+	container.position = Vector2(25, 25)
+	container.add_theme_constant_override("separation", 10)
+	add_child(container)
+	
+	for config in button_map:
+		var button_instance := Button.new()
+		button_instance.text = config.button_id
+		button_instance.icon = config.icon
+
+		var target = config.nav_screen
+		if target == null:
+			target = config.button_id.strip_edges().to_lower()
 		
-		current_y += 50
+		button_instance.pressed.connect(_on_button_pressed.bind(target))
+		container.add_child(button_instance)
 
 # Emits signal for _unhandled_input() in game.gd to listen to
-func _on_button_pressed(action_id: String) -> void:
-	if action_id == "resume":
+func _on_button_pressed(action_ref) -> void:
+	if action_ref is PackedScene:
+		change_screen.emit(action_ref)
+		return
+	
+	if action_ref == "resume":
 		resume_game.emit()
-	elif action_id == "main_menu":
+	elif action_ref == "main menu":
 		quit_to_main_menu.emit()
-	elif action_id == "quit":
+	elif action_ref == "quit":
 		quit_game.emit()
+	else:
+		change_screen.emit(action_ref)
