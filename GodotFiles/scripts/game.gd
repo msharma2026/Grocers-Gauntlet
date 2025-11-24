@@ -1,11 +1,6 @@
 class_name Game
 extends Node2D
 
-# Note 1: For the 'screens' dictionary, the Key (string) MUST exactly match the 
-# destination screen_id in 'main_menu.gd' you plan to emit via a button signal.
-# Note 2: The 'change_screen' signal must be manually updated in the 
-# Inspector panel for 'main_menu.tscn' under button_map dictionary.
-
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
 const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigation.tscn")
@@ -19,10 +14,8 @@ var pause_menu_instance: PauseMenu = null
 
 @onready var health_bar: ProgressBar = $UI/HealthBar
 
-
 func _ready() -> void:
 	game_data.map_depth = 0
-	# Always override budget with the inspector value on startup
 	game_data.budget = starting_budget
 	
 	var player = PLAYER_SCENE.instantiate()
@@ -31,13 +24,13 @@ func _ready() -> void:
 	add_child(player)
 	add_child(ui_bar)
 	
-	health_bar = ui_bar.get_node("HealthBar")
+	if ui_bar.has_node("HealthBar"):
+		health_bar = ui_bar.get_node("HealthBar")
+		player.health_updated.connect(health_bar.update_health_bar)
+		health_bar.update_health_bar(game_data.health_percentage, 100)
 	
-	player.health_updated.connect(health_bar.update_health_bar)
-	health_bar.update_health_bar(game_data.health_percentage, 100)
 	_change_screen("main_menu")
 	
-# Checks if 'Escape' key was pressed to bring up the pause menu
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and current_screen is not MainMenu:
 		if pause_menu_instance != null:
@@ -50,30 +43,21 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu_instance.quit_game.connect(_quit_game)
 			add_child(pause_menu_instance)
 
-
 func _resume_game() -> void:
-	# Unpauses the game
 	if pause_menu_instance != null:
 		get_tree().paused = false
 		pause_menu_instance.queue_free()
 		pause_menu_instance = null
-		
 
 func _quit_to_main_menu() -> void:
-	# Returns to main menu
 	get_tree().paused = false
-	
 	if pause_menu_instance != null:
 		pause_menu_instance.queue_free()
 		pause_menu_instance = null
-		
 	_change_screen("main_menu")
 
-
 func _quit_game() -> void:
-	# Closes the game
 	get_tree().quit()
-
 
 func _change_screen(screen_ref) -> void:
 	if screen_ref is String:
@@ -83,9 +67,8 @@ func _change_screen(screen_ref) -> void:
 			_quit_game()
 			return
 		
-		if screen_id.begins_with("Haggle"):
-			_load_screen(AISLE_NAVIGATION_SCENE)
-			_update_player_visibility(true)
+		if _is_item_encounter(screen_id):
+			_load_encounter(screen_id)
 			return
 		
 		if !screens.has(screen_id):
@@ -93,20 +76,41 @@ func _change_screen(screen_ref) -> void:
 			return
 		
 		_load_screen(screens[screen_id])
-		_update_player_visibility(false)
+		
+		# FIX: Check specifically for "aisles" to make player visible
+		if screen_id == "aisles":
+			_update_player_visibility(true)
+		else:
+			# Hide player on main_menu, entrance, etc.
+			_update_player_visibility(false)
 		return
 	
 	if screen_ref is PackedScene:
 		_load_screen(screen_ref)
 		_update_player_visibility(false)
 		return
-	
-	push_warning("Unsupported screen reference provided")
 
+func _is_item_encounter(id: String) -> bool:
+	return id in ["H_item", "A_item", "Def_item", "Dex_item", "C_Item", "Black_Market"]
+
+func _load_encounter(item_id: String) -> void:
+	var encounter_screen = AISLE_NAVIGATION_SCENE.instantiate()
+	
+	if encounter_screen.has_method("setup_encounter"):
+		encounter_screen.setup_encounter(item_id)
+		
+	if current_screen != null:
+		remove_child(current_screen)
+		current_screen.queue_free()
+	
+	add_child(encounter_screen)
+	current_screen = encounter_screen
+	current_screen.change_screen.connect(_change_screen)
+	
+	_update_player_visibility(true)
 
 func _load_screen(screen_scene: PackedScene) -> void:
 	if screen_scene == null:
-		push_warning("Null screen scene provided")
 		return
 	
 	if current_screen != null:
@@ -117,7 +121,6 @@ func _load_screen(screen_scene: PackedScene) -> void:
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
-
 
 func _update_player_visibility(visible: bool) -> void:
 	var global_player = get_node_or_null("GlobalPlayer")

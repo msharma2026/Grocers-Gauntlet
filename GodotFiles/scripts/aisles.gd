@@ -13,6 +13,7 @@ var aisle_weights := {
 	"C_Item": 20, # Charisma (Alcohol)
 	BLACK_MARKET_ID: 5,
 	#"Treasure": 2 # Free random Item
+	#Homeless man
 }
 
 var aisle_textures := {
