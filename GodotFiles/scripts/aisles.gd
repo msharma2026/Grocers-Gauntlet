@@ -6,13 +6,22 @@ const BLACK_MARKET_ID := "Black_Market"
 
 # Aisle weights for random selection
 var aisle_weights := {
-	"Haggle_Dairy": 3,
-	"Haggle_Meat": 3,
-	"Haggle_Weapons": 2,
-	"Haggle_Potions": 2,
-	"Haggle_Treasure": 1,
-	"Special_Event": 2,
-	BLACK_MARKET_ID: 1
+	"H_item": 20, # Health (Bread)
+	"A_item": 20, # Attack (Meat)
+	"Def_item": 20, # Defense (Dairy)
+	"Dex_item": 20, # Dex Item (Candy)
+	"C_Item": 20, # Charisma (Alcohol)
+	BLACK_MARKET_ID: 5,
+	#"Treasure": 2 # Free random Item
+}
+
+var aisle_textures := {
+	"H_item": "res://assets/sprites/bread.png",
+	"A_item": "res://assets/sprites/meat.png",
+	"Dex_item": "res://assets/sprites/candy.png",
+	"Def_item": "res://assets/sprites/milk.png",
+	"C_Item": "res://assets/sprites/alcohol.png",
+	BLACK_MARKET_ID: "res://assets/sprites/black_market.png"
 }
 
 var pool_of_aisles: Array[String] = []
@@ -24,10 +33,8 @@ func _ready() -> void:
 	print("Entered Floor: ", game_data.map_depth)
 	_generate_aisles()
 
-
 func _process(_delta: float) -> void:
 	pass
-
 
 func _generate_aisles() -> void:
 	var markers := _collect_markers()
@@ -44,12 +51,14 @@ func _generate_aisles() -> void:
 		var aisle_instance: Area2D = AISLE_SCENE.instantiate()
 		aisle_instance.position = marker.position
 		aisle_instance.screen_id = aisle_id
-		
 		add_child(aisle_instance)
 		
 		# Connect the click signal
 		aisle_instance.aisle_clicked.connect(_on_aisle_clicked)
-
+		
+		var path = aisle_textures[aisle_id]
+		var tex = load(path)
+		aisle_instance.set_aisle_texture(tex)
 
 func _collect_markers() -> Array[Marker2D]:
 	var markers: Array[Marker2D] = []
@@ -60,37 +69,25 @@ func _collect_markers() -> Array[Marker2D]:
 	markers.sort_custom(Callable(self, "_sort_markers"))
 	return markers
 
-
 func _sort_markers(a: Marker2D, b: Marker2D) -> bool:
 	return a.name < b.name
 
-
-func _build_aisle_pool(depth: int, max_slots: int) -> Array[String]:
-	var slot_count := rng.randi_range(1, max_slots)
+func _build_aisle_pool(_depth: int, max_slots: int) -> Array[String]:
+	var slot_count := max_slots
 	var selections: Array[String] = []
 	
+	# Random selection based on weights
 	while selections.size() < slot_count:
 		var candidate := get_random_aisle()
-		if selections.has(candidate):
-			continue
 		selections.append(candidate)
 	
-	# Force Black Market appearance every 3 levels
-	if depth > 0 and depth % 3 == 0:
-		if !selections.has(BLACK_MARKET_ID):
-			if selections.size() < max_slots:
-				selections.append(BLACK_MARKET_ID)
-			else:
-				selections[selections.size() - 1] = BLACK_MARKET_ID
-	
 	return selections
-
 
 func get_random_aisle() -> String:
 	var total_weight := 0
 	for weight in aisle_weights.values():
 		total_weight += weight
-	
+		
 	var random_value := rng.randi_range(0, total_weight - 1)
 	var cumulative_weight := 0
 	
@@ -100,7 +97,6 @@ func get_random_aisle() -> String:
 			return aisle_name
 	
 	return ""
-
 
 func _on_aisle_clicked(screen_id: String) -> void:
 	print("Player selected: " + screen_id)

@@ -1,5 +1,3 @@
-# shopping_carts.gd
-
 class_name ShoppingCarts
 extends Node
 

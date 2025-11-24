@@ -1,5 +1,3 @@
-# game_data.gd
-
 class_name GameState
 extends Node
 
