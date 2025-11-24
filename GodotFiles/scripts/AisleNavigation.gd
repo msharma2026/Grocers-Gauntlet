@@ -22,7 +22,25 @@ func _process(_delta: float) -> void:
 		if distance < 80.0: 
 			start_encounter()
 
+const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/DialogueOverlay.tscn")
+
 func start_encounter() -> void:
 	print("Encounter Started!")
 	set_process(false) # Stop checking
-	# Future: change_screen.emit("combat") or similar
+	
+	var dialogue = DIALOGUE_SCENE.instantiate()
+	add_child(dialogue)
+	
+	var lines: Array[String] = [
+		"Hey there, traveler...", 
+		"Looking for some fresh produce?", 
+		"I've got the best deals in the dungeon."
+	]
+	dialogue.start_dialogue("Merchant", lines)
+	
+	dialogue.dialogue_finished.connect(_on_encounter_finished)
+
+func _on_encounter_finished() -> void:
+	print("Encounter Finished - Returning to Map or Starting Combat")
+	# For now, we just reset the process so you can walk away (or trigger it again if we didn't disable it)
+	# In the future, this is where we'd switch to the Haggle/Combat screen.
