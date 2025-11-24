@@ -8,6 +8,7 @@ extends Screen
 
 
 func _ready() -> void:
+	_ensure_default_carts()
 	_build_cart_menu()
 
 
@@ -56,3 +57,22 @@ func _find_cart_config(cart_id: String) -> CartConfig:
 		if cart.cart_id == cart_id:
 			return cart
 	return null
+
+
+func _ensure_default_carts() -> void:
+	if carts.size() > 0:
+		return
+	
+	var rogue := CartConfig.new()
+	rogue.cart_id = "rogues_basket"
+	rogue.charisma = 40
+	rogue.dexterity = 80
+	rogue.defense = 30
+	carts.append(rogue)
+	
+	var paladin := CartConfig.new()
+	paladin.cart_id = "paladins_chariot"
+	paladin.charisma = 40
+	paladin.dexterity = 30
+	paladin.defense = 80
+	carts.append(paladin)
