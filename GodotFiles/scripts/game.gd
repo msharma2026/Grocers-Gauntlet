@@ -105,8 +105,10 @@ func _change_screen(screen_id: String) -> void:
 	# Manage Global Player Visibility
 	var global_player = get_node_or_null("GlobalPlayer")
 	if global_player:
-		global_player.visible = !is_haggle_screen
-		global_player.process_mode = Node.PROCESS_MODE_INHERIT if !is_haggle_screen else Node.PROCESS_MODE_DISABLED
+		# Show player only in Haggle (Aisle Navigation) mode
+		var show_player = screen_id.begins_with("Haggle")
+		global_player.visible = show_player
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if show_player else Node.PROCESS_MODE_DISABLED
 
 	
 	
