@@ -8,11 +8,12 @@ extends Node2D
 # Note 2: The 'change_screen' signal must be manually updated in the 
 # Inspector panel for 'main_menu.tscn' under button_map dictionary.
 
-const PLAYER_SCENE: PackedScene = preload("res://scenes/Player.tscn")
+const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
+@export var starting_budget: float = 100.0
 
 var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
@@ -22,12 +23,16 @@ var pause_menu_instance: PauseMenu = null
 
 func _ready() -> void:
 	game_data.map_depth = 0
+	# Always override budget with the inspector value on startup
+	game_data.budget = starting_budget
+	
 	var player = PLAYER_SCENE.instantiate()
+	player.name = "GlobalPlayer"
 	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
 	add_child(ui_bar)
 	
-	#health_bar = ui_bar.get_node("HealthBar")
+	health_bar = ui_bar.get_node("HealthBar")
 	
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(game_data.health_percentage, 100)
@@ -106,6 +111,15 @@ func _load_screen(screen_scene: PackedScene) -> void:
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
+	
+	# Manage Global Player Visibility
+	var global_player = get_node_or_null("GlobalPlayer")
+	if global_player:
+		# Show player only in Haggle (Aisle Navigation) mode
+		var show_player = screen_id.begins_with("Haggle")
+		global_player.visible = show_player
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if show_player else Node.PROCESS_MODE_DISABLED
+
 	
 	
 

@@ -54,8 +54,23 @@ func _process(delta: float) -> void:
 	
 	
 func _physics_process(_delta: float) -> void:
-	# MOVEMENT DISABLED
-	pass
+	var direction := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	
+	if direction == Vector2.ZERO:
+		direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	if direction:
+		velocity = direction * DEFAULT_VELOCITY
+		if direction.x != 0:
+			sprite.play("move_horizontal")
+			sprite.flip_h = direction.x < 0
+		elif direction.y != 0:
+			sprite.play("move_vertical")
+	else:
+		velocity = Vector2.ZERO
+		sprite.play("idle")
+
+	move_and_slide()
 	
 
 func take_damage(amount: float) -> void:

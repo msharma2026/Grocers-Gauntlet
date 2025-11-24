@@ -3,11 +3,13 @@
 ## Main Node
 ### Game
 - **Script:** On transition, dequeue the current screen, instantiate and add to the tree the next screen.
+- **Economy:** initializes `budget` from the `starting_budget` export variable.
+- **HUD:** Instantiates `UIBars` to display Health and Budget.
 
 ## AutoLoads
 ### game_data
 - **Description:** Persistent script accessible from anywhere.  
-  Stores persistent game data such as inventory, current map position, stats, etc.
+  Stores persistent game data such as inventory, current map position, stats, budget, etc.
 
 ## Screen List
 Each screen has its own script that inherits from `Screen`.  
@@ -19,11 +21,23 @@ Each screen has its own script that inherits from `Screen`.
 - **Aisles**
   - On `_ready` it increments `game_data.map_depth`, samples the weighted aisle table, then instantiates an `Aisle` scene at each `AisleMarker` so only a few randomized haggle/black-market destinations appear per floor; choosing a sign emits `change_screen` with that aisle's id.
   - Each spawned `Aisle` (see `scenes/Aisle.tscn`) is an `Area2D` that highlights on hover via an outline shader and emits `aisle_clicked` when left-clicked, which the parent forwards to `Game`.
-- **Inventory**
-- **Battle?**
-- **Map**
-- **Event**
-  - (Maybe inherit from another `Event` class?)
+- **Aisle Navigation (Haggle)**
+  - **Script:** `scripts/AisleNavigation.gd`
+  - A top-down movement scene where the player can walk around (WASD/Arrows).
+  - Contains an NPC that triggers an interaction when approached.
+  - **Interaction Flow:**
+    1.  **Dialogue Overlay:** Displays NPC greeting, item offer, and Budget.
+    2.  **Choices:** Buy, Haggle (Charisma Check), or Leave.
+    3.  **Affordability Logic:** Players cannot buy items they can't afford.
+- **Haggle Minigame**
+  - **Script:** `scripts/user interface/HaggleMinigame.gd`
+  - A timing-based minigame that replaces RNG skill checks.
+  - **Mechanic:** A cursor moves back and forth; the player must press SPACE or Click to stop it in the green "Success Zone".
+  - **Outcome:** Success grants a discount; Failure increases price and reduces NPC patience.
+
+## UI Components
+- **UIBars**: Persistent HUD showing Health Bar and Budget Label.
+- **DialogueOverlay**: `CanvasLayer` for RPG-style text interactions with branching choices.
 
 ## Shaders
 All shader sources live under `GodotFiles/assets/shaders`. To use one, add a `ShaderMaterial` to any CanvasItem (Sprite2D, ColorRect, etc.), assign the shader, and then set/animate uniforms via the Inspector, `AnimationPlayer`, or code. Ready-made references: `scripts/aisle.gd` builds an outline material on hover, and `scenes/FX/fog.tscn` ships with a noise texture wired to the fog shader.
@@ -52,3 +66,9 @@ $Sprite2D.material = mat
 - `fog.gdshader`: Alpha-only scrolling fog from a noise texture; plug in `noise_texture` (repeat enabled) and adjust `speed`. `scenes/FX/fog.tscn` is a drop-in version with FastNoise configured.
 - `weird.gdshader`: Horizontal wobble driven by alpha and time; `speed` sets the wave frequency.
 
+## Branch Changes (aisle-navigation-system)
+- Implemented Aisle Navigation scene with player movement.
+- Added Dialogue System with branching choices and budget display.
+- Implemented Economy (Budget) tracking and HUD integration.
+- Added Timing-based Haggle Minigame replacing RNG checks.
+- Fixed various input and visibility bugs.

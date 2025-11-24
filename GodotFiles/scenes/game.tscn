@@ -17,6 +17,7 @@ screens = Dictionary[String, PackedScene]({
 pause_menu_scene = ExtResource("5_3xj3m")
 
 [node name="UI" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="HealthBar" parent="UI" instance=ExtResource("7_2rd6h")]
 offset_left = 1032.0
