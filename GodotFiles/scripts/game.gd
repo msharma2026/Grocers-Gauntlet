@@ -71,23 +71,38 @@ func _quit_game() -> void:
 	get_tree().quit()
 
 
-func _change_screen(screen_id: String) -> void:
-	# Makes clicking the 'Exit Game' button quit the game
-	if screen_id == "quit":
-		_quit_game()
+func _change_screen(screen_ref) -> void:
+	if screen_ref is String:
+		var screen_id: String = screen_ref
+		
+		if screen_id == "quit":
+			_quit_game()
+			return
+		
+		if !screens.has(screen_id):
+			push_warning("Unknown screen_id: %s" % screen_id)
+			return
+		
+		_load_screen(screens[screen_id])
 		return
 	
-	if !screens.has(screen_id):
-		push_warning("Unknown screen_id: %s" % screen_id)
+	if screen_ref is PackedScene:
+		_load_screen(screen_ref)
+		return
+	
+	push_warning("Unsupported screen reference provided")
+
+
+func _load_screen(screen_scene: PackedScene) -> void:
+	if screen_scene == null:
+		push_warning("Null screen scene provided")
 		return
 	
 	if current_screen != null:
 		remove_child(current_screen)
 		current_screen.queue_free()
-		
-
-	print_debug(screens[screen_id])
-	var new_screen : Screen = screens[screen_id].instantiate()
+	
+	var new_screen: Screen = screen_scene.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
