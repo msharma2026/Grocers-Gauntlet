@@ -10,6 +10,7 @@ var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/DialogueOverlay.tscn")
+const HAGGLE_MINIGAME_SCENE: PackedScene = preload("res://scenes/user interface/HaggleMinigame.tscn")
 
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
@@ -109,7 +110,16 @@ func _handle_buy() -> void:
 	)
 
 func _handle_haggle() -> void:
-	var success = randf() > 0.5 # Simple 50/50 for now, replace with Charisma check later
+	# Close dialogue briefly to show minigame
+	dialogue_overlay.hide()
+	
+	var minigame = HAGGLE_MINIGAME_SCENE.instantiate()
+	add_child(minigame)
+	
+	minigame.minigame_finished.connect(_on_haggle_finished)
+
+func _on_haggle_finished(success: bool) -> void:
+	dialogue_overlay.show()
 	
 	if success:
 		current_price = int(current_price * 0.8)
@@ -125,18 +135,21 @@ func _handle_haggle() -> void:
 			"Price just went up to $" + str(current_price) + "!"
 		])
 	
-	# After this text, go back to choices
-	dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
+		dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
 	if dialogue_overlay.dialogue_finished.is_connected(_show_main_choices):
 		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
 		
+	dialogue_overlay.dialogue_finished.connect(_post_haggle_logic, CONNECT_ONE_SHOT)
+
+func _post_haggle_logic() -> void:
 	if npc_patience <= 0:
 		if game_data.budget >= current_price:
-			dialogue_overlay.dialogue_finished.connect(_handle_forced_buy)
+			_handle_forced_buy() # Trigger the text sequence directly
 		else:
-			dialogue_overlay.dialogue_finished.connect(_handle_forced_leave)
+			_handle_forced_leave()
 	else:
-		dialogue_overlay.dialogue_finished.connect(_show_main_choices)
+		_show_main_choices()
 
 func _handle_forced_leave() -> void:
 	dialogue_overlay.start_dialogue("Merchant", [
