@@ -12,16 +12,20 @@ const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigatio
 var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
 
-@onready var health_bar: ProgressBar = $UI/HealthBar
+@onready var player: Player
+@onready var ui_bar: UIBars
+@onready var health_bar: ProgressBar
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	game_data.map_depth = 0
 	game_data.budget = starting_budget
 	
-	var player = PLAYER_SCENE.instantiate()
+	player = PLAYER_SCENE.instantiate()
 	player.name = "GlobalPlayer"
-	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
+	
+	ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(ui_bar)
 	
 	if ui_bar.has_node("HealthBar"):
@@ -31,8 +35,17 @@ func _ready() -> void:
 	
 	_change_screen("main_menu")
 	
+func _process(delta: float) -> void:
+	if current_screen is Aisles:
+		_toggle_gameplay_object_visibility(true)
+	else:
+		_toggle_gameplay_object_visibility(false)
+	
+	
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause_menu") and current_screen is not MainMenu:
+	if event.is_action_pressed("pause_menu") and \
+			current_screen is not MainMenu and \
+			current_screen is not Entrance:
 		if pause_menu_instance != null:
 			_resume_game()
 		else:
@@ -42,6 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu_instance.quit_to_main_menu.connect(_quit_to_main_menu)
 			pause_menu_instance.quit_game.connect(_quit_game)
 			add_child(pause_menu_instance)
+			
 
 func _resume_game() -> void:
 	if pause_menu_instance != null:
@@ -57,6 +71,10 @@ func _quit_to_main_menu() -> void:
 	_change_screen("main_menu")
 
 func _quit_game() -> void:
+	get_tree().paused = false
+	if pause_menu_instance != null:
+		pause_menu_instance.queue_free()
+		pause_menu_instance = null
 	get_tree().quit()
 
 func _change_screen(screen_ref) -> void:
@@ -127,3 +145,10 @@ func _update_player_visibility(visible: bool) -> void:
 	if global_player:
 		global_player.visible = visible
 		global_player.process_mode = Node.PROCESS_MODE_INHERIT if visible else Node.PROCESS_MODE_DISABLED
+	
+func _toggle_gameplay_object_visibility(visibility: bool) -> void:
+	health_bar.visible = visibility
+	player.visible = visibility
+	ui_bar.visible = visibility
+	
+		

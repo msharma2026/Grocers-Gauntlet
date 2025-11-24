@@ -1,10 +1,10 @@
-# entrance.gd
+# Entrance.gd
 
 class_name Entrance
 extends Screen
 
-
 @export var carts: Array[CartConfig]
+@export var button_spacing: int = 10
 
 
 func _ready() -> void:
@@ -13,18 +13,31 @@ func _ready() -> void:
 
 
 func _build_cart_menu() -> void:
-	var container := VBoxContainer.new()
-	container.position = Vector2(50, 50)
-	container.add_theme_constant_override("separation", 10)
-	add_child(container)
+	var canvas_layer_node := CanvasLayer.new()
+	var container_node := VBoxContainer.new()
+	var container_size: Vector2
+	var viewport_size: Vector2
+	
+	add_child(canvas_layer_node)
+	canvas_layer_node.add_child(container_node)
 	
 	for cart_config in carts:
 		var button := Button.new()
 		button.text = _format_cart_label(cart_config)
 		button.pressed.connect(_on_cart_selected.bind(cart_config.cart_id))
-		container.add_child(button)
-
-
+		container_node.add_child(button)
+	
+	container_size = container_node.size
+	if container_size == Vector2.ZERO:
+		container_size = container_node.get_combined_minimum_size()
+	
+	viewport_size = get_viewport_rect().size
+	
+	# Centers container in viewport
+	container_node.position = (viewport_size - container_size) * 0.5
+	container_node.add_theme_constant_override("separation", button_spacing)  # set spacing
+	
+	
 func _format_cart_label(cart_config: CartConfig) -> String:
 	return "%s (Cha %d / Dex %d / Def %d)" % [
 		_prettify_name(cart_config.cart_id),

@@ -1,11 +1,11 @@
 [gd_scene load_steps=6 format=3 uid="uid://ds70rs0xwhvar"]
 
-[ext_resource type="Script" uid="uid://dq688bbiftr83" path="res://scripts/entrance.gd" id="1_ba6v0"]
-[ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="2_j8c1m"]
-[ext_resource type="Script" uid="uid://b8gy5q0r41pkd" path="res://scripts/CartConfig.gd" id="2_qae8a"]
+[ext_resource type="Script" uid="uid://dq688bbiftr83" path="res://scripts/Entrance.gd" id="1_5j34i"]
+[ext_resource type="Script" uid="uid://b8gy5q0r41pkd" path="res://scripts/CartConfig.gd" id="2_poi4x"]
+[ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="3_u0vm2"]
 
 [sub_resource type="Resource" id="Resource_vcxf2"]
-script = ExtResource("2_qae8a")
+script = ExtResource("2_poi4x")
 cart_id = "Rogue's Basket"
 charisma = 40
 dexterity = 80
@@ -14,7 +14,7 @@ max_capacity = 100
 metadata/_custom_type_script = "uid://b8gy5q0r41pkd"
 
 [sub_resource type="Resource" id="Resource_qmse7"]
-script = ExtResource("2_qae8a")
+script = ExtResource("2_poi4x")
 cart_id = "Paladin's Chariot"
 charisma = 40
 dexterity = 30
@@ -23,13 +23,13 @@ max_capacity = 100
 metadata/_custom_type_script = "uid://b8gy5q0r41pkd"
 
 [node name="Entrance" type="Node2D"]
-script = ExtResource("1_ba6v0")
-carts = Array[ExtResource("2_qae8a")]([SubResource("Resource_vcxf2"), SubResource("Resource_qmse7")])
+script = ExtResource("1_5j34i")
+carts = Array[ExtResource("2_poi4x")]([SubResource("Resource_vcxf2"), SubResource("Resource_qmse7")])
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(394, 167)
-texture = ExtResource("2_j8c1m")
+texture = ExtResource("3_u0vm2")
 
 [node name="Icon2" type="Sprite2D" parent="."]
 position = Vector2(142, 149)
-texture = ExtResource("2_j8c1m")
+texture = ExtResource("3_u0vm2")
