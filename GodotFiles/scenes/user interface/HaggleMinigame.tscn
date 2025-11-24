@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://haggle_minigame_001"]
+
+[ext_resource type="Script" path="res://scripts/user interface/HaggleMinigame.gd" id="1_script"]
+
+[node name="HaggleMinigame" type="CanvasLayer"]
+process_mode = 3
+layer = 101
+script = ExtResource("1_script")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="GameContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="GameContainer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 46.0
+grow_horizontal = 2
+text = "Press SPACE or CLICK to Stop!"
+horizontal_alignment = 1
+
+[node name="BarBackground" type="ColorRect" parent="GameContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -15.0
+offset_right = 150.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="SuccessZone" type="ColorRect" parent="GameContainer/BarBackground"]
+layout_mode = 0
+offset_left = 100.0
+offset_right = 150.0
+offset_bottom = 30.0
+color = Color(0.2, 0.8, 0.2, 1)
+
+[node name="Cursor" type="ColorRect" parent="GameContainer/BarBackground"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 35.0
+color = Color(1, 1, 1, 1)
+
+[node name="ResultLabel" type="Label" parent="GameContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -40.0
+offset_right = 50.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Nice!"
+horizontal_alignment = 1

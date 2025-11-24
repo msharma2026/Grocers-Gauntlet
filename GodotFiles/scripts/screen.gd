@@ -1,5 +1,3 @@
-# screen.gd
-
 @abstract class_name Screen
 extends Node2D
 
