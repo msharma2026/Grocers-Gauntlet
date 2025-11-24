@@ -5,7 +5,6 @@ const AISLE_SCENE: PackedScene = preload("res://scenes/Aisle.tscn")
 const BLACK_MARKET_ID := "Black_Market"
 
 # Aisle weights for random selection
-# Higher weight means higher probability of selection
 var aisle_weights := {
 	"Haggle_Dairy": 3,
 	"Haggle_Meat": 3,
@@ -22,6 +21,7 @@ var rng := RandomNumberGenerator.new()
 func _ready() -> void:
 	rng.randomize()
 	game_data.map_depth += 1
+	print("Entered Floor: ", game_data.map_depth)
 	_generate_aisles()
 
 
@@ -39,10 +39,15 @@ func _generate_aisles() -> void:
 	for i in range(pool_of_aisles.size()):
 		var aisle_id := pool_of_aisles[i]
 		var marker := markers[i]
+		
+		# Instantiate the sign/aisle object
 		var aisle_instance: Area2D = AISLE_SCENE.instantiate()
 		aisle_instance.position = marker.position
 		aisle_instance.screen_id = aisle_id
+		
 		add_child(aisle_instance)
+		
+		# Connect the click signal
 		aisle_instance.aisle_clicked.connect(_on_aisle_clicked)
 
 
@@ -70,6 +75,7 @@ func _build_aisle_pool(depth: int, max_slots: int) -> Array[String]:
 			continue
 		selections.append(candidate)
 	
+	# Force Black Market appearance every 3 levels
 	if depth > 0 and depth % 3 == 0:
 		if !selections.has(BLACK_MARKET_ID):
 			if selections.size() < max_slots:
@@ -97,4 +103,5 @@ func get_random_aisle() -> String:
 
 
 func _on_aisle_clicked(screen_id: String) -> void:
-	change_screen.emit(screen_id)
+	print("Player selected: " + screen_id)
+	change_screen.emit("aisles")
