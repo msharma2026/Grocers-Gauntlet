@@ -29,7 +29,7 @@ var charisma: int
 var dexterity: int
 var defense: int
 var current_markup_rate: float
-var budget: float
+var budget: float = START_BUDGET
 
 # Cart information
 var cart_type: String

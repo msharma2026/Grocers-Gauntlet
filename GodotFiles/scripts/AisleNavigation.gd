@@ -43,7 +43,8 @@ func start_encounter() -> void:
 	var lines: Array[String] = [
 		"Hey there, traveler...", 
 		"Looking for some fresh produce?", 
-		"I've got this fine " + item_name + " for just $" + str(current_price) + "."
+		"I've got this fine " + item_name + " for just $" + str(current_price) + ".",
+		"(Budget: $" + str(game_data.budget) + ")"
 	]
 	
 	dialogue_overlay.start_dialogue("Merchant", lines)
@@ -55,8 +56,13 @@ func _on_intro_finished() -> void:
 	_show_main_choices()
 
 func _show_main_choices() -> void:
+	var can_afford = game_data.budget >= current_price
+	var buy_text = "Buy ($" + str(current_price) + ")"
+	if not can_afford:
+		buy_text += " [TOO EXPENSIVE]"
+	
 	var options: Array[String] = [
-		"Buy ($" + str(current_price) + ")",
+		buy_text,
 		"Haggle (Charisma Check)",
 		"Leave"
 	]
@@ -65,11 +71,26 @@ func _show_main_choices() -> void:
 func _on_choice_made(index: int) -> void:
 	match index:
 		0: # Buy
-			_handle_buy()
+			if game_data.budget >= current_price:
+				_handle_buy()
+			else:
+				_handle_cant_afford()
 		1: # Haggle
 			_handle_haggle()
 		2: # Leave
 			_handle_leave()
+
+func _handle_cant_afford() -> void:
+	dialogue_overlay.start_dialogue("Merchant", [
+		"Looks like you're a bit short on cash, friend.",
+		"Come back when you've got the dough."
+	])
+	dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	if dialogue_overlay.dialogue_finished.is_connected(_show_main_choices):
+		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
+	
+	dialogue_overlay.dialogue_finished.connect(_show_main_choices)
+
 
 func _handle_buy() -> void:
 	print("Player bought item for: ", current_price)
@@ -110,9 +131,21 @@ func _handle_haggle() -> void:
 		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
 		
 	if npc_patience <= 0:
-		dialogue_overlay.dialogue_finished.connect(_handle_forced_buy)
+		if game_data.budget >= current_price:
+			dialogue_overlay.dialogue_finished.connect(_handle_forced_buy)
+		else:
+			dialogue_overlay.dialogue_finished.connect(_handle_forced_leave)
 	else:
 		dialogue_overlay.dialogue_finished.connect(_show_main_choices)
+
+func _handle_forced_leave() -> void:
+	dialogue_overlay.start_dialogue("Merchant", [
+		"You're wasting my time! Get out of here!",
+		"(You were kicked out because you couldn't afford the forced price.)"
+	])
+	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_leave)
+	dialogue_overlay.dialogue_finished.connect(_handle_leave)
+
 
 func _handle_forced_buy() -> void:
 	dialogue_overlay.start_dialogue("Merchant", [

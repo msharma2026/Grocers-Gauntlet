@@ -13,6 +13,7 @@ const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.t
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
+@export var starting_budget: float = 100.0
 
 var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
@@ -22,13 +23,16 @@ var pause_menu_instance: PauseMenu = null
 
 func _ready() -> void:
 	game_data.map_depth = 0
+	# Always override budget with the inspector value on startup
+	game_data.budget = starting_budget
+	
 	var player = PLAYER_SCENE.instantiate()
 	player.name = "GlobalPlayer"
 	var ui_bar = UI_BARS_SCENE.instantiate()
 	add_child(player)
 	add_child(ui_bar)
 	
-	#health_bar = ui_bar.get_node("HealthBar")
+	health_bar = ui_bar.get_node("HealthBar")
 	
 	player.health_updated.connect(health_bar.update_health_bar)
 	health_bar.update_health_bar(game_data.health_percentage, 100)
