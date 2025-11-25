@@ -11,13 +11,14 @@ const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigatio
 
 var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
+var current_screen_ref
+var previous_screen_ref
 
 @onready var player: Player
 @onready var ui_bar: UIBars
 @onready var health_bar: ProgressBar
 
 func _ready() -> void:
-	process_mode = Node.PROCESS_MODE_ALWAYS
 	game_data.map_depth = 0
 	game_data.budget = starting_budget
 	
@@ -54,6 +55,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu_instance.resume_game.connect(_resume_game)
 			pause_menu_instance.quit_to_main_menu.connect(_quit_to_main_menu)
 			pause_menu_instance.quit_game.connect(_quit_game)
+			pause_menu_instance.change_screen.connect(_change_screen_from_pause)
 			add_child(pause_menu_instance)
 			
 
@@ -77,12 +79,37 @@ func _quit_game() -> void:
 		pause_menu_instance = null
 	get_tree().quit()
 
+func _change_screen_from_pause(screen_ref) -> void:
+	_resume_game()
+	_change_screen(screen_ref)
+
 func _change_screen(screen_ref) -> void:
+	var requested_previous := false
+	if screen_ref is String and screen_ref == "previous_screen":
+		requested_previous = true
+		screen_ref = previous_screen_ref
+	
+	var next_ref = screen_ref
+	var active_ref = current_screen_ref
+	previous_screen_ref = active_ref
+	current_screen_ref = next_ref
+
 	if screen_ref is String:
 		var screen_id: String = screen_ref
 		
 		if screen_id == "quit":
 			_quit_game()
+			return
+		
+		if screen_id == "pause_menu":
+			get_tree().paused = true
+			if pause_menu_instance == null:
+				pause_menu_instance = pause_menu_scene.instantiate()
+				pause_menu_instance.resume_game.connect(_resume_game)
+				pause_menu_instance.quit_to_main_menu.connect(_quit_to_main_menu)
+				pause_menu_instance.quit_game.connect(_quit_game)
+				pause_menu_instance.change_screen.connect(_change_screen_from_pause)
+				add_child(pause_menu_instance)
 			return
 		
 		if _is_item_encounter(screen_id):
