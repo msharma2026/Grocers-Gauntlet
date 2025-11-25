@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemTypeConfig" load_steps=3 format=3 uid="uid://drpe7kht6v5i5"]
+
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="1_61sy2"]
+[ext_resource type="Texture2D" uid="uid://ca4e7bo7ymfdd" path="res://assets/sprites/milk.png" id="1_62g7f"]
+
+[resource]
+script = ExtResource("1_61sy2")
+item_type_id = "def_item"
+aisle_weight = 20
+icon = ExtResource("1_62g7f")
+metadata/_custom_type_script = "uid://c0442tje0vosr"

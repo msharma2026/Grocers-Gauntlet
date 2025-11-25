@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyvegd0oliw13"]
+
+[ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/ItemLibrary.gd" id="1_2weng"]
+[ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/ItemConfig.gd" id="2_ctlof"]
+[ext_resource type="Resource" uid="uid://cbtaj87kcjm46" path="res://resources/a_item.tres" id="2_kx350"]
+
+[sub_resource type="Resource" id="Resource_hlbg0"]
+script = ExtResource("2_ctlof")
+type = ExtResource("2_kx350")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[node name="ItemLibrary" type="Node2D"]
+script = ExtResource("1_2weng")
+types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0")])

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemTypeConfig" load_steps=3 format=3 uid="uid://m3bl0p4d3ohm"]
+
+[ext_resource type="Texture2D" uid="uid://bmhy5ysw8v2qu" path="res://assets/sprites/black_market.png" id="1_0ntra"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="1_andya"]
+
+[resource]
+script = ExtResource("1_andya")
+item_type_id = "BLACK_MARKET_ID"
+aisle_weight = 5
+icon = ExtResource("1_0ntra")
+metadata/_custom_type_script = "uid://c0442tje0vosr"

@@ -1,0 +1,147 @@
+[gd_scene load_steps=13 format=3 uid="uid://c33nluy0ql3yl"]
+
+[ext_resource type="Texture2D" uid="uid://bdfkivfkh3rqc" path="res://assets/sprites/placeholders/background/background_isles.png" id="2_bg"]
+[ext_resource type="Resource" uid="uid://k22vaq2i4ew6" path="res://resources/h_item.tres" id="3_3ryke"]
+[ext_resource type="Shader" uid="uid://bqdpkolhppwyr" path="res://assets/shaders/collapse.gdshader" id="3_shader"]
+[ext_resource type="PackedScene" uid="uid://x4tp0d48phn4" path="res://scenes/FX/fog_layer.tscn" id="4_fog"]
+[ext_resource type="Resource" uid="uid://cbtaj87kcjm46" path="res://resources/a_item.tres" id="4_q0ydp"]
+[ext_resource type="Resource" uid="uid://drpe7kht6v5i5" path="res://resources/def_item.tres" id="5_j8axd"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="5_type"]
+[ext_resource type="Resource" uid="uid://jx48jwecet" path="res://resources/dex_item.tres" id="6_xxcnt"]
+[ext_resource type="Resource" uid="uid://uku28axfnc2x" path="res://resources/c_item.tres" id="7_vjwno"]
+[ext_resource type="Resource" uid="uid://m3bl0p4d3ohm" path="res://resources/BLACK_MARKET_ID.tres" id="8_jrf0u"]
+
+[sub_resource type="GDScript" id="GDScript_wfh4i"]
+script/source = "class_name AislesNew
+extends Screen
+
+const AISLE_SCENE: PackedScene = preload(\"res://scenes/Aisle.tscn\")
+
+@export var item_types: Array[ItemTypeConfig]
+
+var rng := RandomNumberGenerator.new()
+
+
+func _ready() -> void:
+	rng.randomize()
+	game_data.map_depth += 1
+	_generate_aisles()
+
+
+func _generate_aisles() -> void:
+	if item_types.is_empty():
+		push_warning(\"No item types defined for aisles_new\")
+		return
+	
+	var markers := _collect_markers()
+	if markers.is_empty():
+		return
+	
+	var selections := _build_aisle_pool(markers.size())
+	for i in range(selections.size()):
+		var config: ItemTypeConfig = selections[i]
+		var marker := markers[i]
+		
+		var aisle_instance: Area2D = AISLE_SCENE.instantiate()
+		aisle_instance.position = marker.position
+		aisle_instance.screen_id = config.item_type_id
+		aisle_instance.aisle_clicked.connect(_on_aisle_clicked)
+		
+		if config.icon:
+			aisle_instance.set_aisle_texture(config.icon)
+		
+		add_child(aisle_instance)
+
+
+func _collect_markers() -> Array[Marker2D]:
+	var markers: Array[Marker2D] = []
+	for child in get_children():
+		if child is Marker2D and child.name.begins_with(\"AisleMarker\"):
+			markers.append(child)
+	
+	markers.sort_custom(Callable(self, \"_sort_markers\"))
+	return markers
+
+
+func _sort_markers(a: Marker2D, b: Marker2D) -> bool:
+	return a.name < b.name
+
+
+func _build_aisle_pool(max_slots: int) -> Array[ItemTypeConfig]:
+	var slot_count := max_slots
+	var selections: Array[ItemTypeConfig] = []
+	
+	while selections.size() < slot_count:
+		var candidate := _get_weighted_random_type()
+		if candidate == null:
+			break
+		selections.append(candidate)
+	
+	return selections
+
+
+func _get_weighted_random_type() -> ItemTypeConfig:
+	var total_weight := 0
+	for cfg in item_types:
+		total_weight += int(cfg.aisle_weight)
+	
+	if total_weight <= 0:
+		return null
+	
+	var random_value := rng.randi_range(0, total_weight - 1)
+	var cumulative_weight := 0
+	
+	for cfg in item_types:
+		cumulative_weight += int(cfg.aisle_weight)
+		if random_value < cumulative_weight:
+			return cfg
+	
+	return null
+
+
+func _on_aisle_clicked(screen_id: String) -> void:
+	change_screen.emit(screen_id)
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fog"]
+shader = ExtResource("3_shader")
+shader_parameter/collapse_depth = 0.0
+
+[node name="AislesNew" type="Node2D"]
+script = SubResource("GDScript_wfh4i")
+item_types = Array[ExtResource("5_type")]([ExtResource("3_3ryke"), ExtResource("4_q0ydp"), ExtResource("5_j8axd"), ExtResource("6_xxcnt"), ExtResource("7_vjwno"), ExtResource("8_jrf0u")])
+
+[node name="AisleMarker1" type="Marker2D" parent="."]
+position = Vector2(137, 60)
+
+[node name="AisleMarker2" type="Marker2D" parent="."]
+position = Vector2(480, 60)
+
+[node name="AisleMarker3" type="Marker2D" parent="."]
+material = SubResource("ShaderMaterial_fog")
+position = Vector2(794, 60)
+
+[node name="BackgroundIsles2" type="Sprite2D" parent="."]
+position = Vector2(485, 323.00003)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_bg")
+
+[node name="BackgroundIsles" type="Sprite2D" parent="."]
+position = Vector2(163, 325.00003)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_bg")
+
+[node name="BackgroundIsles3" type="Sprite2D" parent="."]
+position = Vector2(807, 321.00003)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_bg")
+
+[node name="BackgroundIsles4" type="Sprite2D" parent="."]
+position = Vector2(1128.0001, 318.00003)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("2_bg")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.5550329, 0.6734397, 0.8230748, 1)
+
+[node name="FogLayer" parent="." instance=ExtResource("4_fog")]

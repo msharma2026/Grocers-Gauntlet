@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemTypeConfig" load_steps=3 format=3 uid="uid://uku28axfnc2x"]
+
+[ext_resource type="Texture2D" uid="uid://bq4kuccfeloin" path="res://assets/sprites/alcohol.png" id="1_b3k6o"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="1_fodpj"]
+
+[resource]
+script = ExtResource("1_fodpj")
+item_type_id = "c_item"
+aisle_weight = 20
+icon = ExtResource("1_b3k6o")
+metadata/_custom_type_script = "uid://c0442tje0vosr"

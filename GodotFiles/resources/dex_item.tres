@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemTypeConfig" load_steps=3 format=3 uid="uid://jx48jwecet"]
+
+[ext_resource type="Texture2D" uid="uid://dg7nuwqjilbei" path="res://assets/sprites/candy.png" id="1_n2aci"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="1_n55pb"]
+
+[resource]
+script = ExtResource("1_n55pb")
+item_type_id = "dex_item"
+aisle_weight = 20
+icon = ExtResource("1_n2aci")
+metadata/_custom_type_script = "uid://c0442tje0vosr"

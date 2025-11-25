@@ -31,5 +31,5 @@ var budget: float = START_BUDGET
 
 # Cart information
 var cart_type: String
-var inventory: Array[Item]
+var inventory: Array[ItemConfig]
 var max_capacity: int
