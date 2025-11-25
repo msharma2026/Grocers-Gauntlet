@@ -3,14 +3,22 @@
 class_name Entrance
 extends Screen
 
+const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/ItemLibrary.tscn")
+
 @export var carts: Array[CartConfig]
 @export var button_spacing: int = 10
 
+@onready var player_start_inventory: ItemLibrary
 
 func _ready() -> void:
 	_ensure_default_carts()
 	_build_cart_menu()
 	_create_back_button()
+	
+	player_start_inventory = ITEM_LIBRARY_SCENE.instantiate()
+	add_child(player_start_inventory)
+	
+	
 
 func _create_back_button() -> void:
 	var canvas_layer_node := CanvasLayer.new()
@@ -83,6 +91,9 @@ func _on_cart_selected(cart_id: String) -> void:
 	game_data.dexterity = config.dexterity
 	game_data.defense = config.defense
 	game_data.max_capacity = config.max_capacity
+	
+	player_start_inventory.assign_starter_items()
+	
 	change_screen.emit("aisles")
 
 func _on_back_selected(screen_ref) -> void:

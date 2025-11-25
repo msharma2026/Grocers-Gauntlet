@@ -19,6 +19,7 @@ var previous_screen_ref
 @onready var health_bar: ProgressBar
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	game_data.map_depth = 0
 	game_data.budget = starting_budget
 	
@@ -46,7 +47,8 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and \
 			current_screen is not MainMenu and \
-			current_screen is not Entrance:
+			current_screen is not Entrance and \
+			current_screen is not Inventory:
 		if pause_menu_instance != null:
 			_resume_game()
 		else:

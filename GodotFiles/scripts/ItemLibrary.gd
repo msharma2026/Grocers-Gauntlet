@@ -1,12 +1,11 @@
 class_name ItemLibrary
-extends Resource
+extends Node
 
 @export var types: Array[ItemConfig]
 
-const MAX_ITEMS: int = 5
+const MAX_ITEMS: int = 20
 
 var _rng := RandomNumberGenerator.new()
-
 
 # Seeds the player's starting inventory based on cart capacity.
 # Selects up to MAX_ITEMS random items (no repeats) whose sizes fit within max_capacity.

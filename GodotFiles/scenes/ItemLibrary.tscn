@@ -1,14 +1,99 @@
-[gd_scene load_steps=5 format=3 uid="uid://dyvegd0oliw13"]
+[gd_scene load_steps=21 format=3 uid="uid://dyvegd0oliw13"]
 
 [ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/ItemLibrary.gd" id="1_2weng"]
 [ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/ItemConfig.gd" id="2_ctlof"]
 [ext_resource type="Resource" uid="uid://cbtaj87kcjm46" path="res://resources/a_item.tres" id="2_kx350"]
+[ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="3_ctlof"]
+[ext_resource type="Resource" uid="uid://drpe7kht6v5i5" path="res://resources/def_item.tres" id="5_crla1"]
+[ext_resource type="Resource" uid="uid://uku28axfnc2x" path="res://resources/c_item.tres" id="6_agybx"]
+[ext_resource type="Resource" uid="uid://jx48jwecet" path="res://resources/dex_item.tres" id="7_uj7i3"]
+[ext_resource type="Texture2D" uid="uid://ca4e7bo7ymfdd" path="res://assets/sprites/milk.png" id="8_4ab5i"]
 
 [sub_resource type="Resource" id="Resource_hlbg0"]
 script = ExtResource("2_ctlof")
+item_id = "Yerr"
 type = ExtResource("2_kx350")
+size = 1
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_esysa"]
+script = ExtResource("2_ctlof")
+item_id = "oop"
+type = ExtResource("5_crla1")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_yj814"]
+script = ExtResource("2_ctlof")
+item_id = "poop"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_k82np"]
+script = ExtResource("2_ctlof")
+item_id = "555"
+type = ExtResource("5_crla1")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_oaxch"]
+script = ExtResource("2_ctlof")
+item_id = "5erfv"
+type = ExtResource("7_uj7i3")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_ymvvt"]
+script = ExtResource("2_ctlof")
+item_id = "jvfkdvjk"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_vkynk"]
+script = ExtResource("2_ctlof")
+item_id = "vjksnvk"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_tnvdf"]
+script = ExtResource("2_ctlof")
+item_id = "nvjsvbnk"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_j1u4v"]
+script = ExtResource("2_ctlof")
+item_id = "dvgeg"
+type = ExtResource("6_agybx")
+icon = ExtResource("8_4ab5i")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_m1uud"]
+script = ExtResource("2_ctlof")
+item_id = "fwbfjwjbv"
+type = ExtResource("7_uj7i3")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_yht2g"]
+script = ExtResource("2_ctlof")
+item_id = "vewb gvj kw"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_30if6"]
+script = ExtResource("2_ctlof")
+item_id = "fewg fv"
+type = ExtResource("6_agybx")
+icon = ExtResource("3_ctlof")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [node name="ItemLibrary" type="Node2D"]
 script = ExtResource("1_2weng")
-types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0")])
+types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0"), SubResource("Resource_esysa"), SubResource("Resource_yj814"), SubResource("Resource_k82np"), SubResource("Resource_oaxch"), SubResource("Resource_ymvvt"), SubResource("Resource_vkynk"), SubResource("Resource_tnvdf"), SubResource("Resource_j1u4v"), SubResource("Resource_m1uud"), SubResource("Resource_yht2g"), SubResource("Resource_30if6")])
