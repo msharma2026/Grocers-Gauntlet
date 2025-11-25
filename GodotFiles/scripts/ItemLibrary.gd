@@ -3,11 +3,13 @@ extends Resource
 
 @export var types: Array[ItemConfig]
 
+const MAX_ITEMS: int = 5
+
 var _rng := RandomNumberGenerator.new()
 
 
 # Seeds the player's starting inventory based on cart capacity.
-# Selects up to 5 random items (no repeats) whose sizes fit within max_capacity.
+# Selects up to MAX_ITEMS random items (no repeats) whose sizes fit within max_capacity.
 func assign_starter_items() -> void:
 	if types.is_empty():
 		push_warning("ItemLibrary has no item types to choose from")
@@ -26,7 +28,7 @@ func assign_starter_items() -> void:
 	var capacity_left := game_data.max_capacity
 	
 	for config in pool:
-		if game_data.inventory.size() >= 5:
+		if game_data.inventory.size() >= MAX_ITEMS:
 			break
 		if config == null:
 			continue
