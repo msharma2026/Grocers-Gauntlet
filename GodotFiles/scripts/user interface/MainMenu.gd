@@ -52,6 +52,9 @@ func _build_main_menu() -> void:
 	
 func _on_button_pressed(screen_ref) -> void:
 	if screen_ref is PackedScene:
+		if screen_ref.resource_path.ends_with("exit.tscn"):
+			_are_you_sure_message()
+			return
 		change_screen.emit(screen_ref)
 		return
 	
@@ -59,7 +62,7 @@ func _on_button_pressed(screen_ref) -> void:
 		_are_you_sure_message()
 		return
 	elif screen_ref == "quit_confirm_yes":
-		change_screen.emit("quit")
+		change_screen.emit("exit")
 		return
 	elif screen_ref == "quit_confirm_no":
 		_build_main_menu()
@@ -69,31 +72,24 @@ func _on_button_pressed(screen_ref) -> void:
 	
 
 func _ensure_default_buttons() -> void:
-	var start_index := -1
-	var has_exit := false
-	for i in range(button_map.size()):
-		var id := button_map[i].button_id.strip_edges().to_lower()
-		if id == "start game":
-			start_index = i
-		elif id == "exit game":
-			has_exit = true
+	if button_map.size() > 0:
+		return
 	
-	if start_index == -1:
-		var start_game := ButtonConfig.new()
-		start_game.button_id = "Start Game"
-		start_game.nav_screen = load("res://scenes/screens/Entrance.tscn")
-		start_game.icon = null
-		button_map.insert(0, start_game)
-		start_index = 0
+	var canvas_layer_node := CanvasLayer.new()
+	var container_node := VBoxContainer.new()
+	container_node.add_theme_constant_override("separation", button_spacing)
+	add_child(canvas_layer_node)
+	canvas_layer_node.add_child(container_node)
 	
-	if not has_exit:
-		var exit_game := ButtonConfig.new()
-		exit_game.button_id = "Exit Game"
-		exit_game.icon = null
-		exit_game.nav_screen = null
-		var insert_index := start_index + 1 if start_index != -1 else button_map.size()
-		insert_index = min(insert_index, button_map.size())
-		button_map.insert(insert_index, exit_game)
+	var main_menu_button := Button.new()
+	main_menu_button.text = "Main Menu"
+	main_menu_button.pressed.connect(_on_button_pressed.bind(load("res://scenes/screens/main_menu.tscn")))
+	container_node.add_child(main_menu_button)
+	
+	var exit_button := Button.new()
+	exit_button.text = "Exit Game"
+	exit_button.pressed.connect(_on_button_pressed.bind(load("res://scenes/exit.tscn")))
+	container_node.add_child(exit_button)
 
 
 func _are_you_sure_message() -> void:

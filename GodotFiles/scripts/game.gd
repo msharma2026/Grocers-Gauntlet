@@ -79,7 +79,7 @@ func _quit_game() -> void:
 	if pause_menu_instance != null:
 		pause_menu_instance.queue_free()
 		pause_menu_instance = null
-	get_tree().quit()
+	_change_screen("exit")
 
 func _change_screen_from_pause(screen_ref) -> void:
 	_resume_game()
@@ -98,10 +98,6 @@ func _change_screen(screen_ref) -> void:
 
 	if screen_ref is String:
 		var screen_id: String = screen_ref
-		
-		if screen_id == "quit":
-			_quit_game()
-			return
 		
 		if screen_id == "pause_menu":
 			get_tree().paused = true
