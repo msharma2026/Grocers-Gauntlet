@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dcnssg4rlvey4"
+path="res://.godot/imported/Colorless Village (SNES Chiptune).mp3-bef0db686b2bacc16587f82cfc776da5.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Colorless Village (SNES Chiptune).mp3"
+dest_files=["res://.godot/imported/Colorless Village (SNES Chiptune).mp3-bef0db686b2bacc16587f82cfc776da5.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

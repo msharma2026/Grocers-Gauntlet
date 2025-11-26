@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d2u8aw2yooxrr"
+path="res://.godot/imported/earlof - The Underwater City.wav-6cd8a1e7eab598310b1194cf764e323a.sample"
+
+[deps]
+
+source_file="res://assets/music/earlof - The Underwater City.wav"
+dest_files=["res://.godot/imported/earlof - The Underwater City.wav-6cd8a1e7eab598310b1194cf764e323a.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
