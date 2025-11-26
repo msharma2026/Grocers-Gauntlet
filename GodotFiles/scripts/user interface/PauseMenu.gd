@@ -14,6 +14,9 @@ var event: InputEvent
 
 # Creates buttons for Resume, Main Menu, and Exit Game
 func _ready() -> void:
+	_build_main_menu()
+	
+func _build_main_menu() -> void:
 	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
 	var message = Label.new()
@@ -62,9 +65,9 @@ func _on_button_pressed(action_ref) -> void:
 		_are_you_sure_message("main menu")
 	elif action_ref == "exit game":
 		_are_you_sure_message("exit game")
-	elif action_ref == "quit_confirm_yes":
+	elif action_ref == "exit_confirm_yes":
 		quit_game.emit()
-	elif action_ref == "quit_confirm_no":
+	elif action_ref == "exit_confirm_no":
 		resume_game.emit()
 	else:
 		change_screen.emit(action_ref)
@@ -74,11 +77,11 @@ func _are_you_sure_message(action_ref: String) -> void:
 	for child in get_children():
 		child.queue_free()
 	
-	var confirm_canvas := CanvasLayer.new()
-	add_child(confirm_canvas)
+	var canvas_layer_node := CanvasLayer.new()
+	add_child(canvas_layer_node)
 	
 	var confirm_container := VBoxContainer.new()
-	confirm_canvas.add_child(confirm_container)
+	canvas_layer_node.add_child(confirm_container)
 	confirm_container.add_theme_constant_override("separation", button_spacing)
 
 	var message := Label.new()
@@ -94,12 +97,13 @@ func _are_you_sure_message(action_ref: String) -> void:
 	if action_ref == "main menu":
 		yes_button.pressed.connect(func(): quit_to_main_menu.emit())
 	else:
-		yes_button.pressed.connect(_on_button_pressed.bind("quit_confirm_yes"))
+		yes_button.pressed.connect(_on_button_pressed.bind("exit_confirm_yes"))
+	
 	row.add_child(yes_button)
 	
 	var no_button := Button.new()
 	no_button.text = "No"
-	no_button.pressed.connect(_on_button_pressed.bind("quit_confirm_no"))
+	no_button.pressed.connect(_on_button_pressed.bind("exit_confirm_no"))
 	row.add_child(no_button)
 	
 	var viewport_size = get_viewport_rect().size
