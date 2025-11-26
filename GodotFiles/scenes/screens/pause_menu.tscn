@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3nb0638d8xam"]
+[gd_scene load_steps=9 format=3 uid="uid://d3nb0638d8xam"]
 
 [ext_resource type="Script" uid="uid://bmqq2r3k88e4x" path="res://scripts/user interface/pause_menu.gd" id="1_n87rw"]
 [ext_resource type="Script" uid="uid://byqwbo7ki74fm" path="res://scripts/button_config.gd" id="2_c0cbc"]
@@ -20,6 +20,11 @@ button_id = "Inventory"
 nav_screen = ExtResource("3_5dx7k")
 metadata/_custom_type_script = "uid://byqwbo7ki74fm"
 
+[sub_resource type="Resource" id="Resource_5dx7k"]
+script = ExtResource("2_c0cbc")
+button_id = "Options"
+metadata/_custom_type_script = "uid://byqwbo7ki74fm"
+
 [sub_resource type="Resource" id="Resource_vxrt6"]
 script = ExtResource("2_c0cbc")
 button_id = "Exit Game"
@@ -28,4 +33,4 @@ metadata/_custom_type_script = "uid://byqwbo7ki74fm"
 [node name="PauseMenu" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_n87rw")
-button_map = Array[ExtResource("2_c0cbc")]([SubResource("Resource_vlh3w"), SubResource("Resource_0ooxb"), SubResource("Resource_jebxp"), SubResource("Resource_vxrt6")])
+button_map = Array[ExtResource("2_c0cbc")]([SubResource("Resource_vlh3w"), SubResource("Resource_0ooxb"), SubResource("Resource_jebxp"), SubResource("Resource_5dx7k"), SubResource("Resource_vxrt6")])

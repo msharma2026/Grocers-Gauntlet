@@ -5,8 +5,9 @@ signal health_updated(new_health, max_health)
 
 var max_health: int 
 # Bottom-center of screen
-var start_position: Vector2 = Vector2(576, 500) 
-
+@export var start_position: Vector2 = Vector2(576, 500) 
+@export var frames: SpriteFrames
+@export var texture: Texture2D 
 
 func _ready() -> void:
 	max_health = game_data.MAX_HEALTH
@@ -23,9 +24,8 @@ func _ready() -> void:
 	
 	sprite.scale = Vector2(0.5, 0.5)
 		
-	var frames = SpriteFrames.new()
+	frames = SpriteFrames.new()
 			
-	var texture
 	if ResourceLoader.exists("res://assets/sprites/placeholders/player.png"):
 		texture = load("res://assets/sprites/placeholders/player.png")
 		print("DEBUG: Loaded res://assets/sprites/placeholders/player.png")
