@@ -17,6 +17,7 @@ func _build_main_menu() -> void:
 	if canvas_layer_node:
 		canvas_layer_node.queue_free()
 	canvas_layer_node = CanvasLayer.new()
+	
 	var container_node := VBoxContainer.new()
 	var message := Label.new()
 	var container_size: Vector2
@@ -57,16 +58,14 @@ func _on_button_pressed(screen_ref) -> void:
 			return
 		change_screen.emit(screen_ref)
 		return
-	
-	if screen_ref == "exit game":
-		_are_you_sure_message()
-		return
-	elif screen_ref == "quit_confirm_yes":
-		change_screen.emit("exit")
-		return
-	elif screen_ref == "quit_confirm_no":
-		_build_main_menu()
-		return
+		
+	if screen_ref is String:
+		if screen_ref == "exit_confirm_yes":
+			change_screen.emit("exit")
+			return
+		elif screen_ref == "exit_confirm_no":
+			_build_main_menu()
+			return
 	
 	change_screen.emit(screen_ref)
 	
@@ -112,12 +111,12 @@ func _are_you_sure_message() -> void:
 	
 	var yes_button := Button.new()
 	yes_button.text = "Yes"
-	yes_button.pressed.connect(_on_button_pressed.bind("quit_confirm_yes"))
+	yes_button.pressed.connect(_on_button_pressed.bind("exit_confirm_yes"))
 	row.add_child(yes_button)
 	
 	var no_button := Button.new()
 	no_button.text = "No"
-	no_button.pressed.connect(_on_button_pressed.bind("quit_confirm_no"))
+	no_button.pressed.connect(_on_button_pressed.bind("exit_confirm_no"))
 	row.add_child(no_button)
 	
 	var viewport_size = get_viewport_rect().size
