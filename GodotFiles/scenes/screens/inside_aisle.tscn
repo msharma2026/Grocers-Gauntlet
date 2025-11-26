@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c25c8lpakkfvi"]
+
+[ext_resource type="Texture2D" uid="uid://dj3kmtlebe04e" path="res://assets/sprites/aisle/orange_aisle.png" id="1_6t8ip"]
+[ext_resource type="Texture2D" uid="uid://2x8egjqh44tv" path="res://assets/sprites/aisle/grey_aisle.png" id="2_8h6oc"]
+
+[node name="InsideAisle" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-87, -6.9999924)
+scale = Vector2(3.355263, 3.2499998)
+texture = ExtResource("1_6t8ip")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(87.00001, -0.99999994)
+scale = Vector2(3.2272725, 3.0655737)
+texture = ExtResource("2_8h6oc")
