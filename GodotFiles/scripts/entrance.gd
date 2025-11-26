@@ -3,7 +3,7 @@
 class_name Entrance
 extends Screen
 
-const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/ItemLibrary.tscn")
+const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/item_library.tscn")
 
 @export var carts: Array[CartConfig]
 @export var button_spacing: int = 10

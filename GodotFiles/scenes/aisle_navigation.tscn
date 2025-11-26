@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://aisle_nav_clean_001"]
+[gd_scene load_steps=5 format=3 uid="uid://b2u4lk0mwjqhv"]
 
-[ext_resource type="Script" path="res://scripts/AisleNavigation.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://c2tyv0nf1vkdh" path="res://scenes/NPC.tscn" id="2_npc"]
+[ext_resource type="Script" uid="uid://bxnrekfswx6v7" path="res://scripts/aisle_navigation.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c2tyv0nf1vkdh" path="res://scenes/npc.tscn" id="2_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(1152, 20)

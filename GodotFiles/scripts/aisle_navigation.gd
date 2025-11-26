@@ -9,8 +9,8 @@ var current_price: int = 50
 var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
 
-const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/DialogueOverlay.tscn")
-const HAGGLE_MINIGAME_SCENE: PackedScene = preload("res://scenes/user interface/HaggleMinigame.tscn")
+const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
+const HAGGLE_MINIGAME_SCENE: PackedScene = preload("res://scenes/user interface/haggle_minigame.tscn")
 
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")

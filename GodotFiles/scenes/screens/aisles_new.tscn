@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://x4tp0d48phn4" path="res://scenes/FX/fog_layer.tscn" id="4_fog"]
 [ext_resource type="Resource" uid="uid://cbtaj87kcjm46" path="res://resources/a_item.tres" id="4_q0ydp"]
 [ext_resource type="Resource" uid="uid://drpe7kht6v5i5" path="res://resources/def_item.tres" id="5_j8axd"]
-[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="5_type"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/item_type_config.gd" id="5_type"]
 [ext_resource type="Resource" uid="uid://jx48jwecet" path="res://resources/dex_item.tres" id="6_xxcnt"]
 [ext_resource type="Resource" uid="uid://uku28axfnc2x" path="res://resources/c_item.tres" id="7_vjwno"]
 [ext_resource type="Resource" uid="uid://m3bl0p4d3ohm" path="res://resources/BLACK_MARKET_ID.tres" id="8_jrf0u"]

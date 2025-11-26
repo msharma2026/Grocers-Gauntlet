@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://cmqvsgjb33vrv"]
 
-[ext_resource type="Script" uid="uid://blefg50j4qamo" path="res://scripts/user interface/MainMenu.gd" id="1_l6cm7"]
-[ext_resource type="Script" uid="uid://byqwbo7ki74fm" path="res://scripts/ButtonConfig.gd" id="2_5weqt"]
+[ext_resource type="Script" uid="uid://blefg50j4qamo" path="res://scripts/user interface/main_menu.gd" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://byqwbo7ki74fm" path="res://scripts/button_config.gd" id="2_5weqt"]
 [ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="2_ekxnf"]
-[ext_resource type="PackedScene" uid="uid://ds70rs0xwhvar" path="res://scenes/screens/Entrance.tscn" id="3_kacuo"]
+[ext_resource type="PackedScene" uid="uid://ds70rs0xwhvar" path="res://scenes/screens/entrance.tscn" id="3_kacuo"]
 [ext_resource type="PackedScene" uid="uid://c5vcygyrqyxbb" path="res://scenes/exit.tscn" id="4_kacuo"]
 
 [sub_resource type="Resource" id="Resource_e21yp"]

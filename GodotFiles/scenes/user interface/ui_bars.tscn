@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cihng8gc6qkk6"]
 
-[ext_resource type="Script" path="res://scripts/user interface/UIBars.gd" id="1_root"]
-[ext_resource type="Script" uid="uid://qoo707lnqus4" path="res://scripts/user interface/HealthBar.gd" id="2_health"]
+[ext_resource type="Script" uid="uid://ccux2hjufmg2s" path="res://scripts/user interface/ui_bars.gd" id="1_5wj0y"]
+[ext_resource type="Script" uid="uid://qoo707lnqus4" path="res://scripts/user interface/health_bar.gd" id="2_8hqeb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmb1u"]
 bg_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
@@ -10,7 +10,7 @@ bg_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
 bg_color = Color(0.5764706, 0.29411766, 0.35686275, 1)
 
 [node name="UiBars" type="CanvasLayer"]
-script = ExtResource("1_root")
+script = ExtResource("1_5wj0y")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = 20.0
@@ -20,7 +20,7 @@ offset_bottom = 47.0
 theme_override_styles/background = SubResource("StyleBoxFlat_tmb1u")
 theme_override_styles/fill = SubResource("StyleBoxFlat_rr2qc")
 value = 100.0
-script = ExtResource("2_health")
+script = ExtResource("2_8hqeb")
 metadata/_custom_type_script = "uid://qoo707lnqus4"
 
 [node name="BudgetLabel" type="Label" parent="."]

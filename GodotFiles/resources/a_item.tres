@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ItemTypeConfig" load_steps=3 format=3 uid="uid://cbtaj87kcjm46"]
 
-[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/ItemTypeConfig.gd" id="1_81frs"]
+[ext_resource type="Script" uid="uid://c0442tje0vosr" path="res://scripts/item_type_config.gd" id="1_81frs"]
 [ext_resource type="Texture2D" uid="uid://c3hq0hhpa0wl3" path="res://assets/sprites/meat.png" id="1_q3sw8"]
 
 [resource]

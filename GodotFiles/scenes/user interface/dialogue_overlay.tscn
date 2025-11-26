@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dialogue_overlay_001"]
+[gd_scene load_steps=2 format=3 uid="uid://bwwa84u4gta0q"]
 
-[ext_resource type="Script" path="res://scripts/user interface/DialogueOverlay.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://byxma3xmlrj4w" path="res://scripts/user interface/dialogue_overlay.gd" id="1_s3fs3"]
 
 [node name="DialogueOverlay" type="CanvasLayer"]
 process_mode = 3
 layer = 100
-script = ExtResource("1_script")
+script = ExtResource("1_s3fs3")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -80,4 +80,3 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [connection signal="pressed" from="Control/Panel/NextButton" to="." method="_on_next_button_pressed"]
-

@@ -2,8 +2,8 @@ class_name Game
 extends Node2D
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
-const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/UIBars.tscn")
-const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/AisleNavigation.tscn")
+const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/ui_bars.tscn")
+const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/aisle_navigation.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene

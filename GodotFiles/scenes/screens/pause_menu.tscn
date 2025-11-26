@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://d3nb0638d8xam"]
 
-[ext_resource type="Script" uid="uid://bmqq2r3k88e4x" path="res://scripts/user interface/PauseMenu.gd" id="1_n87rw"]
-[ext_resource type="Script" uid="uid://byqwbo7ki74fm" path="res://scripts/ButtonConfig.gd" id="2_c0cbc"]
-[ext_resource type="PackedScene" path="res://scenes/screens/inventory.tscn" id="3_5dx7k"]
+[ext_resource type="Script" uid="uid://bmqq2r3k88e4x" path="res://scripts/user interface/pause_menu.gd" id="1_n87rw"]
+[ext_resource type="Script" uid="uid://byqwbo7ki74fm" path="res://scripts/button_config.gd" id="2_c0cbc"]
+[ext_resource type="PackedScene" uid="uid://dql4rkolkkick" path="res://scenes/screens/inventory.tscn" id="3_5dx7k"]
 
 [sub_resource type="Resource" id="Resource_vlh3w"]
 script = ExtResource("2_c0cbc")
