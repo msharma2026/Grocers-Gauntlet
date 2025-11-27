@@ -8,6 +8,7 @@ signal quit_to_main_menu
 signal quit_game
 
 const RECEIPT_TEXTURE = preload("res://assets/sprites/receipt.png")
+const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 
 @export var button_map: Array[ButtonConfig]
 @export var button_spacing: int = 10
@@ -64,12 +65,16 @@ func _build_main_menu() -> void:
 	message.text = "Game Paused"
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.add_theme_color_override("font_color", Color.BLACK)
+	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_font_size_override("font_size", 36)
 	container_node.add_child(message)
 
 	for config in button_map:
 		var menu_button := Button.new()
 		menu_button.text = config.button_id
 		menu_button.flat = true
+		menu_button.add_theme_font_override("font", RECEIPT_FONT)
+		menu_button.add_theme_font_size_override("font_size", 36)
 		menu_button.add_theme_color_override("font_color", Color.BLACK)
 		menu_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 		menu_button.add_theme_color_override("font_focus_color", Color.BLACK)
@@ -125,6 +130,7 @@ func _are_you_sure_message(action_ref: String) -> void:
 
 	var message := Label.new()
 	message.text = "Are you sure?"
+	message.add_theme_font_override("font", RECEIPT_FONT)
 	message.add_theme_color_override("font_color", Color.BLACK)
 	confirm_container.add_child(message)
 
@@ -135,6 +141,8 @@ func _are_you_sure_message(action_ref: String) -> void:
 	var yes_button := Button.new()
 	yes_button.text = "Yes"
 	yes_button.flat = true
+	yes_button.add_theme_font_override("font", RECEIPT_FONT)
+	yes_button.add_theme_font_size_override("font_size", 36)
 	yes_button.add_theme_color_override("font_color", Color.BLACK)
 	yes_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	yes_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
@@ -147,6 +155,8 @@ func _are_you_sure_message(action_ref: String) -> void:
 	var no_button := Button.new()
 	no_button.text = "No"
 	no_button.flat = true
+	no_button.add_theme_font_override("font", RECEIPT_FONT)
+	no_button.add_theme_font_size_override("font_size", 36)
 	no_button.add_theme_color_override("font_color", Color.BLACK)
 	no_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	no_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
@@ -168,12 +178,16 @@ func _open_options_menu() -> void:
 	var title := Label.new()
 	title.text = "Options"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_override("font", RECEIPT_FONT)
+	title.add_theme_font_size_override("font_size", 36)
 	title.add_theme_color_override("font_color", Color.BLACK)
 	options_container.add_child(title)
 
 	var fullscreen_slider := CheckButton.new()
 	fullscreen_slider.text = "Fullscreen"
 	fullscreen_slider.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	fullscreen_slider.add_theme_font_override("font", RECEIPT_FONT)
+	fullscreen_slider.add_theme_font_size_override("font_size", 36)
 	fullscreen_slider.add_theme_color_override("font_color", Color.BLACK)
 	fullscreen_slider.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	fullscreen_slider.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
@@ -188,7 +202,9 @@ func _open_options_menu() -> void:
 
 	var vol_label := Label.new()
 	vol_label.text = "Volume"
-	#vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vol_label.add_theme_font_override("font", RECEIPT_FONT)
+	vol_label.add_theme_font_size_override("font_size", 36)
 	vol_label.add_theme_color_override("font_color", Color.BLACK)
 	vol_label.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	vol_label.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
@@ -209,7 +225,9 @@ func _open_options_menu() -> void:
 	var back_button := Button.new()
 	back_button.text = "Back"
 	back_button.flat = true
+	back_button.add_theme_font_override("font", RECEIPT_FONT)
 	back_button.add_theme_color_override("font_color", Color.BLACK)
+	back_button.add_theme_font_size_override("font_size", 36)
 	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	back_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	back_button.pressed.connect(_on_button_pressed.bind("options_back"))
@@ -241,7 +259,7 @@ func _close_sub_menus() -> void:
 
 func _center_container(container: Control) -> void:
 	await get_tree().process_frame
-	var offset: Vector2 = Vector2(-10, 40)
+	var offset: Vector2 = Vector2(-10, 50)
 	
 	if container == null:
 		return
