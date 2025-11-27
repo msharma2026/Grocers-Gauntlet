@@ -32,6 +32,9 @@ func _ready() -> void:
 	rng.randomize()
 	game_data.map_depth += 1
 	print("Entered Floor: ", game_data.map_depth)
+	
+
+func _start_on_transition_end() -> void:
 	_generate_aisles()
 
 func _process(_delta: float) -> void:

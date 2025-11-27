@@ -155,15 +155,26 @@ func _load_encounter(item_id: String) -> void:
 func _load_screen(screen_scene: PackedScene) -> void:
 	if screen_scene == null:
 		return
+		
+	await _play_transition()
 	
+	#var will_transition: bool = true
 	if current_screen != null:
+	
 		remove_child(current_screen)
 		current_screen.queue_free()
-	
+	#else:
+	#	will_transition = false
+		
 	var new_screen : Screen = screen_scene.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
 	current_screen.change_screen.connect(_change_screen)
+	#if will_transition:
+	await _play_detransition()
+	current_screen._start_on_transition_end()
+	
+	
 
 func _update_player_visibility(visible: bool) -> void:
 	var global_player = get_node_or_null("GlobalPlayer")
@@ -176,4 +187,12 @@ func _toggle_gameplay_object_visibility(visibility: bool) -> void:
 	player.visible = visibility
 	ui_bar.visible = visibility
 	
-		
+func _play_transition() -> void:
+	var ap := $TransitionPlayer
+	ap.play("transition_animation")
+	await ap.animation_finished
+	
+func _play_detransition() -> void:
+	var ap := $TransitionPlayer
+	ap.play("detransition_animation")
+	await ap.animation_finished
