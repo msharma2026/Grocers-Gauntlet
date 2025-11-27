@@ -66,7 +66,7 @@ func _build_main_menu() -> void:
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.add_theme_color_override("font_color", Color.BLACK)
 	message.add_theme_font_override("font", RECEIPT_FONT)
-	message.add_theme_font_size_override("font_size", 36)
+	message.add_theme_font_size_override("font_size", 48)
 	container_node.add_child(message)
 
 	for config in button_map:
@@ -130,7 +130,9 @@ func _are_you_sure_message(action_ref: String) -> void:
 
 	var message := Label.new()
 	message.text = "Are you sure?"
+	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_font_size_override("font_size", 40)
 	message.add_theme_color_override("font_color", Color.BLACK)
 	confirm_container.add_child(message)
 
@@ -179,7 +181,7 @@ func _open_options_menu() -> void:
 	title.text = "Options"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.add_theme_font_override("font", RECEIPT_FONT)
-	title.add_theme_font_size_override("font_size", 36)
+	title.add_theme_font_size_override("font_size", 48)
 	title.add_theme_color_override("font_color", Color.BLACK)
 	options_container.add_child(title)
 
