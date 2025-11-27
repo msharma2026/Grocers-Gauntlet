@@ -217,7 +217,7 @@ func _open_options_menu() -> void:
 	vol_slider.min_value = 0.0
 	vol_slider.max_value = 1.0
 	vol_slider.step = 0.05
-	vol_slider.custom_minimum_size = Vector2(200, 0)
+	vol_slider.custom_minimum_size = Vector2(180, 0)
 	var bus_idx = AudioServer.get_bus_index("Master")
 	if bus_idx != -1:
 		vol_slider.value = db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
