@@ -125,6 +125,7 @@ func _are_you_sure_message(action_ref: String) -> void:
 
 	var message := Label.new()
 	message.text = "Are you sure?"
+	message.add_theme_color_override("font_color", Color.BLACK)
 	confirm_container.add_child(message)
 
 	var row := HBoxContainer.new()
@@ -133,6 +134,10 @@ func _are_you_sure_message(action_ref: String) -> void:
 
 	var yes_button := Button.new()
 	yes_button.text = "Yes"
+	yes_button.flat = true
+	yes_button.add_theme_color_override("font_color", Color.BLACK)
+	yes_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	yes_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	if action_ref == "main menu":
 		yes_button.pressed.connect(func(): quit_to_main_menu.emit())
 	else:
@@ -141,6 +146,10 @@ func _are_you_sure_message(action_ref: String) -> void:
 
 	var no_button := Button.new()
 	no_button.text = "No"
+	no_button.flat = true
+	no_button.add_theme_color_override("font_color", Color.BLACK)
+	no_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	no_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	no_button.pressed.connect(_on_button_pressed.bind("quit_confirm_no"))
 	row.add_child(no_button)
 
@@ -167,7 +176,7 @@ func _open_options_menu() -> void:
 	fullscreen_slider.alignment = HORIZONTAL_ALIGNMENT_LEFT
 	fullscreen_slider.add_theme_color_override("font_color", Color.BLACK)
 	fullscreen_slider.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
-	fullscreen_slider.add_theme_color_override("font_pressed_color", Color.BLACK)
+	fullscreen_slider.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	fullscreen_slider.add_theme_color_override("font_focus_color", Color.BLACK)
 	fullscreen_slider.add_theme_color_override("button_checked_color", Color.CORNFLOWER_BLUE)
 	fullscreen_slider.add_theme_color_override("font_hover_pressed_color", Color.CORNFLOWER_BLUE)
@@ -182,7 +191,7 @@ func _open_options_menu() -> void:
 	#vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	vol_label.add_theme_color_override("font_color", Color.BLACK)
 	vol_label.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
-	vol_label.add_theme_color_override("font_pressed_color", Color.BLACK)
+	vol_label.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	vol_label.add_theme_color_override("font_focus_color", Color.BLACK)
 	options_container.add_child(vol_label)
 
@@ -201,6 +210,8 @@ func _open_options_menu() -> void:
 	back_button.text = "Back"
 	back_button.flat = true
 	back_button.add_theme_color_override("font_color", Color.BLACK)
+	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	back_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	back_button.pressed.connect(_on_button_pressed.bind("options_back"))
 	options_container.add_child(back_button)
 
