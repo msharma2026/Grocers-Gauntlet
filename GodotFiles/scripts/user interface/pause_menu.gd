@@ -204,7 +204,7 @@ func _open_options_menu() -> void:
 
 	var vol_label := Label.new()
 	vol_label.text = "Volume"
-	vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vol_label.add_theme_font_override("font", RECEIPT_FONT)
 	vol_label.add_theme_font_size_override("font_size", 36)
 	vol_label.add_theme_color_override("font_color", Color.BLACK)
