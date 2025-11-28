@@ -46,9 +46,7 @@ func _process(delta: float) -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and \
-			current_screen is not MainMenu and \
-			current_screen is not Entrance and \
-			current_screen is not Inventory:
+			current_screen is Aisles:
 		if pause_menu_instance != null:
 			_resume_game()
 		else:
