@@ -22,29 +22,7 @@ func _ready() -> void:
 	z_index = 10 
 	global_position = start_position
 	
-	sprite.scale = Vector2(0.5, 0.5)
-		
-	frames = SpriteFrames.new()
-			
-	if ResourceLoader.exists("res://assets/sprites/placeholders/player.png"):
-		texture = load("res://assets/sprites/placeholders/player.png")
-		print("DEBUG: Loaded res://assets/sprites/placeholders/player.png")
-	elif ResourceLoader.exists("res://icon.svg"):
-		texture = load("res://icon.svg")
-		print("DEBUG: player.png not found, using icon.svg fallback.")
-	else:
-		print("DEBUG: No textures found for player.")
-	
-	if texture:
-		frames.add_animation("idle")
-		frames.add_frame("idle", texture)
-		frames.add_animation("move_horizontal")
-		frames.add_frame("move_horizontal", texture)
-		frames.add_animation("move_vertical")
-		frames.add_frame("move_vertical", texture)
-				
-	sprite.sprite_frames = frames
-	sprite.play("idle")
+	sprite.play("idle_straight")
 	
 func _process(delta: float) -> void:
 	if game_data.current_status == GAME_OVER:
@@ -61,14 +39,33 @@ func _physics_process(_delta: float) -> void:
 	
 	if direction:
 		velocity = direction * DEFAULT_VELOCITY
-		if direction.x != 0:
-			sprite.play("move_horizontal")
-			sprite.flip_h = direction.x < 0
-		elif direction.y != 0:
-			sprite.play("move_vertical")
+		
+		if direction.x < 0:
+			sprite.play("move_left")
+			character_facing = Facing.IS_FACING_LEFT
+		elif direction.x > 0:
+			sprite.play("move_right")
+			character_facing = Facing.IS_FACING_RIGHT
+		elif direction.y < 0:
+			sprite.play("move_up")
+			character_facing = Facing.IS_FACING_UP
+		elif direction.y > 0:
+			sprite.play("move_down")
+			character_facing = Facing.IS_FACING_DOWN
 	else:
 		velocity = Vector2.ZERO
-		sprite.play("idle")
+		
+		match character_facing:
+			Facing.IS_FACING_DOWN:
+				sprite.play("idle_straight")
+			Facing.IS_FACING_UP:
+				sprite.play("idle_back")
+			Facing.IS_FACING_LEFT:
+				sprite.play("idle_left")
+			Facing.IS_FACING_RIGHT:
+				sprite.play("idle_right")
+			_:
+				sprite.play("idle_straight")
 
 	move_and_slide()
 	
