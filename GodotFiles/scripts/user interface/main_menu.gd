@@ -115,16 +115,10 @@ func _ensure_default_buttons() -> void:
 	if button_map.size() > 0:
 		return
 	
-	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
 	container_node.add_theme_constant_override("separation", button_spacing)
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
-	
-	var main_menu_button := Button.new()
-	main_menu_button.text = "Main Menu"
-	main_menu_button.pressed.connect(_on_button_pressed.bind(load("res://scenes/screens/main_menu.tscn")))
-	container_node.add_child(main_menu_button)
 	
 	var exit_button := Button.new()
 	exit_button.text = "Exit Game"
@@ -144,6 +138,11 @@ func _are_you_sure_message() -> void:
 
 	var message := Label.new()
 	message.text = "Are you sure?"
+	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	message.add_theme_color_override("font_focus_color", Color.BLACK)
+	message.add_theme_color_override("font_pressed_color", Color.BLACK)
+	message.add_theme_font_size_override("font_size", 60)
 	confirm_container.add_child(message)
 	
 	var row := HBoxContainer.new()
@@ -152,11 +151,23 @@ func _are_you_sure_message() -> void:
 	
 	var yes_button := Button.new()
 	yes_button.text = "Yes"
+	yes_button.flat = true
+	yes_button.add_theme_font_override("font", RECEIPT_FONT)
+	yes_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	yes_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	yes_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	yes_button.add_theme_font_size_override("font_size", 60)
 	yes_button.pressed.connect(_on_button_pressed.bind("exit_confirm_yes"))
 	row.add_child(yes_button)
 	
 	var no_button := Button.new()
 	no_button.text = "No"
+	no_button.flat = true
+	no_button.add_theme_font_override("font", RECEIPT_FONT)
+	no_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	no_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	no_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	no_button.add_theme_font_size_override("font_size", 60)
 	no_button.pressed.connect(_on_button_pressed.bind("exit_confirm_no"))
 	row.add_child(no_button)
 	
