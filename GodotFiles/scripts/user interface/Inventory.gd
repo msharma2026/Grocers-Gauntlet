@@ -12,6 +12,11 @@ extends Screen
 @export var background_color: Color = Color(0.16, 0.16, 0.16, 1.0)
 @export var slot_background_color: Color = Color(0, 0, 0, 0.35)
 @export var slot_corner_radius: int = 8
+@export var count_badge_color: Color = Color(0.945, 0.18, 0.18, 0.902)
+@export var badge_size: int = 22
+@export var badge_font_size: int = 14
+@export var badge_min_count: int = 1
+@export var tooltip_background_texture: Texture2D
 
 var canvas_layer_node: CanvasLayer
 
@@ -84,6 +89,8 @@ func _build_grid() -> Control:
 	var viewport_size: Vector2 = get_viewport_rect().size
 	var items_per_row: int = max(1, default_row_size)
 	var max_rows: int = max(1, default_col_size)
+	var unique_items: Array[ItemConfig] = _collect_unique_items()
+	var item_counts := _count_inventory_items()
 	
 	var usable_size := viewport_size - Vector2(grid_padding * 2, grid_padding * 2)
 	var slot_side := _compute_slot_side(usable_size, items_per_row, max_rows)
@@ -117,18 +124,27 @@ func _build_grid() -> Control:
 		slot_inner.add_theme_constant_override("margin_bottom", slot_padding)
 		slot.add_child(slot_inner)
 		
-		if i < game_data.inventory.size() and game_data.inventory[i] != null:
-			slot_inner.add_child(_build_item_entry(game_data.inventory[i], content_size))
+		if i < unique_items.size() and unique_items[i] != null:
+			var item: ItemConfig = unique_items[i]
+			var key := _item_key(item)
+			var count: int = item_counts.get(key, 1)
+			slot_inner.add_child(_build_item_entry(item, content_size, count))
 		grid.add_child(slot)
 	
 	return grid
 
 
-func _build_item_entry(item: ItemConfig, content_size: Vector2) -> VBoxContainer:
+func _build_item_entry(item: ItemConfig, content_size: Vector2, count: int) -> VBoxContainer:
 	var entry := VBoxContainer.new()
 	entry.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	entry.alignment = BoxContainer.ALIGNMENT_CENTER
 	entry.add_theme_constant_override("separation", 4)
+
+	var icon_holder := Control.new()
+	icon_holder.custom_minimum_size = content_size
+	icon_holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon_holder.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	entry.add_child(icon_holder)
 
 	var icon_rect := TextureRect.new()
 	icon_rect.texture = item.icon
@@ -138,12 +154,31 @@ func _build_item_entry(item: ItemConfig, content_size: Vector2) -> VBoxContainer
 	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	entry.add_child(icon_rect)
+	icon_holder.add_child(icon_rect)
+	entry.tooltip_text = _prettify_name(item.item_id)
+	icon_holder.tooltip_text = entry.tooltip_text
+	_apply_tooltip_background(icon_holder)
 	
-	var label := Label.new()
-	label.text = _prettify_name(item.item_id)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	entry.add_child(label)
+	if count > badge_min_count:
+		var badge := PanelContainer.new()
+		var size := float(badge_size)
+		badge.custom_minimum_size = Vector2(size, size)
+		badge.size_flags_horizontal = Control.SIZE_SHRINK_END
+		badge.size_flags_vertical = Control.SIZE_SHRINK_END
+		badge.add_theme_stylebox_override("panel", _make_badge_style())
+		badge.position = Vector2(
+			max(0.0, content_size.x - size),
+			max(0.0, content_size.y - size)
+		)
+		
+		var badge_label := Label.new()
+		badge_label.text = str(count)
+		badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		badge_label.add_theme_font_size_override("font_size", badge_font_size)
+		badge.add_child(badge_label)
+			
+		icon_holder.add_child(badge)
 	
 	return entry
 
@@ -179,6 +214,63 @@ func _make_slot_style() -> StyleBoxFlat:
 	style.corner_radius_bottom_left = slot_corner_radius
 	style.corner_radius_bottom_right = slot_corner_radius
 	return style
+
+
+func _make_badge_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = count_badge_color
+	var radius := int(ceil(badge_size * 0.5))
+	style.corner_radius_top_left = radius
+	style.corner_radius_top_right = radius
+	style.corner_radius_bottom_left = radius
+	style.corner_radius_bottom_right = radius
+	return style
+
+
+func _count_inventory_items() -> Dictionary:
+	var counts := {}
+	for item in game_data.inventory:
+		if item == null:
+			continue
+		var key := _item_key(item)
+		counts[key] = counts.get(key, 0) + 1
+	return counts
+
+
+func _collect_unique_items() -> Array[ItemConfig]:
+	var uniques: Array[ItemConfig] = []
+	var seen := {}
+	for item in game_data.inventory:
+		if item == null:
+			continue
+		var key := _item_key(item)
+		if seen.has(key):
+			continue
+		seen[key] = true
+		uniques.append(item)
+	return uniques
+
+
+func _item_key(item: ItemConfig) -> String:
+	if item == null:
+		return ""
+	var type_id := ""
+	if item.type:
+		if item.type.resource_path != "":
+			type_id = item.type.resource_path
+		else:
+			type_id = item.type.resource_name
+	return "%s::%s" % [item.item_id, type_id]
+
+
+func _apply_tooltip_background(node: Control) -> void:
+	if node == null or tooltip_background_texture == null:
+		return
+	var stylebox := StyleBoxTexture.new()
+	stylebox.texture = tooltip_background_texture
+	var theme := Theme.new()
+	theme.set_stylebox("panel", "TooltipPanel", stylebox)
+	node.theme = theme
 
 
 func _prettify_name(name: String) -> String:
