@@ -1,11 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://e8g05vxyxl8v"]
+[gd_scene load_steps=2 format=3 uid="uid://e8g05vxyxl8v"]
 
 [ext_resource type="Script" uid="uid://s3csumkffdqa" path="res://scripts/user interface/how_to_play.gd" id="1_wx2qo"]
-[ext_resource type="AudioStream" uid="uid://d2u8aw2yooxrr" path="res://assets/music/earlof - The Underwater City.wav" id="2_l81c2"]
 
 [node name="HowToPlay" type="Node2D"]
 script = ExtResource("1_wx2qo")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_l81c2")
-autoplay = true

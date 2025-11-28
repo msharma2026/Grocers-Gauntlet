@@ -16,6 +16,7 @@ var patch_spacing: int = -50
 func _ready() -> void:
 	_ensure_default_buttons()
 	_build_main_menu()
+	systems.audio.play_music("theme")
 
 
 func _build_main_menu() -> void:

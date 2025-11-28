@@ -36,6 +36,7 @@ func _ready() -> void:
 
 func _start_on_transition_end() -> void:
 	_generate_aisles()
+	systems.audio.play_music('fun')
 
 func _process(_delta: float) -> void:
 	pass

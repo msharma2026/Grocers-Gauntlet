@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bt8xj88jim3id"]
+[gd_scene load_steps=6 format=3 uid="uid://bt8xj88jim3id"]
 
 [ext_resource type="Script" uid="uid://dd85utx3mu7jf" path="res://scripts/aisles.gd" id="1_ddv56"]
 [ext_resource type="Texture2D" uid="uid://bdfkivfkh3rqc" path="res://assets/sprites/placeholders/background/background_isles.png" id="2_ls117"]
 [ext_resource type="Shader" uid="uid://bqdpkolhppwyr" path="res://assets/shaders/collapse.gdshader" id="2_pk4b2"]
 [ext_resource type="PackedScene" uid="uid://x4tp0d48phn4" path="res://scenes/FX/fog_layer.tscn" id="4_v5lti"]
-[ext_resource type="AudioStream" uid="uid://bog4ph3kvcucl" path="res://assets/music/Neon Town (Synthwave).mp3" id="5_4jxdk"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v5lti"]
 shader = ExtResource("2_pk4b2")
@@ -55,7 +54,3 @@ texture = ExtResource("2_ls117")
 color = Color(0.5550329, 0.6734397, 0.8230748, 1)
 
 [node name="FogLayer" parent="." instance=ExtResource("4_v5lti")]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("5_4jxdk")
-autoplay = true

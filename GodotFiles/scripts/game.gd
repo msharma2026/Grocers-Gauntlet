@@ -19,6 +19,9 @@ var previous_screen_ref
 @onready var health_bar: ProgressBar
 
 func _ready() -> void:
+	systems.audio = $Audio
+	systems.camera = $Camera
+	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	game_data.map_depth = 0
 	game_data.budget = starting_budget
