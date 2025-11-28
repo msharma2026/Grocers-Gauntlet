@@ -10,4 +10,5 @@ extends Resource
 @export var max_price: float
 @export var is_on_sale: bool
 @export var haggle_potential: float
+@export var description: String
 @export var icon: Texture2D

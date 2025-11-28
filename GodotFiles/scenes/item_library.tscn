@@ -1,107 +1,118 @@
-[gd_scene load_steps=25 format=3 uid="uid://dyvegd0oliw13"]
+[gd_scene load_steps=34 format=3 uid="uid://dyvegd0oliw13"]
 
 [ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/item_library.gd" id="1_2weng"]
 [ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/item_config.gd" id="2_ctlof"]
 [ext_resource type="Resource" uid="uid://cbtaj87kcjm46" path="res://resources/a_item.tres" id="2_kx350"]
-[ext_resource type="Texture2D" uid="uid://ce0a4p8mnm6oe" path="res://icon.svg" id="3_ctlof"]
-[ext_resource type="Texture2D" uid="uid://c3hq0hhpa0wl3" path="res://assets/sprites/meat.png" id="3_pdmpn"]
+[ext_resource type="Texture2D" uid="uid://b52tx7v0y75r0" path="res://resources/item textures/whole pizza.tres" id="3_eb6ku"]
 [ext_resource type="Resource" uid="uid://drpe7kht6v5i5" path="res://resources/def_item.tres" id="5_crla1"]
-[ext_resource type="Texture2D" uid="uid://ediw3y4udwxy" path="res://assets/sprites/bread.png" id="5_eb6ku"]
+[ext_resource type="Texture2D" uid="uid://bohfejdn125xr" path="res://resources/item textures/lolipop.tres" id="5_eb6ku"]
 [ext_resource type="Resource" uid="uid://uku28axfnc2x" path="res://resources/c_item.tres" id="6_agybx"]
+[ext_resource type="Texture2D" uid="uid://c6wvtovw2uwie" path="res://resources/item textures/broccoli.tres" id="7_ffeqv"]
 [ext_resource type="Resource" uid="uid://jx48jwecet" path="res://resources/dex_item.tres" id="7_uj7i3"]
-[ext_resource type="Texture2D" uid="uid://ca4e7bo7ymfdd" path="res://assets/sprites/milk.png" id="8_4ab5i"]
-[ext_resource type="Texture2D" uid="uid://bq4kuccfeloin" path="res://assets/sprites/alcohol.png" id="11_eb6ku"]
+[ext_resource type="Resource" uid="uid://k22vaq2i4ew6" path="res://resources/h_item.tres" id="8_amf7a"]
+[ext_resource type="Texture2D" uid="uid://cls5ebv8i32u8" path="res://resources/item textures/chocolate milk.tres" id="9_mv38h"]
+[ext_resource type="Texture2D" uid="uid://bkhjapca3u7ta" path="res://resources/item textures/blowpop.tres" id="11_2b004"]
+[ext_resource type="Texture2D" uid="uid://bnso4uoofmy8c" path="res://resources/item textures/apple whiskey bottle.tres" id="12_vtpcj"]
+[ext_resource type="Texture2D" uid="uid://csiy0xhoeu60h" path="res://resources/item textures/mimosa.tres" id="14_2b004"]
+[ext_resource type="Texture2D" uid="uid://csuxl17k1lt8m" path="res://resources/item textures/red wine bottle.tres" id="15_vtpcj"]
+[ext_resource type="Texture2D" uid="uid://p6gy0234wqlq" path="res://resources/item textures/champagne.tres" id="16_daaf8"]
+[ext_resource type="Texture2D" uid="uid://q0str1hgusqr" path="res://resources/item textures/candy cane.tres" id="17_qbdkj"]
+[ext_resource type="Texture2D" uid="uid://dab4ieu4ntiwg" path="res://resources/item textures/martini.tres" id="18_2b004"]
+[ext_resource type="Texture2D" uid="uid://c0mpff440nq7w" path="res://resources/item textures/grain alcohol.tres" id="19_2b004"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdmpn"]
+atlas = ExtResource("3_eb6ku")
 
 [sub_resource type="Resource" id="Resource_hlbg0"]
 script = ExtResource("2_ctlof")
-item_id = "Yerr"
+item_id = "Whole Pizza"
 type = ExtResource("2_kx350")
 size = 1
-icon = ExtResource("3_pdmpn")
+icon = SubResource("AtlasTexture_pdmpn")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_esysa"]
 script = ExtResource("2_ctlof")
-item_id = "oop"
-type = ExtResource("5_crla1")
+item_id = "Lolipop"
+type = ExtResource("7_uj7i3")
 icon = ExtResource("5_eb6ku")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_yj814"]
 script = ExtResource("2_ctlof")
-item_id = "poop"
-type = ExtResource("6_agybx")
-icon = ExtResource("3_ctlof")
+item_id = "Broccoli"
+type = ExtResource("8_amf7a")
+icon = ExtResource("7_ffeqv")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_k82np"]
 script = ExtResource("2_ctlof")
-item_id = "555"
+item_id = "Chocolate Milk"
 type = ExtResource("5_crla1")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("9_mv38h")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_oaxch"]
 script = ExtResource("2_ctlof")
-item_id = "5erfv"
+item_id = "Blowpop"
 type = ExtResource("7_uj7i3")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("11_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_ymvvt"]
 script = ExtResource("2_ctlof")
-item_id = "jvfkdvjk"
+item_id = "Crown Apple Bottle"
 type = ExtResource("6_agybx")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("12_vtpcj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_vkynk"]
 script = ExtResource("2_ctlof")
-item_id = "vjksnvk"
+item_id = "Mimosa"
 type = ExtResource("6_agybx")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("14_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_tnvdf"]
 script = ExtResource("2_ctlof")
-item_id = "nvjsvbnk"
+item_id = "Red Wine Bottle"
 type = ExtResource("6_agybx")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("15_vtpcj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_j1u4v"]
 script = ExtResource("2_ctlof")
-item_id = "dvgeg"
+item_id = "Champagne Glass"
 type = ExtResource("6_agybx")
-icon = ExtResource("8_4ab5i")
+icon = ExtResource("16_daaf8")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_m1uud"]
 script = ExtResource("2_ctlof")
-item_id = "fwbfjwjbv"
+item_id = "Candy Cane"
 type = ExtResource("7_uj7i3")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("17_qbdkj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_yht2g"]
 script = ExtResource("2_ctlof")
-item_id = "vewb gvj kw"
+item_id = "Martini"
 type = ExtResource("6_agybx")
-icon = ExtResource("3_ctlof")
+icon = ExtResource("18_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_30if6"]
 script = ExtResource("2_ctlof")
-item_id = "fewg fv"
+item_id = "Grain Alcohol"
 type = ExtResource("6_agybx")
-icon = ExtResource("11_eb6ku")
+icon = ExtResource("19_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [sub_resource type="Resource" id="Resource_pllp5"]
 script = ExtResource("2_ctlof")
-item_id = "fewg fv"
+item_id = "Grain Alcohol"
 type = ExtResource("6_agybx")
-icon = ExtResource("11_eb6ku")
+icon = ExtResource("19_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [node name="ItemLibrary" type="Node2D"]

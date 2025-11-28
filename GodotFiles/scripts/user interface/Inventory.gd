@@ -150,6 +150,7 @@ func _build_item_entry(item: ItemConfig, content_size: Vector2, count: int) -> V
 	icon_rect.texture = item.icon
 	icon_rect.custom_minimum_size = content_size
 	icon_rect.ignore_texture_size = true
+	icon_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
