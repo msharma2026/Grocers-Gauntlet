@@ -229,7 +229,7 @@ func _open_options_menu() -> void:
 	back_button.flat = true
 	back_button.add_theme_font_override("font", RECEIPT_FONT)
 	back_button.add_theme_color_override("font_color", Color.BLACK)
-	back_button.add_theme_font_size_override("font_size", 36)
+	back_button.add_theme_font_size_override("font_size", 48)
 	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	back_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
 	back_button.pressed.connect(_on_button_pressed.bind("options_back"))

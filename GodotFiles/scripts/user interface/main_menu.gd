@@ -3,11 +3,12 @@
 class_name MainMenu
 extends Screen
 
-const RECEIPT_TEXTURE = preload("res://assets/sprites/receipt.png")
 const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
+const LOGO_TEXTURE = preload("res://assets/sprites/logo.png")
+const PRICE_TAG_TEXTURE = preload("res://assets/sprites/price_tag.png")
 
 @export var button_map: Array[ButtonConfig]
-@export var button_spacing: int = 10
+@export var button_spacing: int = 15
 
 var canvas_layer_node: CanvasLayer
 var patch_spacing: int = -50
@@ -23,60 +24,72 @@ func _build_main_menu() -> void:
 	canvas_layer_node = CanvasLayer.new()
 	
 	var container_node := VBoxContainer.new()
-	var container_size: Vector2
-	var viewport_size: Vector2
+	var offset: Vector2 = Vector2(0, 0)
 	
 	add_child(canvas_layer_node)
+	canvas_layer_node.add_child(container_node)
 	
-	# Creates receipt pause menu background
-	var receipt := TextureRect.new()
-	receipt.texture = RECEIPT_TEXTURE
+	#container_node.add_theme_constant_override("separation", button_spacing)
 	
-	canvas_layer_node.add_child(receipt)
-	_center_container(receipt)
-	
-	receipt.add_child(container_node)
-	
-	# Container fills receipt with padding to avoid text touching edges
-	container_node.set_anchors_preset(Control.PRESET_FULL_RECT)
-	container_node.add_theme_constant_override("margin_left", 50)
-	container_node.add_theme_constant_override("margin_right", 50)
-	container_node.add_theme_constant_override("margin_top", 80)
-	container_node.add_theme_constant_override("margin_bottom", 80)
-	container_node.add_theme_constant_override("separation", 12)
-	
+	var logo: TextureRect = TextureRect.new()
+	logo.texture = LOGO_TEXTURE
+	canvas_layer_node.add_child(logo)
+	offset = Vector2(-100, -140)
+	_center_container(logo, offset)
+	container_node.add_child(logo)
+	'''
 	var message := Label.new()
 	message.text = "Main Menu"
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	message.add_theme_color_override("font_color", Color.BLACK)
+	message.add_theme_color_override("font_color", Color.ORANGE_RED)
 	message.add_theme_font_override("font", RECEIPT_FONT)
 	message.add_theme_font_size_override("font_size", 48)
+	offset = Vector2(0, 150)
+	_center_container(message, offset)
 	container_node.add_child(message)
+	'''
+	
+	var price_tag := StyleBoxTexture.new()
+	price_tag.texture = PRICE_TAG_TEXTURE
+	price_tag.texture_margin_left = 20
+	price_tag.texture_margin_right = 20
+	price_tag.texture_margin_top = 10
+	price_tag.texture_margin_bottom = 10
 	
 	for button_config in button_map:
 		var menu_button := Button.new()
 		menu_button.text = button_config.button_id
-		menu_button.flat = true
+		menu_button.icon = button_config.icon
+		menu_button.flat = false
+		
+		menu_button.add_theme_stylebox_override("normal", price_tag)
+		menu_button.add_theme_stylebox_override("hover", price_tag)
+		menu_button.add_theme_stylebox_override("pressed", price_tag)
+		menu_button.add_theme_stylebox_override("focus", price_tag)
+		
 		menu_button.add_theme_font_override("font", RECEIPT_FONT)
-		menu_button.add_theme_font_size_override("font_size", 36)
+		menu_button.add_theme_font_size_override("font_size", 60)
 		menu_button.add_theme_color_override("font_color", Color.BLACK)
 		menu_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 		menu_button.add_theme_color_override("font_focus_color", Color.BLACK)
 		menu_button.add_theme_color_override("font_pressed_color", Color.BLACK)
-		menu_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		
+		menu_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		menu_button.custom_minimum_size = Vector2(400, 20)
 		
 		var target = button_config.nav_screen
 		if target == null:
 			target = button_config.button_id.strip_edges().to_lower()
 		menu_button.pressed.connect(_on_button_pressed.bind(target))
 		container_node.add_child(menu_button)
-	
-	await _center_container(container_node)
+		
+	offset = Vector2(0,150)
+	await _center_container(container_node, offset)
 	container_node.add_theme_constant_override("separation", button_spacing)
 	
 	# Temporary patch to Main Menu title appearing artificially low
 	# Due to _center_container centering a container with less buttons
-	container_node.position.y += patch_spacing
+	#container_node.position.y += patch_spacing
 	
 	
 func _on_button_pressed(screen_ref) -> void:
@@ -155,9 +168,8 @@ func _are_you_sure_message() -> void:
 	
 	confirm_container.position = (viewport_size - container_size) * 0.5
 	
-func _center_container(container: Control) -> void:
+func _center_container(container: Control, offset: Vector2) -> void:
 	await get_tree().process_frame
-	var offset: Vector2 = Vector2(-10, 50)
 	
 	if container == null:
 		return
