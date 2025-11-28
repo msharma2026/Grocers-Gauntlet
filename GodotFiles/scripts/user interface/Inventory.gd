@@ -4,31 +4,24 @@ class_name Inventory
 extends Screen
 
 @export var item_spacing: int = 10
-@export var icon_size: Vector2i = Vector2i(64, 64)
 @export var default_row_size: int = 10
 @export var default_col_size: int = 4
+@export var grid_padding: int = 48
+@export var slot_padding: int = 6
+@export var background_texture: Texture2D
+@export var background_color: Color = Color(0.16, 0.16, 0.16, 1.0)
+@export var slot_background_color: Color = Color(0, 0, 0, 0.35)
+@export var slot_corner_radius: int = 8
+@export var count_badge_color: Color = Color(0.945, 0.18, 0.18, 0.902)
+@export var badge_size: int = 22
+@export var badge_font_size: int = 14
+@export var badge_min_count: int = 1
+@export var tooltip_background_texture: Texture2D
 
 var canvas_layer_node: CanvasLayer
 
 func _ready() -> void:
-	_create_back_button()
 	_build_inventory()
-
-
-func _create_back_button() -> void:
-	var back_layer := CanvasLayer.new()
-	var container_node := VBoxContainer.new()
-	var back_button := Button.new()
-	
-	add_child(back_layer)
-	back_layer.add_child(container_node)
-	container_node.add_child(back_button)
-	
-	back_button.text = "Go Back"
-	back_button.icon = null
-	back_button.pressed.connect(_on_back_selected.bind("previous_screen"))
-	
-	container_node.position = Vector2(5, 5)
 
 
 func _build_inventory() -> void:
@@ -37,80 +30,247 @@ func _build_inventory() -> void:
 	canvas_layer_node = CanvasLayer.new()
 	add_child(canvas_layer_node)
 	
-	var container_node := VBoxContainer.new()
-	container_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	container_node.add_theme_constant_override("separation", item_spacing)
-	canvas_layer_node.add_child(container_node)
+	var root := Control.new()
+	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	canvas_layer_node.add_child(root)
 	
-	var viewport_size: Vector2 = get_viewport_rect().size
-	var items_per_row: int = max(1, default_row_size)
-	var max_rows: int = max(1, default_col_size)
-	var cell_width := int(floor((viewport_size.x - float(item_spacing * (items_per_row - 1))) / items_per_row))
-	cell_width = max(16, cell_width)
-	var icon_display_size := Vector2i(cell_width, cell_width)
-	container_node.custom_minimum_size = Vector2(viewport_size.x, 0)
-
+	_build_background(root)
+	
+	var padded_area := MarginContainer.new()
+	padded_area.set_anchors_preset(Control.PRESET_FULL_RECT)
+	padded_area.add_theme_constant_override("margin_left", grid_padding)
+	padded_area.add_theme_constant_override("margin_right", grid_padding)
+	padded_area.add_theme_constant_override("margin_top", grid_padding)
+	padded_area.add_theme_constant_override("margin_bottom", grid_padding)
+	root.add_child(padded_area)
+	
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	padded_area.add_child(center)
+	
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", item_spacing)
+	content.alignment = BoxContainer.ALIGNMENT_CENTER
+	center.add_child(content)
+	
 	var title := Label.new()
 	title.text = "Inventory"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	container_node.add_child(title)
+	content.add_child(title)
 	
-	if game_data.inventory.is_empty():
-		var empty_label := Label.new()
-		empty_label.text = "Inventory is empty."
-		container_node.add_child(empty_label)
-	else:
-		var row: HBoxContainer = null
-		var row_count := 0
-		var items_in_row := 0
-		for item in game_data.inventory:
-			if item == null:
-				continue
-			if row == null or items_in_row >= items_per_row:
-				if row_count >= max_rows:
-					break
-				row = HBoxContainer.new()
-				row.add_theme_constant_override("separation", item_spacing)
-				row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-				row.custom_minimum_size = Vector2(viewport_size.x, 0)
-				container_node.add_child(row)
-				row_count += 1
-				items_in_row = 0
-			row.add_child(_build_item_entry(item, icon_display_size))
-			items_in_row += 1
-		
-	var container_size := container_node.size
-	if container_size == Vector2.ZERO:
-		container_size = container_node.get_combined_minimum_size()
+	var grid := _build_grid()
+	content.add_child(grid)
 	
-	container_node.position = (viewport_size - container_size) * 0.5
+	_create_back_button(content)
+
+
+func _create_back_button(parent: Control) -> void:
+	if parent == null:
+		return
+	
+	var button_row := HBoxContainer.new()
+	button_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	button_row.add_theme_constant_override("separation", item_spacing)
+	parent.add_child(button_row)
+	
+	var back_button := Button.new()
+	back_button.text = "Back to Game"
+	back_button.icon = null
+	back_button.pressed.connect(_on_back_selected.bind("previous_screen"))
+	button_row.add_child(back_button)
 
 
 func _on_back_selected(screen_ref) -> void:
 	change_screen.emit(screen_ref)
 
 
-func _build_item_entry(item: ItemConfig, display_size: Vector2i) -> VBoxContainer:
+func _build_grid() -> Control:
+	var viewport_size: Vector2 = get_viewport_rect().size
+	var items_per_row: int = max(1, default_row_size)
+	var max_rows: int = max(1, default_col_size)
+	var unique_items: Array[ItemConfig] = _collect_unique_items()
+	var item_counts := _count_inventory_items()
+	
+	var usable_size := viewport_size - Vector2(grid_padding * 2, grid_padding * 2)
+	var slot_side := _compute_slot_side(usable_size, items_per_row, max_rows)
+	var slot_size := Vector2i(slot_side, slot_side)
+	var grid_size := Vector2(
+		slot_size.x * items_per_row + item_spacing * (items_per_row - 1),
+		slot_size.y * max_rows + item_spacing * (max_rows - 1)
+	)
+	
+	var grid := GridContainer.new()
+	grid.columns = items_per_row
+	grid.custom_minimum_size = grid_size
+	grid.add_theme_constant_override("hseparation", item_spacing)
+	grid.add_theme_constant_override("vseparation", item_spacing)
+	
+	var total_slots := items_per_row * max_rows
+	var slot_style := _make_slot_style()
+	var content_size := Vector2(max(1, slot_size.x - slot_padding * 2), max(1, slot_size.y - slot_padding * 2))
+	
+	for i in total_slots:
+		var slot := PanelContainer.new()
+		slot.custom_minimum_size = Vector2(slot_size)
+		slot.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		slot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		slot.add_theme_stylebox_override("panel", slot_style)
+		
+		var slot_inner := MarginContainer.new()
+		slot_inner.add_theme_constant_override("margin_left", slot_padding)
+		slot_inner.add_theme_constant_override("margin_right", slot_padding)
+		slot_inner.add_theme_constant_override("margin_top", slot_padding)
+		slot_inner.add_theme_constant_override("margin_bottom", slot_padding)
+		slot.add_child(slot_inner)
+		
+		if i < unique_items.size() and unique_items[i] != null:
+			var item: ItemConfig = unique_items[i]
+			var key := _item_key(item)
+			var count: int = item_counts.get(key, 1)
+			slot_inner.add_child(_build_item_entry(item, content_size, count))
+		grid.add_child(slot)
+	
+	return grid
+
+
+func _build_item_entry(item: ItemConfig, content_size: Vector2, count: int) -> VBoxContainer:
 	var entry := VBoxContainer.new()
-	entry.custom_minimum_size = Vector2(display_size.x, 0)
-	entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	entry.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	entry.alignment = BoxContainer.ALIGNMENT_CENTER
 	entry.add_theme_constant_override("separation", 4)
+
+	var icon_holder := Control.new()
+	icon_holder.custom_minimum_size = content_size
+	icon_holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon_holder.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	entry.add_child(icon_holder)
 
 	var icon_rect := TextureRect.new()
 	icon_rect.texture = item.icon
-	icon_rect.custom_minimum_size = Vector2(display_size)
-	icon_rect.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	icon_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	icon_rect.custom_minimum_size = content_size
+	icon_rect.ignore_texture_size = true
+	icon_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	entry.add_child(icon_rect)
+	icon_holder.add_child(icon_rect)
+	entry.tooltip_text = _prettify_name(item.item_id)
+	icon_holder.tooltip_text = entry.tooltip_text
+	_apply_tooltip_background(icon_holder)
 	
-	var label := Label.new()
-	label.text = _prettify_name(item.item_id)
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	entry.add_child(label)
+	if count > badge_min_count:
+		var badge := PanelContainer.new()
+		var size := float(badge_size)
+		badge.custom_minimum_size = Vector2(size, size)
+		badge.size_flags_horizontal = Control.SIZE_SHRINK_END
+		badge.size_flags_vertical = Control.SIZE_SHRINK_END
+		badge.add_theme_stylebox_override("panel", _make_badge_style())
+		badge.position = Vector2(
+			max(0.0, content_size.x - size),
+			max(0.0, content_size.y - size)
+		)
+		
+		var badge_label := Label.new()
+		badge_label.text = str(count)
+		badge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		badge_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		badge_label.add_theme_font_size_override("font_size", badge_font_size)
+		badge.add_child(badge_label)
+			
+		icon_holder.add_child(badge)
 	
 	return entry
+
+
+func _compute_slot_side(usable_size: Vector2, cols: int, rows: int) -> int:
+	var width_per_slot := (usable_size.x - float(item_spacing * (cols - 1))) / cols
+	var height_per_slot := (usable_size.y - float(item_spacing * (rows - 1))) / rows
+	var side := int(floor(min(width_per_slot, height_per_slot)))
+	return max(24, side)
+
+
+func _build_background(root: Control) -> void:
+	if background_texture:
+		var tex_rect := TextureRect.new()
+		tex_rect.texture = background_texture
+		tex_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+		tex_rect.stretch_mode = TextureRect.STRETCH_SCALE
+		tex_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(tex_rect)
+	else:
+		var color_rect := ColorRect.new()
+		color_rect.color = background_color
+		color_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
+		color_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(color_rect)
+
+
+func _make_slot_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = slot_background_color
+	style.corner_radius_top_left = slot_corner_radius
+	style.corner_radius_top_right = slot_corner_radius
+	style.corner_radius_bottom_left = slot_corner_radius
+	style.corner_radius_bottom_right = slot_corner_radius
+	return style
+
+
+func _make_badge_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = count_badge_color
+	var radius := int(ceil(badge_size * 0.5))
+	style.corner_radius_top_left = radius
+	style.corner_radius_top_right = radius
+	style.corner_radius_bottom_left = radius
+	style.corner_radius_bottom_right = radius
+	return style
+
+
+func _count_inventory_items() -> Dictionary:
+	var counts := {}
+	for item in game_data.inventory:
+		if item == null:
+			continue
+		var key := _item_key(item)
+		counts[key] = counts.get(key, 0) + 1
+	return counts
+
+
+func _collect_unique_items() -> Array[ItemConfig]:
+	var uniques: Array[ItemConfig] = []
+	var seen := {}
+	for item in game_data.inventory:
+		if item == null:
+			continue
+		var key := _item_key(item)
+		if seen.has(key):
+			continue
+		seen[key] = true
+		uniques.append(item)
+	return uniques
+
+
+func _item_key(item: ItemConfig) -> String:
+	if item == null:
+		return ""
+	var type_id := ""
+	if item.type:
+		if item.type.resource_path != "":
+			type_id = item.type.resource_path
+		else:
+			type_id = item.type.resource_name
+	return "%s::%s" % [item.item_id, type_id]
+
+
+func _apply_tooltip_background(node: Control) -> void:
+	if node == null or tooltip_background_texture == null:
+		return
+	var stylebox := StyleBoxTexture.new()
+	stylebox.texture = tooltip_background_texture
+	var theme := Theme.new()
+	theme.set_stylebox("panel", "TooltipPanel", stylebox)
+	node.theme = theme
 
 
 func _prettify_name(name: String) -> String:

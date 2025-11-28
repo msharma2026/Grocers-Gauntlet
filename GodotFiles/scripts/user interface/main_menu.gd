@@ -3,10 +3,14 @@
 class_name MainMenu
 extends Screen
 
+const RECEIPT_TEXTURE = preload("res://assets/sprites/receipt.png")
+const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
+
 @export var button_map: Array[ButtonConfig]
 @export var button_spacing: int = 10
 
 var canvas_layer_node: CanvasLayer
+var patch_spacing: int = -50
 
 func _ready() -> void:
 	_ensure_default_buttons()
@@ -19,36 +23,60 @@ func _build_main_menu() -> void:
 	canvas_layer_node = CanvasLayer.new()
 	
 	var container_node := VBoxContainer.new()
-	var message := Label.new()
 	var container_size: Vector2
 	var viewport_size: Vector2
 	
 	add_child(canvas_layer_node)
-	canvas_layer_node.add_child(container_node)
 	
-	message.text = "Main Menu:"
+	# Creates receipt pause menu background
+	var receipt := TextureRect.new()
+	receipt.texture = RECEIPT_TEXTURE
+	
+	canvas_layer_node.add_child(receipt)
+	_center_container(receipt)
+	
+	receipt.add_child(container_node)
+	
+	# Container fills receipt with padding to avoid text touching edges
+	container_node.set_anchors_preset(Control.PRESET_FULL_RECT)
+	container_node.add_theme_constant_override("margin_left", 50)
+	container_node.add_theme_constant_override("margin_right", 50)
+	container_node.add_theme_constant_override("margin_top", 80)
+	container_node.add_theme_constant_override("margin_bottom", 80)
+	container_node.add_theme_constant_override("separation", 12)
+	
+	var message := Label.new()
+	message.text = "Main Menu"
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	message.add_theme_color_override("font_color", Color.BLACK)
+	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_font_size_override("font_size", 48)
 	container_node.add_child(message)
 	
 	for button_config in button_map:
 		var menu_button := Button.new()
 		menu_button.text = button_config.button_id
-		menu_button.icon = button_config.icon
+		menu_button.flat = true
+		menu_button.add_theme_font_override("font", RECEIPT_FONT)
+		menu_button.add_theme_font_size_override("font_size", 36)
+		menu_button.add_theme_color_override("font_color", Color.BLACK)
+		menu_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+		menu_button.add_theme_color_override("font_focus_color", Color.BLACK)
+		menu_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+		menu_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		
 		var target = button_config.nav_screen
 		if target == null:
 			target = button_config.button_id.strip_edges().to_lower()
 		menu_button.pressed.connect(_on_button_pressed.bind(target))
 		container_node.add_child(menu_button)
-		
-	container_size = container_node.size
-	if container_size == Vector2.ZERO:
-		container_size = container_node.get_combined_minimum_size()
 	
-	viewport_size = get_viewport_rect().size
+	await _center_container(container_node)
+	container_node.add_theme_constant_override("separation", button_spacing)
 	
-	# Centers container in viewport
-	container_node.position = (viewport_size - container_size) * 0.5
-	container_node.add_theme_constant_override("separation", button_spacing)  # set spacing
+	# Temporary patch to Main Menu title appearing artificially low
+	# Due to _center_container centering a container with less buttons
+	container_node.position.y += patch_spacing
 	
 	
 func _on_button_pressed(screen_ref) -> void:
@@ -126,3 +154,24 @@ func _are_you_sure_message() -> void:
 		container_size = confirm_container.get_combined_minimum_size()
 	
 	confirm_container.position = (viewport_size - container_size) * 0.5
+	
+func _center_container(container: Control) -> void:
+	await get_tree().process_frame
+	var offset: Vector2 = Vector2(-10, 50)
+	
+	if container == null:
+		return
+	
+	var container_size: Vector2 = container.size
+	
+	if container_size == Vector2.ZERO:
+		container_size = container.get_combined_minimum_size()
+	var parent_size: Vector2 = Vector2.ZERO
+	var parent := container.get_parent()
+	
+	if parent is Control:
+		parent_size = parent.size
+	else:
+		parent_size = get_viewport_rect().size
+		
+	container.position = (parent_size - container_size) * 0.5 + offset
