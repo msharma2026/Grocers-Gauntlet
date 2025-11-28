@@ -57,6 +57,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu_instance.quit_game.connect(_quit_game)
 			pause_menu_instance.change_screen.connect(_change_screen_from_pause)
 			add_child(pause_menu_instance)
+	elif event.is_action_pressed("inventory") and \
+			current_screen is Aisles:
+		_change_screen("inventory")
 			
 
 func _resume_game() -> void:
