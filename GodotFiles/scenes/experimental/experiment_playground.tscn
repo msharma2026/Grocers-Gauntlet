@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://oci3eadhu775"]
+[gd_scene load_steps=9 format=3 uid="uid://oci3eadhu775"]
 
+[ext_resource type="Script" uid="uid://br8qvmx12wpku" path="res://scenes/experimental/experiment_playground.gd" id="1_72hc4"]
 [ext_resource type="Texture2D" uid="uid://dj8tjcw74y2ic" path="res://assets/sprites/placeholders/background/background_placeholder_2.png" id="1_wlqsb"]
 [ext_resource type="PackedScene" uid="uid://cpmqqg4okjjnw" path="res://scenes/experimental/particles_experiment.tscn" id="2_1ovyg"]
 [ext_resource type="PackedScene" uid="uid://bwq1n1p6r0i72" path="res://scenes/FX/fog.tscn" id="3_wlqsb"]
 [ext_resource type="PackedScene" uid="uid://bcxtv117w5bji" path="res://scenes/experimental/shader_experiment.tscn" id="4_1ovyg"]
+[ext_resource type="Script" uid="uid://pekqvdj0053f" path="res://scripts/camera_2d.gd" id="5_rcxng"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_wlqsb"]
 closed = false
@@ -14,6 +16,7 @@ closed = false
 polygon = PackedVector2Array(30.45166, 3.0967712, 29.419403, 11.870972, 27.354889, 18.064514, 24.774231, 23.225815, 15.483917, 30.451614, 1.5484314, 33.548386, -11.354797, 32.51613, -19.09674, 27.870972)
 
 [node name="ExperimentalPlayground" type="Node2D"]
+script = ExtResource("1_72hc4")
 
 [node name="BackgroundPlaceholder2" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -67,3 +70,7 @@ scale = Vector2(1.9375, 1.9375)
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="ShaderExperiment"]
 occluder = SubResource("OccluderPolygon2D_1ovyg")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 326)
+script = ExtResource("5_rcxng")
