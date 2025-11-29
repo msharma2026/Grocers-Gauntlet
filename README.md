@@ -2,47 +2,39 @@
 
 ## Main Node
 ### Game
-- **Script:** On transition, dequeue the current screen, instantiate and add to the tree the next screen.
-- **Economy:** initializes `budget` from the `starting_budget` export variable.
-- **HUD:** Instantiates `UIBars` to display Health and Budget.
+- Registers `$Audio` and `$Camera` into the `systems` autoload, resets `game_data.map_depth`, seeds `budget` from `starting_budget`, and spawns the persistent `GlobalPlayer` plus HUD (`UIBars`), wiring `HealthBar` updates.
+- Drives screen changes with pixelate transition animations, keeps a `previous_screen` pointer, and loads either mapped screens or item encounters (`AisleNavigation`) when aisle ids demand it.
+- Handles `pause_menu`/`inventory` input while in `Aisles`: spawns `PauseMenu` (resume/options/main menu/exit) or opens `Inventory`; toggles player/HUD visibility outside gameplay screens.
 
-## AutoLoads
-### game_data
-- **Description:** Persistent script accessible from anywhere.  
-  Stores persistent game data such as inventory, current map position, stats, budget, etc.
+### AutoLoads
+- **game_data:** Persistent store for map depth, budget, player stats (health/charisma/dexterity/defense/markup), cart selection (`cart_type`, `max_capacity`), and `inventory` items.
+- **systems:** Lightweight global container for shared scene systems (audio, camera, etc.).
 
-## Screen List
-Each screen has its own script that inherits from `Screen`.  
-**Note:** Each must at some point emit a `screen_change` signal.
-
-- **Main Menu**
-  - Populates buttons at runtime based on the exported `button_map` dictionary, then wires each button's `pressed` signal to emit `change_screen` with the matching screen id.
-- **Entrance**
-- **Aisles**
-  - On `_ready` it increments `game_data.map_depth`, samples the weighted aisle table, then instantiates an `Aisle` scene at each `AisleMarker` so only a few randomized haggle/black-market destinations appear per floor; choosing a sign emits `change_screen` with that aisle's id.
-  - Each spawned `Aisle` (see `scenes/Aisle.tscn`) is an `Area2D` that highlights on hover via an outline shader and emits `aisle_clicked` when left-clicked, which the parent forwards to `Game`.
-- **Aisle Navigation (Haggle)**
-  - **Script:** `scripts/AisleNavigation.gd`
-  - A top-down movement scene where the player can walk around (WASD/Arrows).
-  - Contains an NPC that triggers an interaction when approached.
-  - **Interaction Flow:**
-    1.  **Dialogue Overlay:** Displays NPC greeting, item offer, and Budget.
-    2.  **Choices:** Buy, Haggle (Charisma Check), or Leave.
-    3.  **Affordability Logic:** Players cannot buy items they can't afford.
-- **Haggle Minigame**
-  - **Script:** `scripts/user interface/HaggleMinigame.gd`
-  - A timing-based minigame that replaces RNG skill checks.
-  - **Mechanic:** A cursor moves back and forth; the player must press SPACE or Click to stop it in the green "Success Zone".
-  - **Outcome:** Success grants a discount; Failure increases price and reduces NPC patience.
+## Screens
+- **Main Menu:** Populates buttons from exported `button_map`, styled with receipt font/price tag; plays `theme` music; exit path shows confirmation.
+- **Entrance (Cart Select):** Slider UI to preview cart builds; sets `game_data` cart id/stats/capacity; instantiates `ItemLibrary` and seeds starter inventory based on capacity; includes back to main menu.
+- **Aisles:** On `_ready` increments `map_depth`, plays `fun` music, builds weighted aisle pool, instantiates `Aisle` signs at `AisleMarker`s with textures/outlines, and connects clicks to emit `change_screen` with the aisle id.
+- **Aisle Navigation (Haggle Encounter):** Top-down movement using the persistent player; proximity to the NPC triggers `DialogueOverlay` showing the offer plus Budget; choices allow Buy (budget check and deduction), Haggle via `HaggleMinigame` (adjusts price/patience, can force buy/leave), or Leave; returns to aisles when finished.
+- **Inventory:** Grid-based UI sized to the viewport; pulls unique items from `game_data.inventory`, shows icons/tooltips and badge counts; `Back to Game` returns to the previous screen; opened via the `inventory` input from aisles.
+- **Pause Menu:** Receipt-themed overlay from the `pause_menu` input; actions for resume, inventory/main menu, and exit with confirmation; Options submenu toggles fullscreen and adjusts master volume.
+- **How To Play:** Overlay of quick tips with a back button to the main menu.
+- **Exit:** Screen that exits the game
 
 ## UI Components
-- **UIBars**: Persistent HUD showing Health Bar and Budget Label.
-- **DialogueOverlay**: `CanvasLayer` for RPG-style text interactions with branching choices.
+- **UIBars:** Persistent HUD showing the Budget label each frame; hooks `HealthBar` updates via the `Player.health_updated` signal.
+- **DialogueOverlay:** `CanvasLayer` for RPG-style text interactions with branching choices used by encounters.
+- **HaggleMinigame:** Timing-based success-zone minigame replacing RNG checks; success discounts, failure raises price and reduces patience.
+- **HealthBar:** ProgressBar wrapper that updates max/value from emitted health changes.
+
+## Systems and Data
+- **Audio (`scripts/audio.gd`):** Central music manager with tracks `theme`/`fun`; fades the current track out before playing the new one; referenced via `systems.audio`.
+- **Items & Inventory:** `ItemConfig` resources hold item stats/price/icon/type; `ItemLibrary` seeds starter loot up to `MAX_ITEMS`, respecting cart `max_capacity`; `CartConfig` defines cart stats/defense/charisma/dexterity.
+- **Player & Camera:** Persistent `Player` handles movement/animations and emits health updates; `camera_2d.gd` provides noise-based shake and is exposed through `systems.camera`.
 
 ## Shaders
 All shader sources live under `GodotFiles/assets/shaders`. To use one, add a `ShaderMaterial` to any CanvasItem (Sprite2D, ColorRect, etc.), assign the shader, and then set/animate uniforms via the Inspector, `AnimationPlayer`, or code. Ready-made references: `scripts/aisle.gd` builds an outline material on hover, and `scenes/FX/fog.tscn` ships with a noise texture wired to the fog shader.
 
-Some shaders require you add a noise texture. Just click on the field and select... I think it's called simplenoise2d or something like that, then go through the properties of the noise resource and tune it until it looks good. (disintegrate for example requires this)
+Some shaders require you add a noise texture. Just click on the field and select a noise resource, then tweak its properties until it looks right (e.g., `disintegrate` needs this).
 
 Example to do it in code instead of the editor (outline on a sprite):
 
@@ -61,14 +53,14 @@ $Sprite2D.material = mat
 - `rainbow.gdshader`: Sliding rainbow overlay; adjust `speed` and `intensity` to change motion/strength.
 - `silhouette.gdshader`: Blends toward black or white; positive `darkened_rate` darkens, negative values lighten.
 - `flip.gdshader`: Card-flip between two textures; assign `front_tex`/`back_tex` and drive `flip` from 0 (front) to 1 (back), with 0.5 edge-on invisible.
-- `disintegrate.gdshader`: Dissolves sprites using a supplied `NOISE_TEX`; animate `disintegration_depth` (0-1) and offset the pattern with `set_random` (not sure if I have the set_random variable working yet. I'll get back to you on that).
-- `dirty.gdshader`: Multiplies the sprite with `noise_tex` where alpha exists for a grime overlay; Ignore the properties for now, they ended up not panning out, will go back and fix later.
+- `disintegrate.gdshader`: Dissolves sprites using a supplied `NOISE_TEX`; animate `disintegration_depth` (0-1) and offset the pattern with `set_random` if desired.
+- `dirty.gdshader`: Multiplies the sprite with `noise_tex` where alpha exists for a grime overlay.
 - `fog.gdshader`: Alpha-only scrolling fog from a noise texture; plug in `noise_texture` (repeat enabled) and adjust `speed`. `scenes/FX/fog.tscn` is a drop-in version with FastNoise configured.
 - `weird.gdshader`: Horizontal wobble driven by alpha and time; `speed` sets the wave frequency.
 
-## Branch Changes (aisle-navigation-system)
-- Implemented Aisle Navigation scene with player movement.
-- Added Dialogue System with branching choices and budget display.
-- Implemented Economy (Budget) tracking and HUD integration.
-- Added Timing-based Haggle Minigame replacing RNG checks.
-- Fixed various input and visibility bugs.
+## Recent Changes
+- Added cart selection with starter inventory seeding plus a viewport-scaling Inventory screen.
+- Introduced pause menu with options/resume/exit confirmations and hotkey access from aisles.
+- Hooked a global audio manager with themed tracks and fades between songs.
+- Global player/HUD now persist across screens with visibility toggling and health/budget wiring.
+- Aisle encounters reuse player movement and include the haggle minigame with patience/force-buy flows.
