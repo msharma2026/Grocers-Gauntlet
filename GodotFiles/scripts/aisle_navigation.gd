@@ -9,8 +9,11 @@ var current_price: int = 50
 var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
 var merchant_mood: String = "neutral"
-var _rng := RandomNumberGenerator.new()
+var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var surprise: String = ""
+var soft_task_available: bool = false
+var soft_task_used: bool = false
+var _option_actions: Array[String] = []
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
@@ -60,7 +63,7 @@ func start_encounter() -> void:
 	print("Encounter Started!")
 	set_process(false) # Stop checking proximity
 	
-	dialogue_overlay = DIALOGUE_SCENE.instantiate()
+	dialogue_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
 	add_child(dialogue_overlay)
 	
 	# Setup initial state
@@ -70,6 +73,8 @@ func start_encounter() -> void:
 	npc_patience = 3
 	_apply_mood_to_patience()
 	surprise = _roll_surprise()
+	soft_task_available = false
+	soft_task_used = false
 	
 	var lines: Array[String] = [
 		"Hey there, traveler... (" + _get_mood_label() + ")", 
@@ -89,28 +94,46 @@ func _on_intro_finished() -> void:
 
 func _show_main_choices() -> void:
 	var can_afford = game_data.budget >= current_price
+	_option_actions.clear()
 	var buy_text = "Buy ($" + str(current_price) + ")"
 	if not can_afford:
 		buy_text += " [TOO EXPENSIVE]"
 	
-	var options: Array[String] = [
-		buy_text,
-		"Haggle (Charisma Check)",
-		"Leave"
-	]
+	var options: Array[String] = []
+	
+	options.append(buy_text)
+	_option_actions.append("buy")
+	
+	options.append("Haggle (Charisma Check)")
+	_option_actions.append("haggle")
+	
+	if soft_task_available and not soft_task_used:
+		options.append("Run a quick favor to calm them down")
+		_option_actions.append("favor")
+	
+	options.append("Leave")
+	_option_actions.append("leave")
+	
 	dialogue_overlay.show_choices("What do you want to do?", options)
 
 func _on_choice_made(index: int) -> void:
-	match index:
-		0: # Buy
+	if index < 0 or index >= _option_actions.size():
+		return
+	var action: String = _option_actions[index]
+	match action:
+		"buy":
 			if game_data.budget >= current_price:
 				_handle_buy()
 			else:
 				_handle_cant_afford()
-		1: # Haggle
+		"haggle":
 			_handle_haggle()
-		2: # Leave
+		"favor":
+			_handle_soft_favor()
+		"leave":
 			_handle_leave()
+		_:
+			pass
 
 func _handle_cant_afford() -> void:
 	dialogue_overlay.start_dialogue("Merchant", [
@@ -122,6 +145,7 @@ func _handle_cant_afford() -> void:
 		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
 	
 	dialogue_overlay.dialogue_finished.connect(_show_main_choices)
+	soft_task_available = true
 
 
 func _handle_buy() -> void:
@@ -144,11 +168,11 @@ func _handle_haggle() -> void:
 	# Close dialogue briefly to show minigame
 	dialogue_overlay.hide()
 	
-	var minigame_scene := _pick_haggle_minigame()
+	var minigame_scene: PackedScene = _pick_haggle_minigame()
 	if minigame_scene == null:
 		_on_haggle_finished(false)
 		return
-	var minigame = minigame_scene.instantiate()
+	var minigame: CanvasLayer = minigame_scene.instantiate() as CanvasLayer
 	add_child(minigame)
 	
 	if minigame.has_signal("minigame_finished"):
@@ -172,6 +196,7 @@ func _on_haggle_finished(success: bool) -> void:
 			"Don't push your luck, kid.",
 			"Price just went up to $" + str(current_price) + "!"
 		])
+		soft_task_available = true
 	
 	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
 		dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
@@ -210,8 +235,23 @@ func _handle_leave() -> void:
 	dialogue_overlay.close()
 	change_screen.emit("aisles")
 
+func _handle_soft_favor() -> void:
+	soft_task_used = true
+	soft_task_available = false
+	var discount: float = _rng.randf_range(0.1, 0.25)
+	var price_drop: int = max(int(round(current_price * discount)), 1)
+	current_price = max(current_price - price_drop, 1)
+	npc_patience += 1
+	dialogue_overlay.start_dialogue("Narrator", [
+		"You dash to a side aisle and grab the merchant's favorite iced coffee.",
+		"Steam stops coming out of their ears.",
+		"Price drops by $" + str(price_drop) + " and patience is restored a bit."
+	])
+	_reset_dialogue_finished_connections()
+	dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+
 func _set_merchant_mood() -> void:
-	var moods := ["friendly", "neutral", "grumpy"]
+	var moods: Array[String] = ["friendly", "neutral", "grumpy"]
 	merchant_mood = moods[_rng.randi_range(0, moods.size() - 1)]
 
 func _get_mood_label() -> String:
@@ -231,11 +271,11 @@ func _apply_mood_to_patience() -> void:
 func _pick_haggle_minigame() -> PackedScene:
 	if HAGGLE_MINIGAME_SCENES.is_empty():
 		return null
-	var index := _rng.randi_range(0, HAGGLE_MINIGAME_SCENES.size() - 1)
-	return HAGGLE_MINIGAME_SCENES[index]
+	var minigame_index: int = _rng.randi_range(0, HAGGLE_MINIGAME_SCENES.size() - 1)
+	return HAGGLE_MINIGAME_SCENES[minigame_index]
 
 func _roll_surprise() -> String:
-	var roll := _rng.randf()
+	var roll: float = _rng.randf()
 	if roll < 0.12:
 		return "flash_sale"
 	if roll < 0.12 + 0.1:
@@ -245,7 +285,7 @@ func _roll_surprise() -> String:
 func _apply_one_off_surprise(lines: Array[String]) -> void:
 	match surprise:
 		"flash_sale":
-			var discount := _rng.randf_range(0.15, 0.35)
+			var discount: float = _rng.randf_range(0.15, 0.35)
 			current_price = max(int(round(current_price * (1.0 - discount))), 1)
 			lines.append("FLASH SALE! Price drops to $" + str(current_price) + ".")
 		"shoplifter_alert":
@@ -253,3 +293,9 @@ func _apply_one_off_surprise(lines: Array[String]) -> void:
 			lines.append("Shoplifter alert! Merchant is on edge (patience reduced).")
 		_:
 			pass
+
+func _reset_dialogue_finished_connections() -> void:
+	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
+		dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	if dialogue_overlay.dialogue_finished.is_connected(_show_main_choices):
+		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
