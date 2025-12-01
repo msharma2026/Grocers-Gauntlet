@@ -10,6 +10,7 @@ var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
 var merchant_mood: String = "neutral"
 var _rng := RandomNumberGenerator.new()
+var surprise: String = ""
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
@@ -68,6 +69,7 @@ func start_encounter() -> void:
 	_apply_mood_to_price()
 	npc_patience = 3
 	_apply_mood_to_patience()
+	surprise = _roll_surprise()
 	
 	var lines: Array[String] = [
 		"Hey there, traveler... (" + _get_mood_label() + ")", 
@@ -75,6 +77,7 @@ func start_encounter() -> void:
 		"I've got this fine " + item_name + " for just $" + str(current_price) + ".",
 		"(Budget: $" + str(game_data.budget) + ")"
 	]
+	_apply_one_off_surprise(lines)
 	
 	dialogue_overlay.start_dialogue("Merchant", lines)
 	dialogue_overlay.dialogue_finished.connect(_on_intro_finished)
@@ -230,3 +233,23 @@ func _pick_haggle_minigame() -> PackedScene:
 		return null
 	var index := _rng.randi_range(0, HAGGLE_MINIGAME_SCENES.size() - 1)
 	return HAGGLE_MINIGAME_SCENES[index]
+
+func _roll_surprise() -> String:
+	var roll := _rng.randf()
+	if roll < 0.12:
+		return "flash_sale"
+	if roll < 0.12 + 0.1:
+		return "shoplifter_alert"
+	return ""
+
+func _apply_one_off_surprise(lines: Array[String]) -> void:
+	match surprise:
+		"flash_sale":
+			var discount := _rng.randf_range(0.15, 0.35)
+			current_price = max(int(round(current_price * (1.0 - discount))), 1)
+			lines.append("FLASH SALE! Price drops to $" + str(current_price) + ".")
+		"shoplifter_alert":
+			npc_patience = max(npc_patience - 1, 1)
+			lines.append("Shoplifter alert! Merchant is on edge (patience reduced).")
+		_:
+			pass
