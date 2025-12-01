@@ -124,6 +124,7 @@ func _change_screen(screen_ref) -> void:
 		
 		# FIX: Check specifically for "aisles" to make player visible
 		if screen_id == "aisles":
+			_reset_player_position()
 			_update_player_visibility(true)
 		else:
 			# Hide player on main_menu, entrance, etc.
@@ -198,3 +199,8 @@ func _play_detransition() -> void:
 	var ap := $TransitionPlayer
 	ap.play("detransition_animation")
 	await ap.animation_finished
+
+func _reset_player_position() -> void:
+	if player:
+		player.global_position = player.start_position
+		player.velocity = Vector2.ZERO
