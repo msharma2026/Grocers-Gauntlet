@@ -8,9 +8,28 @@ var dialogue_overlay: DialogueOverlay
 var current_price: int = 50
 var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
+var merchant_mood: String = "neutral"
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENE: PackedScene = preload("res://scenes/user interface/haggle_minigame.tscn")
+
+const MOODS := {
+	"friendly": {
+		"price_multiplier": 0.85,
+		"patience": 4,
+		"label": "Friendly"
+	},
+	"neutral": {
+		"price_multiplier": 1.0,
+		"patience": 3,
+		"label": "Neutral"
+	},
+	"grumpy": {
+		"price_multiplier": 1.15,
+		"patience": 2,
+		"label": "Grumpy"
+	}
+}
 
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
@@ -38,11 +57,14 @@ func start_encounter() -> void:
 	add_child(dialogue_overlay)
 	
 	# Setup initial state
+	_set_merchant_mood()
 	current_price = randi_range(30, 80)
+	_apply_mood_to_price()
 	npc_patience = 3
+	_apply_mood_to_patience()
 	
 	var lines: Array[String] = [
-		"Hey there, traveler...", 
+		"Hey there, traveler... (" + _get_mood_label() + ")", 
 		"Looking for some fresh produce?", 
 		"I've got this fine " + item_name + " for just $" + str(current_price) + ".",
 		"(Budget: $" + str(game_data.budget) + ")"
@@ -171,3 +193,21 @@ func _handle_forced_buy() -> void:
 func _handle_leave() -> void:
 	dialogue_overlay.close()
 	change_screen.emit("aisles")
+
+func _set_merchant_mood() -> void:
+	var moods := ["friendly", "neutral", "grumpy"]
+	merchant_mood = moods[randi_range(0, moods.size() - 1)]
+
+func _get_mood_label() -> String:
+	if MOODS.has(merchant_mood):
+		return MOODS[merchant_mood]["label"]
+	return "Neutral"
+
+func _apply_mood_to_price() -> void:
+	if MOODS.has(merchant_mood):
+		var multiplier = MOODS[merchant_mood]["price_multiplier"]
+		current_price = int(round(float(current_price) * multiplier))
+
+func _apply_mood_to_patience() -> void:
+	if MOODS.has(merchant_mood):
+		npc_patience = MOODS[merchant_mood]["patience"]
