@@ -9,9 +9,14 @@ var current_price: int = 50
 var item_name: String = "Mystery Meat"
 var npc_patience: int = 3
 var merchant_mood: String = "neutral"
+var _rng := RandomNumberGenerator.new()
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
-const HAGGLE_MINIGAME_SCENE: PackedScene = preload("res://scenes/user interface/haggle_minigame.tscn")
+const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
+	preload("res://scenes/user interface/haggle_minigame.tscn"),
+	preload("res://scenes/user interface/haggle_minigame_coinflip.tscn"),
+	preload("res://scenes/user interface/haggle_minigame_reaction.tscn")
+]
 
 const MOODS := {
 	"friendly": {
@@ -33,6 +38,7 @@ const MOODS := {
 
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
+	_rng.randomize()
 	# Position player at the bottom entrance
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
@@ -58,7 +64,7 @@ func start_encounter() -> void:
 	
 	# Setup initial state
 	_set_merchant_mood()
-	current_price = randi_range(30, 80)
+	current_price = _rng.randi_range(30, 80)
 	_apply_mood_to_price()
 	npc_patience = 3
 	_apply_mood_to_patience()
@@ -135,10 +141,17 @@ func _handle_haggle() -> void:
 	# Close dialogue briefly to show minigame
 	dialogue_overlay.hide()
 	
-	var minigame = HAGGLE_MINIGAME_SCENE.instantiate()
+	var minigame_scene := _pick_haggle_minigame()
+	if minigame_scene == null:
+		_on_haggle_finished(false)
+		return
+	var minigame = minigame_scene.instantiate()
 	add_child(minigame)
 	
-	minigame.minigame_finished.connect(_on_haggle_finished)
+	if minigame.has_signal("minigame_finished"):
+		minigame.minigame_finished.connect(_on_haggle_finished)
+	else:
+		_on_haggle_finished(false)
 
 func _on_haggle_finished(success: bool) -> void:
 	dialogue_overlay.show()
@@ -196,7 +209,7 @@ func _handle_leave() -> void:
 
 func _set_merchant_mood() -> void:
 	var moods := ["friendly", "neutral", "grumpy"]
-	merchant_mood = moods[randi_range(0, moods.size() - 1)]
+	merchant_mood = moods[_rng.randi_range(0, moods.size() - 1)]
 
 func _get_mood_label() -> String:
 	if MOODS.has(merchant_mood):
@@ -211,3 +224,9 @@ func _apply_mood_to_price() -> void:
 func _apply_mood_to_patience() -> void:
 	if MOODS.has(merchant_mood):
 		npc_patience = MOODS[merchant_mood]["patience"]
+
+func _pick_haggle_minigame() -> PackedScene:
+	if HAGGLE_MINIGAME_SCENES.is_empty():
+		return null
+	var index := _rng.randi_range(0, HAGGLE_MINIGAME_SCENES.size() - 1)
+	return HAGGLE_MINIGAME_SCENES[index]
