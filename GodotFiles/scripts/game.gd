@@ -41,10 +41,8 @@ func _ready() -> void:
 	_change_screen("main_menu")
 	
 func _process(delta: float) -> void:
-	if current_screen is Aisles:
-		_toggle_gameplay_object_visibility(true)
-	else:
-		_toggle_gameplay_object_visibility(false)
+	var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation
+	_toggle_gameplay_object_visibility(show_gameplay_objects)
 	
 	
 func _unhandled_input(event: InputEvent) -> void:
