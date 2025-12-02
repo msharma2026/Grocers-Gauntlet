@@ -7,6 +7,7 @@ extends Screen
 var dialogue_overlay: DialogueOverlay
 var current_price: int = 50
 var item_name: String = "Mystery Meat"
+var item_config: ItemConfig = null
 var npc_patience: int = 3
 var merchant_mood: String = "neutral"
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -49,6 +50,14 @@ func _ready() -> void:
 		player.global_position = Vector2(576, 550)
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
+
+func setup_encounter(item_id: String) -> void:
+	for inv_item in game_data.inventory:
+		if inv_item and inv_item.type and inv_item.type.item_type_id == item_id:
+			item_config = inv_item
+			item_name = inv_item.item_id.capitalize()
+			return
+	item_name = item_id.capitalize()
 
 func _process(_delta: float) -> void:
 	var player = get_parent().get_node_or_null("GlobalPlayer")
@@ -184,7 +193,8 @@ func _on_haggle_finished(success: bool) -> void:
 	dialogue_overlay.show()
 	
 	if success:
-		current_price = int(current_price * 0.8)
+		var haggle_potential: float = item_config.haggle_potential if item_config else 1.0
+		current_price = int(current_price * (1.0 - 0.2 * haggle_potential))
 		dialogue_overlay.start_dialogue("Merchant", [
 			"Alright, alright, you drive a hard bargain.",
 			"How about $" + str(current_price) + "?"
