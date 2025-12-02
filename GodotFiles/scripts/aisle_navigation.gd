@@ -174,7 +174,6 @@ func _handle_buy() -> void:
 	)
 
 func _handle_haggle() -> void:
-	# Close dialogue briefly to show minigame
 	dialogue_overlay.hide()
 	
 	var minigame_scene: PackedScene = _pick_haggle_minigame()
@@ -183,6 +182,9 @@ func _handle_haggle() -> void:
 		return
 	var minigame: CanvasLayer = minigame_scene.instantiate() as CanvasLayer
 	add_child(minigame)
+	
+	if minigame.has_method("set_difficulty"):
+		minigame.set_difficulty(game_data.charisma)
 	
 	if minigame.has_signal("minigame_finished"):
 		minigame.minigame_finished.connect(_on_haggle_finished)

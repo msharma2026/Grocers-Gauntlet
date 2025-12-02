@@ -12,11 +12,15 @@ var moving_right: bool = true
 var speed: float = 300.0
 var is_active: bool = false
 var bar_width: float = 0.0
+var charisma: int = 0
 
 func _ready() -> void:
 	bar_width = bar_background.size.x
 	randomize_zone()
 	start_game()
+
+func set_difficulty(charisma_value: int) -> void:
+	charisma = charisma_value
 
 func start_game() -> void:
 	is_active = true
@@ -25,8 +29,11 @@ func start_game() -> void:
 	set_process(true)
 
 func randomize_zone() -> void:
-	# Randomize zone position and width based on difficulty (could pass difficulty later)
-	var zone_width = randf_range(30, 60)
+	var charisma_bonus = charisma / 100.0
+	var zone_width = randf_range(30, 60) * (1.0 + charisma_bonus)
+	var adjusted_speed = speed * (1.0 - charisma_bonus * 0.5)
+	speed = adjusted_speed
+	
 	var max_x = bar_width - zone_width
 	var zone_x = randf_range(0, max_x)
 	

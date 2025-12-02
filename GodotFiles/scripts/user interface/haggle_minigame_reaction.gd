@@ -8,6 +8,7 @@ signal minigame_finished(success: bool)
 
 var can_press: bool = false
 var finished: bool = false
+var charisma: int = 0
 var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
@@ -16,11 +17,12 @@ func _ready() -> void:
 	status_label.text = "Get ready..."
 	_schedule_go()
 
+func set_difficulty(charisma_value: int) -> void:
+	charisma = charisma_value
 
 func _schedule_go() -> void:
 	var delay := _rng.randf_range(0.7, 1.5)
 	get_tree().create_timer(delay).timeout.connect(_show_go)
-
 
 func _show_go() -> void:
 	if finished:
@@ -30,7 +32,9 @@ func _show_go() -> void:
 	status_label.modulate = Color.WHITE
 	status_label.text = "GO!"
 	
-	get_tree().create_timer(1.0).timeout.connect(func():
+	var charisma_bonus = charisma / 100.0
+	var timeout = 1.0 * (1.0 + charisma_bonus)
+	get_tree().create_timer(timeout).timeout.connect(func():
 		if finished:
 			return
 		_finish(false, "Too slow!")

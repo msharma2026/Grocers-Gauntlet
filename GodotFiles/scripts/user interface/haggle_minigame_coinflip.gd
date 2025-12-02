@@ -10,6 +10,7 @@ signal minigame_finished(success: bool)
 
 var target: String
 var finished: bool = false
+var charisma: int = 0
 var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
@@ -21,6 +22,8 @@ func _ready() -> void:
 	heads_button.pressed.connect(func(): _on_choice("Heads"))
 	tails_button.pressed.connect(func(): _on_choice("Tails"))
 
+func set_difficulty(charisma_value: int) -> void:
+	charisma = charisma_value
 
 func _roll_target() -> String:
 	return "Heads" if _rng.randi_range(0, 1) == 0 else "Tails"
