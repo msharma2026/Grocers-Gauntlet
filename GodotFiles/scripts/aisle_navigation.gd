@@ -10,6 +10,7 @@ var item_name: String = "Mystery Meat"
 var item_config: ItemConfig = null
 var npc_patience: int = 3
 var merchant_mood: String = "neutral"
+var haggles_this_encounter: int = 0
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var surprise: String = ""
 var soft_task_available: bool = false
@@ -70,13 +71,13 @@ func _process(_delta: float) -> void:
 
 func start_encounter() -> void:
 	print("Encounter Started!")
-	set_process(false) # Stop checking proximity
+	set_process(false)
 	
 	dialogue_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
 	add_child(dialogue_overlay)
 	
-	# Setup initial state
 	_set_merchant_mood()
+	_apply_mood_tint()
 	current_price = _rng.randi_range(30, 80)
 	_apply_mood_to_price()
 	npc_patience = 3
@@ -84,6 +85,7 @@ func start_encounter() -> void:
 	surprise = _roll_surprise()
 	soft_task_available = false
 	soft_task_used = false
+	haggles_this_encounter = 0
 	
 	var lines: Array[String] = [
 		"Hey there, traveler... (" + _get_mood_label() + ")", 
@@ -195,21 +197,20 @@ func _handle_haggle() -> void:
 
 func _on_haggle_finished(success: bool) -> void:
 	dialogue_overlay.show()
+	haggles_this_encounter += 1
 	
 	if success:
 		var haggle_potential: float = item_config.haggle_potential if item_config else 1.0
 		current_price = int(current_price * (1.0 - 0.2 * haggle_potential))
-		dialogue_overlay.start_dialogue("Merchant", [
-			"Alright, alright, you drive a hard bargain.",
-			"How about $" + str(current_price) + "?"
-		])
+		
+		var success_lines = _get_haggle_success_dialogue()
+		dialogue_overlay.start_dialogue("Merchant", success_lines)
 	else:
 		npc_patience -= 1
 		current_price = int(current_price * 1.1)
-		dialogue_overlay.start_dialogue("Merchant", [
-			"Don't push your luck, kid.",
-			"Price just went up to $" + str(current_price) + "!"
-		])
+		
+		var fail_lines = _get_haggle_fail_dialogue()
+		dialogue_overlay.start_dialogue("Merchant", fail_lines)
 		soft_task_available = true
 	
 	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
@@ -281,6 +282,54 @@ func _apply_mood_to_price() -> void:
 func _apply_mood_to_patience() -> void:
 	if MOODS.has(merchant_mood):
 		npc_patience = MOODS[merchant_mood]["patience"]
+
+func _apply_mood_tint() -> void:
+	if not npc:
+		return
+	var tint_color: Color = Color.WHITE
+	match merchant_mood:
+		"friendly":
+			tint_color = Color(0.7, 1.0, 0.7)
+		"grumpy":
+			tint_color = Color(1.0, 0.6, 0.6)
+	
+	npc.modulate = tint_color
+
+func _get_haggle_success_dialogue() -> Array[String]:
+	match merchant_mood:
+		"friendly":
+			return [
+				"Ah, I like your style! You've got good taste.",
+				"How about $" + str(current_price) + "? Deal?"
+			]
+		"grumpy":
+			return [
+				"Fine! You wore me down.",
+				"$" + str(current_price) + " and that's MY final offer!"
+			]
+		_:
+			return [
+				"Alright, alright, you drive a hard bargain.",
+				"How about $" + str(current_price) + "?"
+			]
+
+func _get_haggle_fail_dialogue() -> Array[String]:
+	match merchant_mood:
+		"friendly":
+			return [
+				"Hmm, that wasn't your best pitch, friend.",
+				"Price goes up to $" + str(current_price) + ". Try again?"
+			]
+		"grumpy":
+			return [
+				"Don't waste my time with weak offers!",
+				"Price jumped to $" + str(current_price) + "! Shape up!"
+			]
+		_:
+			return [
+				"Don't push your luck, kid.",
+				"Price just went up to $" + str(current_price) + "!"
+			]
 
 func _pick_haggle_minigame() -> PackedScene:
 	if HAGGLE_MINIGAME_SCENES.is_empty():
