@@ -80,8 +80,10 @@ func start_encounter() -> void:
 	_apply_mood_tint()
 	current_price = _rng.randi_range(30, 80)
 	_apply_mood_to_price()
+	_apply_depth_pricing()
 	npc_patience = 3
 	_apply_mood_to_patience()
+	_apply_depth_patience()
 	surprise = _roll_surprise()
 	soft_task_available = false
 	soft_task_used = false
@@ -201,7 +203,9 @@ func _on_haggle_finished(success: bool) -> void:
 	
 	if success:
 		var haggle_potential: float = item_config.haggle_potential if item_config else 1.0
-		current_price = int(current_price * (1.0 - 0.2 * haggle_potential))
+		var depth_resistance: float = 1.0 - (game_data.map_depth * 0.05)
+		var effective_potential: float = haggle_potential * depth_resistance
+		current_price = int(current_price * (1.0 - 0.2 * effective_potential))
 		
 		var success_lines = _get_haggle_success_dialogue()
 		dialogue_overlay.start_dialogue("Merchant", success_lines)
@@ -282,6 +286,13 @@ func _apply_mood_to_price() -> void:
 func _apply_mood_to_patience() -> void:
 	if MOODS.has(merchant_mood):
 		npc_patience = MOODS[merchant_mood]["patience"]
+
+func _apply_depth_pricing() -> void:
+	var depth_markup: float = 1.0 + (game_data.map_depth * 0.1)
+	current_price = int(float(current_price) * depth_markup)
+
+func _apply_depth_patience() -> void:
+	npc_patience = max(1, npc_patience - game_data.map_depth)
 
 func _apply_mood_tint() -> void:
 	if not npc:
