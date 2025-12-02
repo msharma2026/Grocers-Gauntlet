@@ -16,6 +16,8 @@ var surprise: String = ""
 var soft_task_available: bool = false
 var soft_task_used: bool = false
 var _option_actions: Array[String] = []
+var is_repeat_encounter: bool = false
+var is_desperate: bool = false
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
@@ -77,6 +79,9 @@ func start_encounter() -> void:
 	add_child(dialogue_overlay)
 	
 	_set_merchant_mood()
+	_check_repeat_encounter()
+	_check_budget_desperation()
+	print("DEBUG: is_repeat_encounter = ", is_repeat_encounter, ", is_desperate = ", is_desperate)
 	_apply_mood_tint()
 	current_price = _rng.randi_range(30, 80)
 	_apply_mood_to_price()
@@ -89,12 +94,20 @@ func start_encounter() -> void:
 	soft_task_used = false
 	haggles_this_encounter = 0
 	
-	var lines: Array[String] = [
-		"Hey there, traveler... (" + _get_mood_label() + ")", 
-		"Looking for some fresh produce?", 
-		"I've got this fine " + item_name + " for just $" + str(current_price) + ".",
-		"(Budget: $" + str(game_data.budget) + ")"
-	]
+	var lines: Array[String] = []
+	if is_repeat_encounter:
+		lines.append("You again! Think you can fool me twice?")
+	else:
+		lines.append("Hey there, traveler... (" + _get_mood_label() + ")")
+	
+	lines.append("Looking for some fresh produce?")
+	lines.append("I've got this fine " + item_name + " for just $" + str(current_price) + ".")
+	
+	if is_desperate:
+		lines.append("(Budget: $" + str(game_data.budget) + ") You look... desperate.")
+	else:
+		lines.append("(Budget: $" + str(game_data.budget) + ")")
+	
 	_apply_one_off_surprise(lines)
 	
 	dialogue_overlay.start_dialogue("Merchant", lines)
@@ -165,6 +178,7 @@ func _handle_buy() -> void:
 	print("Player bought item for: ", current_price)
 	# Update GameData
 	game_data.budget -= current_price
+	_record_merchant_beaten()
 	# TODO: Add item to inventory
 	
 	dialogue_overlay.start_dialogue("Merchant", ["Pleasure doing business with you!"])
@@ -204,7 +218,8 @@ func _on_haggle_finished(success: bool) -> void:
 	if success:
 		var haggle_potential: float = item_config.haggle_potential if item_config else 1.0
 		var depth_resistance: float = 1.0 - (game_data.map_depth * 0.05)
-		var effective_potential: float = haggle_potential * depth_resistance
+		var desperation_penalty: float = 1.0 - (0.3 if is_desperate else 0.0)
+		var effective_potential: float = haggle_potential * depth_resistance * desperation_penalty
 		current_price = int(current_price * (1.0 - 0.2 * effective_potential))
 		
 		var success_lines = _get_haggle_success_dialogue()
@@ -272,6 +287,8 @@ func _handle_soft_favor() -> void:
 func _set_merchant_mood() -> void:
 	var moods: Array[String] = ["friendly", "neutral", "grumpy"]
 	merchant_mood = moods[_rng.randi_range(0, moods.size() - 1)]
+	if is_repeat_encounter:
+		merchant_mood = "grumpy"
 
 func _get_mood_label() -> String:
 	if MOODS.has(merchant_mood):
@@ -307,40 +324,43 @@ func _apply_mood_tint() -> void:
 	npc.modulate = tint_color
 
 func _get_haggle_success_dialogue() -> Array[String]:
-	match merchant_mood:
-		"friendly":
-			return [
-				"Ah, I like your style! You've got good taste.",
-				"How about $" + str(current_price) + "? Deal?"
-			]
-		"grumpy":
-			return [
-				"Fine! You wore me down.",
-				"$" + str(current_price) + " and that's MY final offer!"
-			]
-		_:
-			return [
-				"Alright, alright, you drive a hard bargain.",
-				"How about $" + str(current_price) + "?"
-			]
+	var lines: Array[String] = []
+	
+	if is_repeat_encounter:
+		lines.append("You got lucky last time, but not this time!")
+	else:
+		match merchant_mood:
+			"friendly":
+				lines.append("Ah, I like your style! You've got good taste.")
+			"grumpy":
+				lines.append("Fine! You wore me down.")
+			_:
+				lines.append("Alright, alright, you drive a hard bargain.")
+	
+	if is_desperate:
+		lines.append("But... I can see you need this. Fine.")
+	
+	lines.append("How about $" + str(current_price) + "?")
+	return lines
 
 func _get_haggle_fail_dialogue() -> Array[String]:
-	match merchant_mood:
-		"friendly":
-			return [
-				"Hmm, that wasn't your best pitch, friend.",
-				"Price goes up to $" + str(current_price) + ". Try again?"
-			]
-		"grumpy":
-			return [
-				"Don't waste my time with weak offers!",
-				"Price jumped to $" + str(current_price) + "! Shape up!"
-			]
-		_:
-			return [
-				"Don't push your luck, kid.",
-				"Price just went up to $" + str(current_price) + "!"
-			]
+	var lines: Array[String] = []
+	
+	if is_repeat_encounter:
+		lines.append("Fool me twice? I don't think so!")
+	elif is_desperate:
+		lines.append("I can smell desperation from a mile away.")
+	else:
+		match merchant_mood:
+			"friendly":
+				lines.append("Hmm, that wasn't your best pitch, friend.")
+			"grumpy":
+				lines.append("Don't waste my time with weak offers!")
+			_:
+				lines.append("Don't push your luck, kid.")
+	
+	lines.append("Price just went up to $" + str(current_price) + "!")
+	return lines
 
 func _pick_haggle_minigame() -> PackedScene:
 	if HAGGLE_MINIGAME_SCENES.is_empty():
@@ -367,6 +387,33 @@ func _apply_one_off_surprise(lines: Array[String]) -> void:
 			lines.append("Shoplifter alert! Merchant is on edge (patience reduced).")
 		_:
 			pass
+
+func _check_repeat_encounter() -> void:
+	if item_config == null or item_config.type == null:
+		is_repeat_encounter = false
+		print("DEBUG: item_config is null, no repeat check")
+		return
+	var item_type_id: String = item_config.type.item_type_id
+	if not game_data.has_meta("beaten_merchants"):
+		game_data.set_meta("beaten_merchants", {})
+	var beaten: Dictionary = game_data.get_meta("beaten_merchants")
+	is_repeat_encounter = beaten.has(item_type_id)
+	print("DEBUG: Checking merchant ", item_type_id, " - repeat: ", is_repeat_encounter)
+
+func _check_budget_desperation() -> void:
+	var start_budget: int = game_data.get_meta("start_budget") if game_data.has_meta("start_budget") else 500
+	var desperation_threshold: int = int(float(start_budget) * 0.2)
+	is_desperate = game_data.budget < desperation_threshold
+	print("DEBUG: Budget ", game_data.budget, " < threshold ", desperation_threshold, " = desperate: ", is_desperate)
+
+func _record_merchant_beaten() -> void:
+	if item_config == null or item_config.type == null:
+		return
+	var item_type_id: String = item_config.type.item_type_id
+	if not game_data.has_meta("beaten_merchants"):
+		game_data.set_meta("beaten_merchants", {})
+	var beaten: Dictionary = game_data.get_meta("beaten_merchants")
+	beaten[item_type_id] = true
 
 func _reset_dialogue_finished_connections() -> void:
 	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
