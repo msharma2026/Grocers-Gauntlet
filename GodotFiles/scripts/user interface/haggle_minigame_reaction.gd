@@ -9,6 +9,7 @@ signal minigame_finished(success: bool)
 var can_press: bool = false
 var finished: bool = false
 var charisma: int = 0
+var mood: String = "neutral"
 var _rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
@@ -19,6 +20,9 @@ func _ready() -> void:
 
 func set_difficulty(charisma_value: int) -> void:
 	charisma = charisma_value
+
+func set_mood(merchant_mood: String) -> void:
+	mood = merchant_mood
 
 func _schedule_go() -> void:
 	var delay := _rng.randf_range(0.7, 1.5)
@@ -33,7 +37,14 @@ func _show_go() -> void:
 	status_label.text = "GO!"
 	
 	var charisma_bonus = charisma / 100.0
-	var timeout = 1.0 * (1.0 + charisma_bonus)
+	var mood_multiplier = 1.0
+	match mood:
+		"friendly":
+			mood_multiplier = 1.3
+		"grumpy":
+			mood_multiplier = 0.7
+	
+	var timeout = 1.0 * (1.0 + charisma_bonus) * mood_multiplier
 	get_tree().create_timer(timeout).timeout.connect(func():
 		if finished:
 			return

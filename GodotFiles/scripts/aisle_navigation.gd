@@ -185,6 +185,8 @@ func _handle_haggle() -> void:
 	
 	if minigame.has_method("set_difficulty"):
 		minigame.set_difficulty(game_data.charisma)
+	if minigame.has_method("set_mood"):
+		minigame.set_mood(merchant_mood)
 	
 	if minigame.has_signal("minigame_finished"):
 		minigame.minigame_finished.connect(_on_haggle_finished)

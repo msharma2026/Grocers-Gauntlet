@@ -13,6 +13,7 @@ var speed: float = 300.0
 var is_active: bool = false
 var bar_width: float = 0.0
 var charisma: int = 0
+var mood: String = "neutral"
 
 func _ready() -> void:
 	bar_width = bar_background.size.x
@@ -22,6 +23,9 @@ func _ready() -> void:
 func set_difficulty(charisma_value: int) -> void:
 	charisma = charisma_value
 
+func set_mood(merchant_mood: String) -> void:
+	mood = merchant_mood
+
 func start_game() -> void:
 	is_active = true
 	cursor.position.x = 0
@@ -30,8 +34,15 @@ func start_game() -> void:
 
 func randomize_zone() -> void:
 	var charisma_bonus = charisma / 100.0
-	var zone_width = randf_range(30, 60) * (1.0 + charisma_bonus)
-	var adjusted_speed = speed * (1.0 - charisma_bonus * 0.5)
+	var mood_multiplier = 1.0
+	match mood:
+		"friendly":
+			mood_multiplier = 1.3
+		"grumpy":
+			mood_multiplier = 0.7
+	
+	var zone_width = randf_range(30, 60) * (1.0 + charisma_bonus) * mood_multiplier
+	var adjusted_speed = speed * (1.0 - charisma_bonus * 0.5) * (2.0 - mood_multiplier)
 	speed = adjusted_speed
 	
 	var max_x = bar_width - zone_width
