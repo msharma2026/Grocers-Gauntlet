@@ -49,6 +49,8 @@ func _show_go() -> void:
 		if finished:
 			return
 		_finish(false, "Too slow!")
+		systems.camera.shake()
+		systems.audio.play_sfx('hurt')
 	)
 
 
@@ -60,6 +62,8 @@ func _input(event: InputEvent) -> void:
 			or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT):
 		if not can_press:
 			_finish(false, "Too early!")
+			systems.camera.shake()
+			systems.audio.play_sfx('hurt')
 		else:
 			_finish(true, "Nice reaction!")
 

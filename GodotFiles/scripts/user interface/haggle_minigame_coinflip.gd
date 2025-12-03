@@ -46,6 +46,8 @@ func _on_choice(choice: String) -> void:
 	else:
 		result_label.modulate = Color(0.9, 0.2, 0.2)
 		result_label.text = message + " Wrong call."
+		systems.camera.shake()
+		systems.audio.play_sfx('hurt')
 	
 	_finish(success)
 

@@ -133,8 +133,8 @@ func _format_cart_label(cart_config: CartConfig) -> String:
 	]
 
 
-func _prettify_name(name: String) -> String:
-	return name.capitalize()
+func _prettify_name(new_name: String) -> String:
+	return new_name.capitalize()
 
 
 func _on_cart_selected(cart_id: String) -> void:

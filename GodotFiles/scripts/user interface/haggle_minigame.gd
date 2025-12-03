@@ -95,6 +95,8 @@ func stop_cursor() -> void:
 	else:
 		result_label.text = "MISS!"
 		result_label.modulate = Color.RED
+		systems.camera.shake()
+		systems.audio.play_sfx('hurt')
 		
 	result_label.show()
 	
@@ -102,4 +104,3 @@ func stop_cursor() -> void:
 		minigame_finished.emit(success)
 		queue_free()
 	)
-

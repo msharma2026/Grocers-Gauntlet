@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d1q1ohnp56urc"]
+[gd_scene load_steps=19 format=3 uid="uid://d1q1ohnp56urc"]
 
 [ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
@@ -8,9 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://dql4rkolkkick" path="res://scenes/screens/inventory.tscn" id="5_p57ef"]
 [ext_resource type="PackedScene" uid="uid://c5vcygyrqyxbb" path="res://scenes/exit.tscn" id="6_u5sy4"]
 [ext_resource type="Shader" uid="uid://cs3n4ox85ydqr" path="res://assets/shaders/pixelate_view.gdshader" id="8_gee14"]
+[ext_resource type="Script" uid="uid://pekqvdj0053f" path="res://scripts/camera_2d.gd" id="9_dinhu"]
 [ext_resource type="Script" uid="uid://bqq4kaivb3by4" path="res://scripts/audio.gd" id="9_vtaks"]
 [ext_resource type="AudioStream" uid="uid://d2u8aw2yooxrr" path="res://assets/music/earlof - The Underwater City.wav" id="10_kvpfn"]
 [ext_resource type="AudioStream" uid="uid://bog4ph3kvcucl" path="res://assets/music/Neon Town (Synthwave).mp3" id="11_kvpfn"]
+[ext_resource type="AudioStream" uid="uid://bcj63ajiu7431" path="res://assets/music/hitHurt.wav" id="13_kvuet"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tnpc"]
 shader = ExtResource("8_gee14")
@@ -110,6 +112,7 @@ libraries = {
 [node name="Camera" type="Camera2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(578, 324)
+script = ExtResource("9_dinhu")
 
 [node name="Audio" type="Node" parent="."]
 unique_name_in_owner = true
@@ -117,6 +120,12 @@ script = ExtResource("9_vtaks")
 
 [node name="Theme" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("10_kvpfn")
+bus = &"Music"
 
 [node name="Fun" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("11_kvpfn")
+bus = &"Music"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("13_kvuet")
+bus = &"SFX"

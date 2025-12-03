@@ -41,7 +41,7 @@ func _ready() -> void:
 	
 	_change_screen("main_menu")
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation
 	_toggle_gameplay_object_visibility(show_gameplay_objects)
 	
@@ -89,9 +89,9 @@ func _change_screen_from_pause(screen_ref) -> void:
 	_change_screen(screen_ref)
 
 func _change_screen(screen_ref) -> void:
-	var requested_previous := false
+	#var requested_previous := false
 	if screen_ref is String and screen_ref == "previous_screen":
-		requested_previous = true
+	#	requested_previous = true
 		screen_ref = previous_screen_ref
 	
 	var next_ref = screen_ref
@@ -180,11 +180,11 @@ func _load_screen(screen_scene: PackedScene) -> void:
 	
 	
 
-func _update_player_visibility(visible: bool) -> void:
+func _update_player_visibility(_visible: bool) -> void:
 	var global_player = get_node_or_null("GlobalPlayer")
 	if global_player:
-		global_player.visible = visible
-		global_player.process_mode = Node.PROCESS_MODE_INHERIT if visible else Node.PROCESS_MODE_DISABLED
+		global_player.visible = _visible
+		global_player.process_mode = Node.PROCESS_MODE_INHERIT if _visible else Node.PROCESS_MODE_DISABLED
 	
 func _toggle_gameplay_object_visibility(visibility: bool) -> void:
 	health_bar.visible = visibility

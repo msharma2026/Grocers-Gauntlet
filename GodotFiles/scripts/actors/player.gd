@@ -71,9 +71,9 @@ func _physics_process(_delta: float) -> void:
 	
 
 func take_damage(amount: float) -> void:
-	game_data.health_percentage -= amount
+	game_data.health_percentage -= amount as int
 	# Prevents health being negative
-	game_data.health_percentage = clampf(game_data.health_percentage, 0, max_health)
+	game_data.health_percentage = clamp(game_data.health_percentage, 0, max_health)
 	health_updated.emit(game_data.health_percentage, max_health)
 	
 func bind_player_inputs():

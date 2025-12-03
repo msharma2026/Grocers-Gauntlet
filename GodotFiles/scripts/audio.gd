@@ -11,7 +11,9 @@ func _ready() -> void:
 		'theme':$Theme,
 		'fun':$Fun,
 	}
-	sfx = {}
+	sfx = {
+		'hurt':$Hurt
+	}
 
 
 func play_music(song_name: String) -> void: 

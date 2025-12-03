@@ -314,15 +314,16 @@ func _apply_depth_patience() -> void:
 func _apply_mood_tint() -> void:
 	if not npc:
 		return
-	var tint_color: Color = Color.WHITE
-	match merchant_mood:
-		"friendly":
-			tint_color = Color(0.7, 1.0, 0.7)
-		"grumpy":
-			tint_color = Color(1.0, 0.6, 0.6)
+	npc.change_mood(merchant_mood)
+	#var tint_color: Color = Color.WHITE
+	#match merchant_mood:
+		#"friendly":
+			#tint_color = Color(0.7, 1.0, 0.7)
+		#"grumpy":
+		#	tint_color = Color(1.0, 0.6, 0.6)
 	
-	npc.modulate = tint_color
-
+	#npc.modulate = tint_color
+	
 func _get_haggle_success_dialogue() -> Array[String]:
 	var lines: Array[String] = []
 	

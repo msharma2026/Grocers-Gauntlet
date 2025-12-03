@@ -274,7 +274,7 @@ func _apply_tooltip_background(node: Control) -> void:
 	node.theme = theme
 
 
-func _prettify_name(name: String) -> String:
-	if name.is_empty():
+func _prettify_name(new_name: String) -> String:
+	if new_name.is_empty():
 		return "Unknown Item"
-	return name.capitalize()
+	return new_name.capitalize()

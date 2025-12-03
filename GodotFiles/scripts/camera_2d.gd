@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 	
 	
 	
-func shake(time: float, intensity: float) -> void:
+func shake(time: float = 0.15, intensity: float = 10) -> void:
 	shaking = true
 	shake_time = time
 	shake_intensity = intensity

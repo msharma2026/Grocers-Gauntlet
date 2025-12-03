@@ -1,11 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2tyv0nf1vkdh"]
+[gd_scene load_steps=5 format=3 uid="uid://c2tyv0nf1vkdh"]
 
-[ext_resource type="Script" uid="uid://db6lh413w5eke" path="res://scripts/actors/npc.gd" id="1_mhefn"]
+[ext_resource type="Script" uid="uid://ctv1uv2k8fcaf" path="res://scripts/actors/npc.gd" id="1_mhefn"]
+[ext_resource type="Texture2D" uid="uid://b7v53io0t1ue7" path="res://assets/sprites/placeholders/placeholder.png" id="2_6xvi5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktgr7"]
+size = Vector2(55, 67)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jnjht"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_6xvi5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="NPC" type="CharacterBody2D"]
 script = ExtResource("1_mhefn")
-metadata/_custom_type_script = "uid://1i2w4amblgpx"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.5, 12.5)
+shape = SubResource("RectangleShape2D_ktgr7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jnjht")

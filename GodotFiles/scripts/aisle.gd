@@ -38,7 +38,7 @@ func set_aisle_texture(texture: Texture2D) -> void:
 
 	var frames = SpriteFrames.new()
 	
-	frames.add_animation("default")
+	#frames.add_animation("default")
 	frames.add_frame("default", texture)
 	frames.add_animation("hovering")
 	frames.add_frame("hovering", texture)
