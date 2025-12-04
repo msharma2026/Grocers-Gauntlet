@@ -39,7 +39,7 @@ func _physics_process(_delta: float) -> void:
 	
 func change_mood(new_mood: String) -> void:
 	var mat := ShaderMaterial.new()
-	new_mood = 'friendly'
+
 	match new_mood:
 		'friendly':
 			print_debug("friendly")
