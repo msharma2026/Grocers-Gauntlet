@@ -262,12 +262,15 @@ func _handle_forced_leave() -> void:
 
 
 func _handle_forced_buy() -> void:
+	_reset_dialogue_finished_connections()
+	if dialogue_overlay.dialogue_finished.is_connected(_handle_buy):
+		dialogue_overlay.dialogue_finished.disconnect(_handle_buy)
 	dialogue_overlay.start_dialogue("Merchant", [
 		"That's it! I'm out of patience.",
 		"You're buying this now!"
 	])
 	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_buy)
-	dialogue_overlay.dialogue_finished.connect(_handle_buy)
+	dialogue_overlay.dialogue_finished.connect(_handle_buy, CONNECT_ONE_SHOT)
 
 func _handle_leave() -> void:
 	dialogue_overlay.close()
