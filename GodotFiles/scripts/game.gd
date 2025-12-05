@@ -138,10 +138,21 @@ func _change_screen(screen_ref) -> void:
 		return
 
 func _is_item_encounter(id: String) -> bool:
-	return id in ["H_item", "A_item", "Def_item", "Dex_item", "C_Item", "Black_Market"]
+	return id in ["bread", "meat", "milk", "candy", "alcohol", "Black_Market"]
 
 func _load_encounter(item_id: String) -> void:
-	var encounter_screen = AISLE_NAVIGATION_SCENE.instantiate()
+	var scene_path = "res://scenes/aisle_navigation.tscn"
+	
+	# Map item IDs to specific scenes if they exist
+	match item_id:
+		"bread": scene_path = "res://scenes/aisles/bread_aisle.tscn"
+		"meat": scene_path = "res://scenes/aisles/meat_aisle.tscn"
+		"milk": scene_path = "res://scenes/aisles/milk_aisle.tscn"
+		"candy": scene_path = "res://scenes/aisles/candy_aisle.tscn"
+		"alcohol": scene_path = "res://scenes/aisles/alcohol_aisle.tscn"
+		
+	var encounter_scene = load(scene_path)
+	var encounter_screen = encounter_scene.instantiate()
 	
 	if encounter_screen.has_method("setup_encounter"):
 		encounter_screen.setup_encounter(item_id)

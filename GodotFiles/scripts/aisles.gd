@@ -2,26 +2,27 @@ class_name Aisles
 extends Screen
 
 const AISLE_SCENE: PackedScene = preload("res://scenes/Aisle.tscn")
+const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const BLACK_MARKET_ID := "Black_Market"
 
 # Aisle weights for random selection
 var aisle_weights := {
-	"H_item": 20, # Health (Bread)
-	"A_item": 20, # Attack (Meat)
-	"Def_item": 20, # Defense (Dairy)
-	"Dex_item": 20, # Dex Item (Candy)
-	"C_Item": 20, # Charisma (Alcohol)
+	"bread": 20, # Health (Bread)
+	"meat": 20, # Attack (Meat)
+	"milk": 20, # Defense (Dairy)
+	"candy": 20, # Dex Item (Candy)
+	"alcohol": 20, # Charisma (Alcohol)
 	BLACK_MARKET_ID: 5,
 	#"Treasure": 2 # Free random Item
 	#Homeless man
 }
 
 var aisle_textures := {
-	"H_item": "res://assets/sprites/bread.png",
-	"A_item": "res://assets/sprites/meat.png",
-	"Dex_item": "res://assets/sprites/candy.png",
-	"Def_item": "res://assets/sprites/milk.png",
-	"C_Item": "res://assets/sprites/alcohol.png",
+	"bread": "res://assets/sprites/bread.png",
+	"meat": "res://assets/sprites/meat.png",
+	"candy": "res://assets/sprites/candy.png",
+	"milk": "res://assets/sprites/milk.png",
+	"alcohol": "res://assets/sprites/alcohol.png",
 	BLACK_MARKET_ID: "res://assets/sprites/black_market.png"
 }
 
@@ -37,6 +38,10 @@ func _ready() -> void:
 func _start_on_transition_end() -> void:
 	_generate_aisles()
 	systems.audio.play_music('fun')
+	
+	if not game_data.has_meta("intro_shown"):
+		game_data.set_meta("intro_shown", true)
+		_show_intro_dialogue()
 
 func _process(_delta: float) -> void:
 	pass
@@ -106,3 +111,17 @@ func get_random_aisle() -> String:
 func _on_aisle_clicked(screen_id: String) -> void:
 	print("Player selected: " + screen_id)
 	change_screen.emit(screen_id)
+
+func _show_intro_dialogue() -> void:
+	var dialogue = DIALOGUE_SCENE.instantiate()
+	add_child(dialogue)
+	
+	var lines: Array[String] = [
+		"I need to do some grocery shopping.",
+		"I think my daughter left me a grocery list in my pocket.",
+		"It's fine, I can figure it out.",
+		"I've been doing it since my wife passed."
+	]
+	
+	dialogue.start_dialogue("Player", lines)
+	dialogue.dialogue_finished.connect(func(): dialogue.queue_free())

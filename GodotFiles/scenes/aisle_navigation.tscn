@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://b2u4lk0mwjqhv"]
 
 [ext_resource type="Script" uid="uid://bxnrekfswx6v7" path="res://scripts/aisle_navigation.gd" id="1_script"]
-[ext_resource type="PackedScene" uid="uid://c2tyv0nf1vkdh" path="res://scenes/npc.tscn" id="2_npc"]
+[ext_resource type="PackedScene" uid="uid://c2tyv0nf1vkdh" path="res://scenes/NPC.tscn" id="2_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
-size = Vector2(1152, 20)
+size = Vector2(1278, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
 size = Vector2(20, 648)
@@ -19,6 +19,9 @@ color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="NPC" parent="." instance=ExtResource("2_npc")]
 position = Vector2(576, 200)
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(576, 550)
 
 [node name="Walls" type="StaticBody2D" parent="."]
 

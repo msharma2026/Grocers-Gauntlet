@@ -50,7 +50,11 @@ func _ready() -> void:
 	# Position player at the bottom entrance
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
-		player.global_position = Vector2(576, 550)
+		var spawn_point = Vector2(576, 550)
+		if has_node("PlayerSpawn"):
+			spawn_point = get_node("PlayerSpawn").global_position
+			
+		player.global_position = spawn_point
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
 

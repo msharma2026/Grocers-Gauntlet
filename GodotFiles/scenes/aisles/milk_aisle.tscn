@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://druqpwqldwfji"]
+
+[ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
+
+[node name="MilkAisle" instance=ExtResource("1_base")]
