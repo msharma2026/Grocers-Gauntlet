@@ -1,39 +1,52 @@
-[gd_scene load_steps=5 format=3 uid="uid://vwpbcfs27l1a"]
+[gd_scene load_steps=8 format=4 uid="uid://vwpbcfs27l1a"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://cnhksfro544xu" path="res://assets/sprites/aisle/another_shelf.png" id="2_nka5y"]
+[ext_resource type="Texture2D" uid="uid://cbb4crh10imk6" path="res://assets/sprites/aisle/alcohol_aisle.png" id="2_p6hyw"]
 [ext_resource type="Texture2D" uid="uid://c6x2gerww2t46" path="res://assets/sprites/aisle/a_third_shelf.png" id="3_p6hyw"]
 [ext_resource type="Texture2D" uid="uid://c6j5ufoud2yle" path="res://assets/sprites/aisle/one_shelf.png" id="4_dum62"]
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dum62"]
+texture = ExtResource("2_p6hyw")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_tbfpc"]
+sources/0 = SubResource("TileSetAtlasSource_dum62")
+
 [node name="AlcoholAisle" instance=ExtResource("1_base")]
 
-[node name="Background" parent="." index="0"]
-offset_left = 6.0
-offset_top = -2.0
-offset_right = 1273.0
-offset_bottom = 646.0
+[node name="TileMapLayer" type="TileMapLayer" parent="." index="0"]
+scale = Vector2(16, 16)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_tbfpc")
 
-[node name="NPC" parent="." index="1"]
+[node name="Background" parent="." index="1"]
+offset_left = 2076.0
+offset_top = -346.0
+offset_right = 3343.0
+offset_bottom = 302.0
+
+[node name="NPC" parent="." index="2"]
 position = Vector2(804, 212)
 
-[node name="PlayerSpawn" parent="." index="2"]
+[node name="PlayerSpawn" parent="." index="3"]
 position = Vector2(91, 240)
 
-[node name="AnotherShelf" type="Sprite2D" parent="." index="3"]
+[node name="AnotherShelf" type="Sprite2D" parent="." index="4"]
 position = Vector2(212, 55)
 texture = ExtResource("2_nka5y")
 
-[node name="AThirdShelf" type="Sprite2D" parent="." index="4"]
+[node name="AThirdShelf" type="Sprite2D" parent="." index="5"]
 position = Vector2(623, 49)
 scale = Vector2(1, 1.0284553)
 texture = ExtResource("3_p6hyw")
 
-[node name="OneShelf" type="Sprite2D" parent="." index="5"]
+[node name="OneShelf" type="Sprite2D" parent="." index="6"]
 position = Vector2(1050, 51)
 scale = Vector2(1.0407726, 1)
 texture = ExtResource("4_dum62")
 
-[node name="Walls" parent="." index="6"]
+[node name="Walls" parent="." index="7"]
 position = Vector2(2, 16)
 
 [node name="Top" parent="Walls" index="0"]

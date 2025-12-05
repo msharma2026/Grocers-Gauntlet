@@ -1,5 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://druqpwqldwfji"]
+[gd_scene load_steps=5 format=4 uid="uid://druqpwqldwfji"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://lkpj0s5eg7g0" path="res://assets/sprites/aisle/milk_aisle.png" id="2_slqb1"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pp4pg"]
+texture = ExtResource("2_slqb1")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jqxgk"]
+sources/0 = SubResource("TileSetAtlasSource_pp4pg")
 
 [node name="MilkAisle" instance=ExtResource("1_base")]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." index="0"]
+scale = Vector2(16, 16)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_jqxgk")
+
+[node name="Background" parent="." index="1"]
+offset_left = 1604.0
+offset_top = 722.0
+offset_right = 2756.0
+offset_bottom = 1370.0

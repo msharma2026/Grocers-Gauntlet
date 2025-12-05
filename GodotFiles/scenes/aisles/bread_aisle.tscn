@@ -1,5 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://cl33rqioetvje"]
+[gd_scene load_steps=5 format=4 uid="uid://cl33rqioetvje"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://4jpkea0jjdnu" path="res://assets/sprites/aisle/bread_aisle.png" id="2_y6l7x"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0aqv0"]
+texture = ExtResource("2_y6l7x")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3qb4k"]
+sources/0 = SubResource("TileSetAtlasSource_0aqv0")
 
 [node name="BreadAisle" instance=ExtResource("1_base")]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." index="0"]
+scale = Vector2(16, 16)
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAACAAIAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAAEAP//AAAAAAAAAAADAP//AAAAAAAAAAACAP//AAAAAAAAAAABAP//AAAAAAAAAAAAAP//AAAAAAAAAAD/////AAAAAAAAAAD//wAAAAAAAAAAAAD//wEAAAAAAAAAAAD//wIAAAAAAAAAAAAFAAIAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAP//AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_3qb4k")
+
+[node name="Background" parent="." index="1"]
+offset_left = 1790.0
+offset_top = -1001.0
+offset_right = 2942.0
+offset_bottom = -353.0
