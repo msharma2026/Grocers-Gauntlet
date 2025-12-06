@@ -180,8 +180,8 @@ func _handle_cant_afford() -> void:
 
 func _handle_buy() -> void:
 	var charge := current_price
-	if game_data.budget - charge < 1.0:
-		charge = max(0.0, game_data.budget - 1.0)
+	#if game_data.budget - charge < 1.0:
+	#	charge = max(0.0, game_data.budget - 1.0)
 	print("Player bought item for: ", charge)
 	# Update GameData
 	game_data.budget = max(1.0, game_data.budget - charge)
@@ -263,6 +263,7 @@ func _handle_forced_leave() -> void:
 	])
 	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_leave)
 	dialogue_overlay.dialogue_finished.connect(_handle_leave)
+	
 
 
 func _handle_forced_buy() -> void:
@@ -275,9 +276,11 @@ func _handle_forced_buy() -> void:
 	])
 	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_buy)
 	dialogue_overlay.dialogue_finished.connect(_handle_buy, CONNECT_ONE_SHOT)
+	
 
 func _handle_leave() -> void:
 	dialogue_overlay.close()
+	game_data.budget -= current_price
 	change_screen.emit("aisles")
 
 func _handle_soft_favor() -> void:

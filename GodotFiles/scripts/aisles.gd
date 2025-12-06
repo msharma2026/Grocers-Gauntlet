@@ -42,6 +42,9 @@ func _start_on_transition_end() -> void:
 	if not game_data.has_meta("intro_shown"):
 		game_data.set_meta("intro_shown", true)
 		_show_intro_dialogue()
+	
+	if game_data.budget <= 0:
+		change_screen.emit("game_over")
 
 func _process(_delta: float) -> void:
 	pass

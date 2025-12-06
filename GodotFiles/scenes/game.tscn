@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d1q1ohnp56urc"]
+[gd_scene load_steps=23 format=3 uid="uid://d1q1ohnp56urc"]
 
 [ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://d3nb0638d8xam" path="res://scenes/screens/pause_menu.tscn" id="5_3xj3m"]
 [ext_resource type="PackedScene" uid="uid://dql4rkolkkick" path="res://scenes/screens/inventory.tscn" id="5_p57ef"]
 [ext_resource type="PackedScene" uid="uid://c5vcygyrqyxbb" path="res://scenes/exit.tscn" id="6_u5sy4"]
+[ext_resource type="PackedScene" uid="uid://783g78vmo2dy" path="res://scenes/screens/game_over.tscn" id="7_rysoc"]
 [ext_resource type="Shader" uid="uid://cs3n4ox85ydqr" path="res://assets/shaders/pixelate_view.gdshader" id="8_gee14"]
 [ext_resource type="Script" uid="uid://pekqvdj0053f" path="res://scripts/camera_2d.gd" id="9_dinhu"]
 [ext_resource type="Script" uid="uid://bqq4kaivb3by4" path="res://scripts/audio.gd" id="9_vtaks"]
@@ -81,6 +82,7 @@ screens = Dictionary[String, PackedScene]({
 "aisles": ExtResource("2_400sg"),
 "entrance": ExtResource("3_g4kob"),
 "exit": ExtResource("6_u5sy4"),
+"game_over": ExtResource("7_rysoc"),
 "inventory": ExtResource("5_p57ef"),
 "main_menu": ExtResource("4_qy1jj")
 })
