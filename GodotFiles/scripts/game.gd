@@ -164,6 +164,7 @@ func _load_encounter(item_id: String) -> void:
 	add_child(encounter_screen)
 	current_screen = encounter_screen
 	current_screen.change_screen.connect(_change_screen)
+	systems.audio.play_music(item_id)
 	
 	_update_player_visibility(true)
 

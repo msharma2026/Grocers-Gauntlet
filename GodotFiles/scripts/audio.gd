@@ -10,21 +10,25 @@ func _ready() -> void:
 	music = {
 		'theme':$Theme,
 		'fun':$Fun,
+		'candy':$Candy,
+		'alcohol':$Alcohol
 	}
 	sfx = {
-		'hurt':$Hurt
+		'hurt':$Hurt,
 	}
 
 
 func play_music(song_name: String) -> void: 
-	
-	var song_to_play: AudioStreamPlayer = music[song_name] 
+	var song_to_play: AudioStreamPlayer
+	if  not music.has(song_name):
+		return
+	song_to_play = music[song_name] 
 	
 	if current_song == song_to_play:
 		return
 		
 	if current_song:
-		await fade_out(current_song,2)
+		await fade_out(current_song,1)
 		current_song.stop()
 	
 	song_to_play.play()
@@ -42,7 +46,7 @@ func play_sfx(sfx_name: String) -> void:
 	sfx_to_play.play()
 
 
-func fade_out(player: AudioStreamPlayer, duration: float = 1.0) -> void:
+func fade_out(player: AudioStreamPlayer, duration: float = 1) -> void:
 	var tween = get_tree().create_tween()
 	tween.tween_property(player, "volume_db", -80, duration)
 	await tween.finished
