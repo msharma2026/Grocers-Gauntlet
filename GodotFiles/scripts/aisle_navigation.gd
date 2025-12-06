@@ -209,7 +209,7 @@ func _handle_haggle() -> void:
 	add_child(minigame)
 	
 	if minigame.has_method("set_difficulty"):
-		var adjusted_difficulty := clamp(game_data.charisma + haggles_this_encounter * 5, 1, GameState.MAX_CHARISMA)
+		var adjusted_difficulty : int = clamp(game_data.charisma + haggles_this_encounter * 5, 1, GameState.MAX_CHARISMA)
 		minigame.set_difficulty(adjusted_difficulty)
 	if minigame.has_method("set_mood"):
 		minigame.set_mood(merchant_mood)
@@ -317,7 +317,7 @@ func _compute_item_price() -> int:
 		if item_config.base_price > 0:
 			price = int(round(item_config.base_price))
 		var size_factor := 1.0 + float(item_config.size) * 0.04
-		var haggle_factor := 1.0 - clamp(item_config.haggle_potential * 0.08, 0.0, 0.3)
+		var haggle_factor : float = 1.0 - clamp(item_config.haggle_potential * 0.08, 0.0, 0.3)
 		price = int(round(price * size_factor * haggle_factor))
 		if item_config.is_on_sale:
 			price = int(round(price * 0.85))

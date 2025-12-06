@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://783g78vmo2dy"]
+
+[ext_resource type="Script" uid="uid://cmk6xuqs8b54s" path="res://scripts/game_over.gd" id="1_7xe70"]
+[ext_resource type="Shader" uid="uid://c1kwnu8ckr0sg" path="res://assets/shaders/silhouette.gdshader" id="2_ify0j"]
+[ext_resource type="Texture2D" uid="uid://b0urrimn4l1g2" path="res://assets/sprites/placeholders/game_over.png" id="3_opg3f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t23k5"]
+shader = ExtResource("2_ify0j")
+shader_parameter/darkened_rate = 0.0
+
+[node name="GameOver" type="Node2D"]
+script = ExtResource("1_7xe70")
+
+[node name="GameOverSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_t23k5")
+position = Vector2(583, 333)
+scale = Vector2(2, 2)
+texture = ExtResource("3_opg3f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

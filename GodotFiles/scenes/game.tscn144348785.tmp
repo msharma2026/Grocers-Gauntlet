@@ -1,0 +1,142 @@
+[gd_scene load_steps=22 format=3 uid="uid://d1q1ohnp56urc"]
+
+[ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
+[ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
+[ext_resource type="PackedScene" uid="uid://ds70rs0xwhvar" path="res://scenes/screens/entrance.tscn" id="3_g4kob"]
+[ext_resource type="PackedScene" uid="uid://cmqvsgjb33vrv" path="res://scenes/screens/main_menu.tscn" id="4_qy1jj"]
+[ext_resource type="PackedScene" uid="uid://d3nb0638d8xam" path="res://scenes/screens/pause_menu.tscn" id="5_3xj3m"]
+[ext_resource type="PackedScene" uid="uid://dql4rkolkkick" path="res://scenes/screens/inventory.tscn" id="5_p57ef"]
+[ext_resource type="PackedScene" uid="uid://c5vcygyrqyxbb" path="res://scenes/exit.tscn" id="6_u5sy4"]
+[ext_resource type="Shader" uid="uid://cs3n4ox85ydqr" path="res://assets/shaders/pixelate_view.gdshader" id="8_gee14"]
+[ext_resource type="Script" uid="uid://pekqvdj0053f" path="res://scripts/camera_2d.gd" id="9_dinhu"]
+[ext_resource type="Script" uid="uid://bqq4kaivb3by4" path="res://scripts/audio.gd" id="9_vtaks"]
+[ext_resource type="AudioStream" uid="uid://d2u8aw2yooxrr" path="res://assets/music/earlof - The Underwater City.wav" id="10_kvpfn"]
+[ext_resource type="AudioStream" uid="uid://bog4ph3kvcucl" path="res://assets/music/Neon Town (Synthwave).mp3" id="11_kvpfn"]
+[ext_resource type="AudioStream" uid="uid://bcj63ajiu7431" path="res://assets/music/hitHurt.wav" id="13_kvuet"]
+[ext_resource type="AudioStream" uid="uid://b1j00ystsh14k" path="res://assets/music/DavidKBD - Tropical Pack - 06 - Falling in Love - Bossanova.ogg" id="14_trtic"]
+[ext_resource type="AudioStream" uid="uid://c5rhtshd0fuxc" path="res://assets/music/silent-night-christmas-piano-cover-441733-[AudioTrimmer.com].mp3" id="15_ca42v"]
+[ext_resource type="AudioStream" uid="uid://cqumtjryqmcw8" path="res://assets/music/pickupCoin.wav" id="16_ca42v"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0tnpc"]
+shader = ExtResource("8_gee14")
+shader_parameter/block_size = 1.0
+
+[sub_resource type="Animation" id="Animation_0tnpc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PixelateLayer/ColorRect:material:shader_parameter/block_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_vtaks"]
+resource_name = "detransisition_animation"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PixelateLayer/ColorRect:material:shader_parameter/block_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [40.0000018525, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_gee14"]
+resource_name = "transisition_animation"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PixelateLayer/ColorRect:material:shader_parameter/block_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 40.0000018525]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kvpfn"]
+_data = {
+&"RESET": SubResource("Animation_0tnpc"),
+&"detransition_animation": SubResource("Animation_vtaks"),
+&"transition_animation": SubResource("Animation_gee14")
+}
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_kiw3p")
+screens = Dictionary[String, PackedScene]({
+"aisles": ExtResource("2_400sg"),
+"entrance": ExtResource("3_g4kob"),
+"exit": ExtResource("6_u5sy4"),
+"inventory": ExtResource("5_p57ef"),
+"main_menu": ExtResource("4_qy1jj")
+})
+pause_menu_scene = ExtResource("5_3xj3m")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -341.0
+offset_top = -288.0
+offset_right = 1748.0
+offset_bottom = 944.0
+mouse_filter = 2
+color = Color(0.15673044, 0.26259655, 0.18842244, 1)
+
+[node name="PixelateLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="ColorRect" type="ColorRect" parent="PixelateLayer"]
+material = SubResource("ShaderMaterial_0tnpc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TransitionPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_kvpfn")
+}
+
+[node name="Camera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(578, 324)
+script = ExtResource("9_dinhu")
+
+[node name="Audio" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("9_vtaks")
+
+[node name="Theme" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("10_kvpfn")
+bus = &"Music"
+
+[node name="Fun" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("11_kvpfn")
+bus = &"Music"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("13_kvuet")
+bus = &"SFX"
+
+[node name="Candy" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("14_trtic")
+
+[node name="Alcohol" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("15_ca42v")
+
+[node name="Success" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("16_ca42v")
