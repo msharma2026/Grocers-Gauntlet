@@ -1,12 +1,28 @@
-[gd_scene load_steps=8 format=3 uid="uid://783g78vmo2dy"]
+[gd_scene load_steps=9 format=3 uid="uid://783g78vmo2dy"]
 
 [ext_resource type="Script" uid="uid://cmk6xuqs8b54s" path="res://scripts/game_over.gd" id="1_7xe70"]
 [ext_resource type="Shader" uid="uid://c1kwnu8ckr0sg" path="res://assets/shaders/silhouette.gdshader" id="2_ify0j"]
 [ext_resource type="Texture2D" uid="uid://b0urrimn4l1g2" path="res://assets/sprites/placeholders/game_over.png" id="3_opg3f"]
+[ext_resource type="Script" uid="uid://og1li3dw7m7p" path="res://scripts/label.gd" id="4_ify0j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t23k5"]
 shader = ExtResource("2_ify0j")
 shader_parameter/darkened_rate = 1.0
+
+[sub_resource type="Animation" id="Animation_ify0j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverSprite:material:shader_parameter/darkened_rate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
 
 [sub_resource type="Animation" id="Animation_7xe70"]
 resource_name = "game_over_transition"
@@ -24,21 +40,6 @@ tracks/0/keys = {
 "values": [1.0, 4.7499999933364734e-08]
 }
 
-[sub_resource type="Animation" id="Animation_ify0j"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GameOverSprite:material:shader_parameter/darkened_rate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_opg3f"]
 _data = {
 &"RESET": SubResource("Animation_ify0j"),
@@ -50,11 +51,28 @@ script = ExtResource("1_7xe70")
 
 [node name="GameOverSprite" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_t23k5")
-position = Vector2(583, 333)
-scale = Vector2(2, 2)
+position = Vector2(584, 261)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("3_opg3f")
 
 [node name="TransitionAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_opg3f")
 }
+
+[node name="Label" type="Label" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.407
+anchor_top = 0.453
+anchor_right = 0.407
+anchor_bottom = 0.453
+offset_left = 358.0
+offset_top = 493.0
+offset_right = 830.0
+offset_bottom = 586.0
+theme_override_font_sizes/font_size = 32
+text = "Press any button to continue..."
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("4_ify0j")
