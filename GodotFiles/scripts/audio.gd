@@ -32,6 +32,7 @@ func play_music(song_name: String) -> void:
 		await fade_out(current_song,1.2)
 		current_song.stop()
 	
+	song_to_play.volume_db = 0
 	song_to_play.play()
 	current_song = song_to_play
 
