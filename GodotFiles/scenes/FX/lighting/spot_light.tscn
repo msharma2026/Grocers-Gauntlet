@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d34dmpuuq4cs0"]
+
+[ext_resource type="Shader" uid="uid://s58uga7ng1df" path="res://assets/shaders/pulsate_red.gdshader" id="1_kbodg"]
+[ext_resource type="Texture2D" uid="uid://dw61kb6a5jax3" path="res://assets/sprites/textures/spotlight.png" id="2_kbodg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_feyth"]
+shader = ExtResource("1_kbodg")
+shader_parameter/speed = 2.0
+
+[node name="PointLight2D" type="PointLight2D"]
+light_mask = 2
+visibility_layer = 3
+material = SubResource("ShaderMaterial_feyth")
+color = Color(0.7400888, 0.58061385, 0.57542586, 1)
+range_item_cull_mask = 3
+texture = ExtResource("2_kbodg")
+texture_scale = 1.3

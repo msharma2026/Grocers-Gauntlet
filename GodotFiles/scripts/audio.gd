@@ -29,7 +29,7 @@ func play_music(song_name: String) -> void:
 		return
 		
 	if current_song:
-		await fade_out(current_song,1)
+		await fade_out(current_song,1.2)
 		current_song.stop()
 	
 	song_to_play.play()
