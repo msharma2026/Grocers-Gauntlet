@@ -55,6 +55,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	
+	# Below for animating transition
 	if not is_animating:
 		return
 

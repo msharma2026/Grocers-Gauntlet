@@ -8,6 +8,8 @@ const DIALOGUE_BACKGROUND: CompressedTexture2D = preload("res://assets/sprites/d
 const NEXT_BUTTON_TEXTURE: CompressedTexture2D = preload("res://assets/sprites/price_tag.png")
 const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 
+@export var time_to_complete_dialogue : float = 0.7
+
 @onready var text_label: RichTextLabel = $Control/Panel/TextLabel
 @onready var name_label: Label = $Control/Panel/NameLabel
 @onready var panel: Panel = $Control/Panel
@@ -15,6 +17,10 @@ const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 @onready var choice_container: HBoxContainer = $Control/Panel/ChoiceContainer
 
 var dialogue_queue: Array[String] = []
+
+var dialogue_scrolling := false 
+var dialogue_scroll_time : float = 0
+
 
 func _ready() -> void:
 	hide()
@@ -55,6 +61,18 @@ func _ready() -> void:
 	name_label.add_theme_color_override("font_color", Color.BLACK)
 	name_label.add_theme_font_size_override("font_size", 36)
 	name_label.add_theme_font_override("font", RECEIPT_FONT)
+
+func _process(delta: float) -> void:
+	# For dialogue scrolling
+	if dialogue_scrolling:
+		dialogue_scroll_time += delta
+		if dialogue_scroll_time >= time_to_complete_dialogue:
+			text_label.set_visible_ratio(1.0)
+			dialogue_scrolling = false
+			dialogue_scroll_time = 0
+		else:
+			text_label.set_visible_ratio(dialogue_scroll_time/time_to_complete_dialogue)
+		
 
 func start_dialogue(npc_name: String, lines: Array[String]) -> void:
 	name_label.text = npc_name
@@ -102,6 +120,7 @@ func _show_next_line() -> void:
 	next_button.show()
 	var line = dialogue_queue.pop_front()
 	text_label.text = line
+	dialogue_scrolling = true
 
 func _end_dialogue() -> void:
 	# Don't free immediately, just emit signal and let controller handle flow
