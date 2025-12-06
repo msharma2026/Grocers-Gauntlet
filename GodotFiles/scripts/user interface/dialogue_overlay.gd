@@ -44,6 +44,9 @@ func _ready() -> void:
 	next_button.add_theme_stylebox_override("focus", next_button_style)
 	
 	next_button.add_theme_color_override("font_color", Color.BLACK)
+	next_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	next_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	next_button.add_theme_color_override("font_focus_color", Color.BLACK)
 	next_button.add_theme_font_override("font", RECEIPT_FONT)
 	
 	text_label.add_theme_color_override("default_color", Color.BLACK)
