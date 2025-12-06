@@ -87,7 +87,7 @@ func start_encounter() -> void:
 	_check_budget_desperation()
 	print("DEBUG: is_repeat_encounter = ", is_repeat_encounter, ", is_desperate = ", is_desperate)
 	_apply_mood_tint()
-	current_price = _rng.randi_range(30, 80)
+	current_price = _compute_item_price()
 	_apply_mood_to_price()
 	_apply_depth_pricing()
 	npc_patience = 3
@@ -179,9 +179,12 @@ func _handle_cant_afford() -> void:
 
 
 func _handle_buy() -> void:
-	print("Player bought item for: ", current_price)
+	var charge := current_price
+	if game_data.budget - charge < 1.0:
+		charge = max(0.0, game_data.budget - 1.0)
+	print("Player bought item for: ", charge)
 	# Update GameData
-	game_data.budget -= current_price
+	game_data.budget = max(1.0, game_data.budget - charge)
 	_record_merchant_beaten()
 	# TODO: Add item to inventory
 	
@@ -206,7 +209,8 @@ func _handle_haggle() -> void:
 	add_child(minigame)
 	
 	if minigame.has_method("set_difficulty"):
-		minigame.set_difficulty(game_data.charisma)
+		var adjusted_difficulty := clamp(game_data.charisma + haggles_this_encounter * 5, 1, GameState.MAX_CHARISMA)
+		minigame.set_difficulty(adjusted_difficulty)
 	if minigame.has_method("set_mood"):
 		minigame.set_mood(merchant_mood)
 	
@@ -306,6 +310,22 @@ func _apply_mood_to_price() -> void:
 	if MOODS.has(merchant_mood):
 		var multiplier = MOODS[merchant_mood]["price_multiplier"]
 		current_price = int(round(float(current_price) * multiplier))
+
+func _compute_item_price() -> int:
+	var price := _rng.randi_range(20, 50) # Lowered base range
+	if item_config:
+		if item_config.base_price > 0:
+			price = int(round(item_config.base_price))
+		var size_factor := 1.0 + float(item_config.size) * 0.04
+		var haggle_factor := 1.0 - clamp(item_config.haggle_potential * 0.08, 0.0, 0.3)
+		price = int(round(price * size_factor * haggle_factor))
+		if item_config.is_on_sale:
+			price = int(round(price * 0.85))
+		if item_config.max_price > 0:
+			price = min(price, int(item_config.max_price))
+	var variance := _rng.randi_range(-5, 5)
+	price = max(5, price + variance)
+	return price
 
 func _apply_mood_to_patience() -> void:
 	if MOODS.has(merchant_mood):
