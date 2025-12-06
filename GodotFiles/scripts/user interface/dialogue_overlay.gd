@@ -4,6 +4,10 @@ extends CanvasLayer
 signal dialogue_finished
 signal choice_selected(index: int)
 
+const DIALOGUE_BACKGROUND: CompressedTexture2D = preload("res://assets/sprites/dialogue_background.png")
+const NEXT_BUTTON_TEXTURE: CompressedTexture2D = preload("res://assets/sprites/price_tag.png")
+const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
+
 @onready var text_label: RichTextLabel = $Control/Panel/TextLabel
 @onready var name_label: Label = $Control/Panel/NameLabel
 @onready var panel: Panel = $Control/Panel
@@ -16,6 +20,38 @@ func _ready() -> void:
 	hide()
 	# Hide choices by default
 	choice_container.hide()
+	
+	# Changes dialogue box to be our style
+	var style = StyleBoxTexture.new()
+	style.texture = DIALOGUE_BACKGROUND
+	style.texture_margin_left = 16
+	style.texture_margin_right = 16
+	style.texture_margin_top = 16
+	style.texture_margin_bottom = 16
+	
+	panel.add_theme_stylebox_override("panel", style)
+	
+	var next_button_style = StyleBoxTexture.new()
+	next_button_style.texture = NEXT_BUTTON_TEXTURE
+	next_button_style.texture_margin_left = 5
+	next_button_style.texture_margin_right = 5
+	next_button_style.texture_margin_top = 2
+	next_button_style.texture_margin_bottom = 2
+	
+	next_button.add_theme_stylebox_override("normal", next_button_style)
+	next_button.add_theme_stylebox_override("hover", next_button_style)
+	next_button.add_theme_stylebox_override("pressed", next_button_style)
+	next_button.add_theme_stylebox_override("focus", next_button_style)
+	
+	next_button.add_theme_color_override("font_color", Color.BLACK)
+	next_button.add_theme_font_override("font", RECEIPT_FONT)
+	
+	text_label.add_theme_color_override("default_color", Color.BLACK)
+	text_label.add_theme_font_override("font", RECEIPT_FONT)
+	
+	name_label.add_theme_color_override("font_color", Color.BLACK)
+	name_label.add_theme_font_size_override("font_size", 36)
+	name_label.add_theme_font_override("font", RECEIPT_FONT)
 
 func start_dialogue(npc_name: String, lines: Array[String]) -> void:
 	name_label.text = npc_name
