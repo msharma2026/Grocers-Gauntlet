@@ -32,7 +32,9 @@ func play_music(song_name: String) -> void:
 
 
 func stop_music() -> void:
-	current_song.stop()
+	if current_song:
+		current_song.stop()
+		current_song = null
 
 
 func play_sfx(sfx_name: String) -> void:

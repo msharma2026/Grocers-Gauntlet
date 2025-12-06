@@ -46,6 +46,7 @@ const MOODS := {
 
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
+	systems.audio.stop_music()
 	_rng.randomize()
 	# Position player at the bottom entrance
 	var player = get_parent().get_node_or_null("GlobalPlayer")

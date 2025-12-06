@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://vwpbcfs27l1a"]
+[gd_scene load_steps=9 format=4 uid="uid://vwpbcfs27l1a"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://cnhksfro544xu" path="res://assets/sprites/aisle/another_shelf.png" id="2_nka5y"]
 [ext_resource type="Texture2D" uid="uid://cbb4crh10imk6" path="res://assets/sprites/aisle/alcohol_aisle.png" id="2_p6hyw"]
 [ext_resource type="Texture2D" uid="uid://c6x2gerww2t46" path="res://assets/sprites/aisle/a_third_shelf.png" id="3_p6hyw"]
 [ext_resource type="Texture2D" uid="uid://c6j5ufoud2yle" path="res://assets/sprites/aisle/one_shelf.png" id="4_dum62"]
+[ext_resource type="AudioStream" uid="uid://dp1yqtbsd27im" path="res://assets/music/silent-night-christmas-piano-cover-441733.mp3" id="6_dum62"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dum62"]
 texture = ExtResource("2_p6hyw")
@@ -57,3 +58,7 @@ position = Vector2(576, 661.5)
 
 [node name="Right" parent="Walls" index="3"]
 position = Vector2(1285, 320)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="8"]
+stream = ExtResource("6_dum62")
+autoplay = true
