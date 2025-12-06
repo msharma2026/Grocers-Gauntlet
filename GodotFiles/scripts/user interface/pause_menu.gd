@@ -37,6 +37,7 @@ func _build_main_menu() -> void:
 		main_menu_container = null
 
 	var canvas_layer_node := CanvasLayer.new()
+	canvas_layer_node.layer = 500 # fix so it shows above dialogue
 	add_child(canvas_layer_node)
 	
 	# Creates receipt pause menu background
