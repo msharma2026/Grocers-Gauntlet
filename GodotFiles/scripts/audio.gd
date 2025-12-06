@@ -15,6 +15,7 @@ func _ready() -> void:
 	}
 	sfx = {
 		'hurt':$Hurt,
+		'success':$Success,
 	}
 
 

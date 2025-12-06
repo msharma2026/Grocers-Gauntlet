@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d1q1ohnp56urc"]
+[gd_scene load_steps=22 format=3 uid="uid://d1q1ohnp56urc"]
 
 [ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
@@ -14,7 +14,8 @@
 [ext_resource type="AudioStream" uid="uid://bog4ph3kvcucl" path="res://assets/music/Neon Town (Synthwave).mp3" id="11_kvpfn"]
 [ext_resource type="AudioStream" uid="uid://bcj63ajiu7431" path="res://assets/music/hitHurt.wav" id="13_kvuet"]
 [ext_resource type="AudioStream" uid="uid://b1j00ystsh14k" path="res://assets/music/DavidKBD - Tropical Pack - 06 - Falling in Love - Bossanova.ogg" id="14_trtic"]
-[ext_resource type="AudioStream" uid="uid://dp1yqtbsd27im" path="res://assets/music/silent-night-christmas-piano-cover-441733.mp3" id="15_ir15t"]
+[ext_resource type="AudioStream" uid="uid://c5rhtshd0fuxc" path="res://assets/music/silent-night-christmas-piano-cover-441733-[AudioTrimmer.com].mp3" id="15_ca42v"]
+[ext_resource type="AudioStream" uid="uid://cqumtjryqmcw8" path="res://assets/music/pickupCoin.wav" id="16_ca42v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tnpc"]
 shader = ExtResource("8_gee14")
@@ -135,4 +136,7 @@ bus = &"SFX"
 stream = ExtResource("14_trtic")
 
 [node name="Alcohol" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("15_ir15t")
+stream = ExtResource("15_ca42v")
+
+[node name="Success" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("16_ca42v")

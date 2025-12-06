@@ -43,6 +43,7 @@ func _on_choice(choice: String) -> void:
 	if success:
 		result_label.modulate = Color(0.2, 0.8, 0.2)
 		result_label.text = message + " You guessed right!"
+		systems.audio.play_sfx('success')
 	else:
 		result_label.modulate = Color(0.9, 0.2, 0.2)
 		result_label.text = message + " Wrong call."

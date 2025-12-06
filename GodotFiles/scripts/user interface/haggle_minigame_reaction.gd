@@ -66,6 +66,7 @@ func _input(event: InputEvent) -> void:
 			systems.audio.play_sfx('hurt')
 		else:
 			_finish(true, "Nice reaction!")
+			systems.audio.play_sfx('success')
 
 
 func _finish(success: bool, message: String) -> void:

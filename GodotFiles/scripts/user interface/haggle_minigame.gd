@@ -92,6 +92,7 @@ func stop_cursor() -> void:
 	if success:
 		result_label.text = "SUCCESS!"
 		result_label.modulate = Color.GREEN
+		systems.audio.play_sfx('success')
 	else:
 		result_label.text = "MISS!"
 		result_label.modulate = Color.RED
