@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d1q1ohnp56urc"]
+[gd_scene load_steps=24 format=3 uid="uid://d1q1ohnp56urc"]
 
 [ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
@@ -17,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://b1j00ystsh14k" path="res://assets/music/DavidKBD - Tropical Pack - 06 - Falling in Love - Bossanova.ogg" id="14_trtic"]
 [ext_resource type="AudioStream" uid="uid://c5rhtshd0fuxc" path="res://assets/music/silent-night-christmas-piano-cover-441733-[AudioTrimmer.com].mp3" id="15_ca42v"]
 [ext_resource type="AudioStream" uid="uid://cqumtjryqmcw8" path="res://assets/music/pickupCoin.wav" id="16_ca42v"]
+[ext_resource type="AudioStream" uid="uid://bjpg65ulsep3c" path="res://assets/music/click.wav" id="18_ssvqc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0tnpc"]
 shader = ExtResource("8_gee14")
@@ -142,3 +143,6 @@ stream = ExtResource("15_ca42v")
 
 [node name="Success" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("16_ca42v")
+
+[node name="Tick" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("18_ssvqc")

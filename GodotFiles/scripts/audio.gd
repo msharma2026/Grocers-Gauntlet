@@ -5,7 +5,7 @@ var sfx : Dictionary
 
 var current_song: AudioStreamPlayer
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	music = {
 		'theme':$Theme,
@@ -16,13 +16,17 @@ func _ready() -> void:
 	sfx = {
 		'hurt':$Hurt,
 		'success':$Success,
+		'tick':$Tick
 	}
 
 
-func play_music(song_name: String) -> void: 
+func play_music(song_name: String) -> void:
+	 
 	var song_to_play: AudioStreamPlayer
+	
 	if  not music.has(song_name):
 		return
+		
 	song_to_play = music[song_name] 
 	
 	if current_song == song_to_play:

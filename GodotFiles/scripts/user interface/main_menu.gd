@@ -58,7 +58,7 @@ func _build_main_menu() -> void:
 	price_tag.texture_margin_bottom = 10
 	
 	for button_config in button_map:
-		var menu_button := Button.new()
+		var menu_button : Button = Button.new()
 		menu_button.text = button_config.button_id
 		menu_button.icon = button_config.icon
 		menu_button.flat = false
@@ -83,6 +83,7 @@ func _build_main_menu() -> void:
 			target = button_config.button_id.strip_edges().to_lower()
 		menu_button.pressed.connect(_on_button_pressed.bind(target))
 		container_node.add_child(menu_button)
+		menu_button.mouse_entered.connect(_on_button_hover)
 		
 	offset = Vector2(0,150)
 	await _center_container(container_node, offset)
@@ -199,3 +200,7 @@ func _center_container(container: Control, offset: Vector2) -> void:
 		parent_size = get_viewport_rect().size
 		
 	container.position = (parent_size - container_size) * 0.5 + offset
+
+
+func _on_button_hover() -> void:
+	systems.audio.play_sfx("tick")
