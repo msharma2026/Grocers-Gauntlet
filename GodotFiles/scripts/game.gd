@@ -23,9 +23,8 @@ func _ready() -> void:
 	systems.camera = $Camera
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	game_data.map_depth = 0
-	game_data.budget = starting_budget
-	game_data.set_meta("start_budget", int(starting_budget))
+	
+	game_data.reset()
 	
 	player = PLAYER_SCENE.instantiate()
 	player.name = "GlobalPlayer"

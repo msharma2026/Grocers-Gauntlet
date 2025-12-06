@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cihng8gc6qkk6"]
+[gd_scene load_steps=6 format=3 uid="uid://cihng8gc6qkk6"]
 
 [ext_resource type="Script" uid="uid://ccux2hjufmg2s" path="res://scripts/user interface/ui_bars.gd" id="1_5wj0y"]
 [ext_resource type="Script" uid="uid://qoo707lnqus4" path="res://scripts/user interface/health_bar.gd" id="2_8hqeb"]
+[ext_resource type="Texture2D" uid="uid://dksck3e1yxidr" path="res://assets/sprites/placeholders/calculator.png" id="2_jy30g"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tmb1u"]
 bg_color = Color(0.29803923, 0.29803923, 0.29803923, 1)
@@ -12,10 +13,23 @@ bg_color = Color(0.5764706, 0.29411766, 0.35686275, 1)
 [node name="UiBars" type="CanvasLayer"]
 script = ExtResource("1_5wj0y")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(120.5, 109)
+scale = Vector2(1.0611111, 1)
+texture = ExtResource("2_jy30g")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = 921.0
+offset_top = 50.0
+offset_right = 1058.0
+offset_bottom = 77.0
+color = Color(0.105882354, 0.105882354, 0.105882354, 0.5882353)
+
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = 20.0
+offset_left = 921.0
 offset_top = 20.0
-offset_right = 220.0
+offset_right = 1121.0
 offset_bottom = 47.0
 theme_override_styles/background = SubResource("StyleBoxFlat_tmb1u")
 theme_override_styles/fill = SubResource("StyleBoxFlat_rr2qc")
@@ -24,8 +38,8 @@ script = ExtResource("2_8hqeb")
 metadata/_custom_type_script = "uid://qoo707lnqus4"
 
 [node name="BudgetLabel" type="Label" parent="."]
-offset_left = 20.0
-offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 76.0
+offset_left = 925.0
+offset_top = 51.0
+offset_right = 1105.0
+offset_bottom = 77.0
 text = "Budget: $100"

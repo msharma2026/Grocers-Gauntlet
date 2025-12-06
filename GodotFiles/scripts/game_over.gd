@@ -15,5 +15,6 @@ func _start_on_transition_end() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_pressed() and leavable:
+		game_data.reset()
 		change_screen.emit("main_menu")
 	

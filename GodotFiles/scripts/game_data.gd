@@ -33,3 +33,10 @@ var budget: float = START_BUDGET
 var cart_type: String
 var inventory: Array[ItemConfig] = []
 var max_capacity: int = 100
+
+
+func reset() -> void:
+	map_depth = 0
+	budget = START_BUDGET
+	set_meta("start_budget", int(START_BUDGET))
+	
