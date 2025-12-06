@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Neon Town (Synthwave).mp3-a194404d4b526620c98
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

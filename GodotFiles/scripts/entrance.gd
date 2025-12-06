@@ -5,15 +5,36 @@ extends Screen
 
 const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/item_library.tscn")
 
+# for transition animation
+@export var transition_curve: Curve
+@export var slide_distance: float = 400.0  
+@export var anim_duration : float = 0.25
+
+
 @export var carts: Array[CartConfig]
 @export var button_spacing: int = 10
 @export var background_texture: Texture2D
 @export var background_color: Color = Color(0.12, 0.12, 0.12, 1.0)
 
+# for transition animation
+var main_cart: Sprite2D        
+var next_cart: Sprite2D        
+var is_animating := false
+var anim_time : float
+
+var main_start: Vector2
+var main_end: Vector2
+var next_start: Vector2
+var next_end: Vector2
+
 var selected_cart_index: int = 0
 var cart_label: Label
 var stats_label: Label
 var ui_root: Control
+
+# for transition animation 
+@onready var rogue_cart: Sprite2D = %RogueCartSprite
+@onready var paladin_cart: Sprite2D = %PaladinCartSprite
 
 @onready var player_start_inventory: ItemLibrary
 
@@ -25,6 +46,31 @@ func _ready() -> void:
 	player_start_inventory = ITEM_LIBRARY_SCENE.instantiate()
 	add_child(player_start_inventory)
 	
+	# for cart animation
+	main_cart = rogue_cart
+	next_cart = paladin_cart
+
+	main_cart.position = Vector2(100, 100)
+	next_cart.position = Vector2(slide_distance + 100, 100)
+
+
+func _process(delta: float) -> void:
+	if not is_animating:
+		return
+
+	anim_time += delta
+	var t := anim_time / anim_duration
+	if t > 1.0:
+		t = 1.0
+
+	var curved_t := transition_curve.sample(t)
+
+	main_cart.position = main_start.lerp(main_end, curved_t)
+	next_cart.position = next_start.lerp(next_end, curved_t)
+
+	if t >= 1.0:
+		_finish_slide()
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_left"):
@@ -170,6 +216,7 @@ func _cycle_cart(direction: int) -> void:
 	if selected_cart_index < 0:
 		selected_cart_index = carts.size() - 1
 	_update_cart_display()
+	_start_slide()
 
 
 func _current_cart() -> CartConfig:
@@ -207,3 +254,22 @@ func _ensure_default_carts() -> void:
 	paladin.dexterity = 30
 	paladin.defense = 80
 	carts.append(paladin)
+	
+func _start_slide() -> void:
+	is_animating = true
+	anim_time = 0.0
+
+	main_start = main_cart.position
+	main_end = Vector2(-slide_distance + 100, 100)
+
+	next_start = next_cart.position
+	next_end = Vector2(100, 100)
+
+func _finish_slide() -> void:
+	is_animating = false
+
+	main_cart.position = Vector2(slide_distance + 100, 100)
+
+	var temp = main_cart
+	main_cart = next_cart
+	next_cart = temp
