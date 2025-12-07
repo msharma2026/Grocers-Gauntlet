@@ -4,6 +4,8 @@ class_name Entrance
 extends Screen
 
 const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/item_library.tscn")
+const PRICE_TAG_TEXTURE: CompressedTexture2D = preload("res://assets/sprites/price_tag.png")
+const RECEIPT_FONT: FontFile = preload("res://assets/fonts/Merchant_Copy.ttf")
 
 # for transition animation
 @export var transition_curve: Curve
@@ -85,13 +87,35 @@ func _create_back_button() -> void:
 	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
 	var back_button := Button.new()
+	var back_button_style := StyleBoxTexture.new()
 	
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
 	container_node.add_child(back_button)
 	
+	back_button_style.texture = PRICE_TAG_TEXTURE
+	back_button_style.texture_margin_left = 20
+	back_button_style.texture_margin_right = 50
+	back_button_style.texture_margin_top = 5
+	back_button_style.texture_margin_bottom = 5
+	
 	back_button.text = "Go Back"
 	back_button.icon = null
+	back_button.custom_minimum_size = Vector2(200, 50)
+	# Back button styling
+	back_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	back_button.add_theme_stylebox_override("normal", back_button_style)
+	back_button.add_theme_stylebox_override("hover", back_button_style)
+	back_button.add_theme_stylebox_override("pressed", back_button_style)
+	back_button.add_theme_stylebox_override("focus", back_button_style)
+	
+	back_button.add_theme_color_override("font_color", Color.BLACK)
+	back_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	back_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	back_button.add_theme_font_override("font", RECEIPT_FONT)
+	back_button.add_theme_font_size_override("font_size", 36)
+	
 	back_button.pressed.connect(_on_back_selected.bind("main_menu"))
 	
 	container_node.position = Vector2(5, 5)
