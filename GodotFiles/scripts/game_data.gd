@@ -38,5 +38,11 @@ var max_capacity: int = 100
 func reset() -> void:
 	map_depth = 0
 	budget = START_BUDGET
+	reset_meta()
 	set_meta("start_budget", int(START_BUDGET))
+	
+func reset_meta():
+	var meta_keys := get_meta_list()
+	for key in meta_keys:
+		remove_meta(key)
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d1q1ohnp56urc"]
+[gd_scene load_steps=27 format=3 uid="uid://d1q1ohnp56urc"]
 
 [ext_resource type="Script" uid="uid://035y06yaantw" path="res://scripts/game.gd" id="1_kiw3p"]
 [ext_resource type="PackedScene" uid="uid://bt8xj88jim3id" path="res://scenes/screens/aisles.tscn" id="2_400sg"]
@@ -77,6 +77,67 @@ _data = {
 &"transition_animation": SubResource("Animation_gee14")
 }
 
+[sub_resource type="Animation" id="Animation_ssvqc"]
+resource_name = "pan_animation"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4, 4.9666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(2, 2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4, 4.9666667),
+"transitions": PackedFloat32Array(-2, 1, 1),
+"update": 0,
+"values": [Vector2(294, 220), Vector2(864, 220), Vector2(577, 324)]
+}
+
+[sub_resource type="Animation" id="Animation_264po"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:zoom")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(578, 324)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1kice"]
+_data = {
+&"RESET": SubResource("Animation_264po"),
+&"pan_animation": SubResource("Animation_ssvqc")
+}
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_kiw3p")
 screens = Dictionary[String, PackedScene]({
@@ -118,6 +179,11 @@ libraries = {
 unique_name_in_owner = true
 position = Vector2(578, 324)
 script = ExtResource("9_dinhu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Camera"]
+libraries = {
+&"": SubResource("AnimationLibrary_1kice")
+}
 
 [node name="Audio" type="Node" parent="."]
 unique_name_in_owner = true
