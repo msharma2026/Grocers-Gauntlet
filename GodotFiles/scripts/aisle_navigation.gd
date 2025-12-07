@@ -332,7 +332,8 @@ func _handle_buy() -> void:
 	# TODO: Add item to inventory
 	
 	dialogue_overlay.start_dialogue("Merchant", ["Pleasure doing business with you!"])
-	dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
+	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
+		dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
 	dialogue_overlay.dialogue_finished.connect(func(): 
 		dialogue_overlay.close()
 		# Return to previous screen or just let player walk away?
@@ -417,7 +418,8 @@ func _handle_forced_buy() -> void:
 		"That's it! I'm out of patience.",
 		"You're buying this now!"
 	])
-	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_buy)
+	if dialogue_overlay.dialogue_finished.is_connected(_handle_forced_buy):
+		dialogue_overlay.dialogue_finished.disconnect(_handle_forced_buy)
 	dialogue_overlay.dialogue_finished.connect(_handle_buy, CONNECT_ONE_SHOT)
 	
 

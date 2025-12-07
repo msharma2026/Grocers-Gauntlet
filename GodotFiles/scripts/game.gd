@@ -98,6 +98,7 @@ func _change_screen_from_pause(screen_ref) -> void:
 	_change_screen(screen_ref)
 
 func _change_screen(screen_ref) -> void:
+	reset_camera()
 	#var requested_previous := false
 	if screen_ref is String and screen_ref == "previous_screen":
 	#	requested_previous = true
@@ -150,6 +151,7 @@ func _is_item_encounter(id: String) -> bool:
 	return id in ["bread", "meat", "milk", "candy", "alcohol", "Black_Market"]
 
 func _load_encounter(item_id: String) -> void:
+	reset_camera()
 	var scene_path = "res://scenes/aisle_navigation.tscn"
 	
 	# Map item IDs to specific scenes if they exist
