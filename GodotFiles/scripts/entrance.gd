@@ -157,6 +157,8 @@ func _build_cart_menu() -> void:
 	var message := Label.new()
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.text = "Choose a Cart Configuration:"
+	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_font_size_override("font_size", 36)
 	container_node.add_child(message)
 	
 	var slider_row := HBoxContainer.new()
@@ -176,11 +178,15 @@ func _build_cart_menu() -> void:
 
 	cart_label = Label.new()
 	cart_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cart_label.add_theme_font_override("font", RECEIPT_FONT)
+	cart_label.add_theme_font_size_override("font_size", 24)
 	info_column.add_child(cart_label)
 
 	stats_label = Label.new()
 	stats_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stats_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	stats_label.add_theme_font_override("font", RECEIPT_FONT)
+	stats_label.add_theme_font_size_override("font_size", 24)
 	info_column.add_child(stats_label)
 
 	var next_button := Button.new()
@@ -190,6 +196,8 @@ func _build_cart_menu() -> void:
 
 	var select_button := Button.new()
 	select_button.text = "Select Cart"
+	select_button.add_theme_font_override("font", RECEIPT_FONT)
+	select_button.add_theme_font_size_override("font_size", 36)
 	select_button.pressed.connect(func(): _on_cart_selected(_current_cart().cart_id))
 	container_node.add_child(select_button)
 	
