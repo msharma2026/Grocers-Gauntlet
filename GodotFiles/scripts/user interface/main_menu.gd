@@ -30,25 +30,11 @@ func _build_main_menu() -> void:
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
 	
-	#container_node.add_theme_constant_override("separation", button_spacing)
-	
 	var logo: TextureRect = TextureRect.new()
 	logo.texture = LOGO_TEXTURE
 	canvas_layer_node.add_child(logo)
 	offset = Vector2(-100, -140)
 	_center_container(logo, offset)
-	container_node.add_child(logo)
-	'''
-	var message := Label.new()
-	message.text = "Main Menu"
-	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	message.add_theme_color_override("font_color", Color.ORANGE_RED)
-	message.add_theme_font_override("font", RECEIPT_FONT)
-	message.add_theme_font_size_override("font_size", 48)
-	offset = Vector2(0, 150)
-	_center_container(message, offset)
-	container_node.add_child(message)
-	'''
 	
 	var price_tag := StyleBoxTexture.new()
 	price_tag.texture = PRICE_TAG_TEXTURE
@@ -180,6 +166,7 @@ func _are_you_sure_message() -> void:
 		container_size = confirm_container.get_combined_minimum_size()
 	
 	confirm_container.position = (viewport_size - container_size) * 0.5
+	
 	
 func _center_container(container: Control, offset: Vector2) -> void:
 	await get_tree().process_frame
