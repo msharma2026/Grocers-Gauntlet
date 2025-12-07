@@ -274,6 +274,8 @@ func _center_container(container: Control) -> void:
 	
 	if container == null:
 		return
+	elif container == main_menu_container:
+		offset = Vector2(-10, 45)
 	
 	var container_size: Vector2 = container.size
 	
