@@ -37,7 +37,9 @@ func shake(time: float = 0.15, intensity: float = 10) -> void:
 	
 	
 	
-	
+func start_camera_pan() -> void:
+	$AnimationPlayer.play("pan_animation")
+	await $AnimationPlayer.animation_finished
 	
 	
 	

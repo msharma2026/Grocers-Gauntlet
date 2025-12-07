@@ -60,8 +60,11 @@ func _ready() -> void:
 		player.global_position = spawn_point
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
+		
+	if not game_data.has_meta(current_aisle_id + "_intro_shown"):
+		await systems.camera.start_camera_pan()
 	
-	if current_aisle_id == "alcohol" and not game_data.has_meta("alcohol_intro_shown"):
+	if current_aisle_id == "alcohol" and not game_data.has_meta("alcohol_intro_shown"): 
 		_show_alcohol_intro_dialogue()
 	
 	if current_aisle_id == "meat" and not game_data.has_meta("meat_intro_shown"):
