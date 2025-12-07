@@ -270,7 +270,7 @@ func _close_sub_menus() -> void:
 
 func _center_container(container: Control) -> void:
 	await get_tree().process_frame
-	var offset: Vector2 = Vector2(-10, 50)
+	var offset: Vector2 = Vector2(-10, 0)
 	
 	if container == null:
 		return
