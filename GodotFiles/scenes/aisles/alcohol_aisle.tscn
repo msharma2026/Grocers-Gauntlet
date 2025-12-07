@@ -31,17 +31,8 @@ offset_bottom = 302.0
 visible = false
 position = Vector2(804, 212)
 
-[node name="Walls" parent="." index="3"]
-position = Vector2(2, 16)
-
-[node name="Top" parent="Walls" index="0"]
-position = Vector2(639, -10)
-
-[node name="Bottom" parent="Walls" index="1"]
-position = Vector2(568, 324)
-
-[node name="Right" parent="Walls" index="3"]
-position = Vector2(675, 315)
+[node name="PlayerSpawn" parent="." index="3"]
+position = Vector2(81, 222)
 
 [node name="PointLight2D" parent="." index="4" instance=ExtResource("6_dum62")]
 position = Vector2(580, 138)
@@ -94,5 +85,14 @@ position = Vector2(667, 274)
 scale = Vector2(3, 3)
 texture = ExtResource("6_j8d0n")
 
-[node name="PlayerSpawn" type="Marker2D" parent="." index="14"]
-position = Vector2(87, 225)
+[node name="Walls" parent="." index="14"]
+position = Vector2(2, 16)
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(639, -10)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(568, 324)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(675, 315)
