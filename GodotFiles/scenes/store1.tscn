@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=4 uid="uid://csyhawv6k3xqh"]
+
+[ext_resource type="TileSet" uid="uid://djwrcx2r0n18s" path="res://resources/shelves/Store.tres" id="1_32m6k"]
+
+[node name="Store1" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AABUADIAAAAAAAAAAABWADIAAAAAAAAAAABYADIAAAAAAAAAAABaADIAAAACAAAAAABSADIAAAAEAAAAAABcADIAAAAEAAQAAAA=")
+tile_set = ExtResource("1_32m6k")
