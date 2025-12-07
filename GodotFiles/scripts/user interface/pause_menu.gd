@@ -17,6 +17,7 @@ var event: InputEvent
 var main_menu_container: Control
 var options_container: Control
 var confirm_canvas: CanvasLayer
+var menu_canvas_layer: CanvasLayer
 
 
 func _ready() -> void:
@@ -29,16 +30,15 @@ func _build_main_menu() -> void:
 	if confirm_canvas:
 		confirm_canvas.queue_free()
 		confirm_canvas = null
-	if main_menu_container:
-		if main_menu_container.get_parent() is TextureRect:
-			main_menu_container.get_parent().get_parent().queue_free()
-		else:
-			main_menu_container.queue_free()
+	if menu_canvas_layer:
+		menu_canvas_layer.queue_free()
+		menu_canvas_layer = null
 		main_menu_container = null
 
 	var canvas_layer_node := CanvasLayer.new()
 	canvas_layer_node.layer = 500 # fix so it shows above dialogue
 	add_child(canvas_layer_node)
+	menu_canvas_layer = canvas_layer_node
 	
 	# Creates receipt pause menu background
 	var receipt := TextureRect.new()
@@ -83,7 +83,11 @@ func _build_main_menu() -> void:
 		menu_button.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 		var target = config.nav_screen
-		if target == null:
+		if config.button_id.to_lower() == "main menu":
+			target = "main menu"
+		elif config.button_id.to_lower() == "exit game":
+			target = "exit game"
+		elif target == null:
 			target = config.button_id.strip_edges().to_lower()
 
 		menu_button.pressed.connect(_on_button_pressed.bind(target))
@@ -123,6 +127,8 @@ func _are_you_sure_message(action_ref: String) -> void:
 		main_menu_container.visible = false
 
 	confirm_canvas = CanvasLayer.new()
+	# Ensures confirmation appears above pause menu background
+	confirm_canvas.layer = 501
 	add_child(confirm_canvas)
 
 	var confirm_container := VBoxContainer.new()
@@ -149,10 +155,12 @@ func _are_you_sure_message(action_ref: String) -> void:
 	yes_button.add_theme_color_override("font_color", Color.BLACK)
 	yes_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
 	yes_button.add_theme_color_override("font_pressed_color", Color.CORNFLOWER_BLUE)
+	
 	if action_ref == "main menu":
 		yes_button.pressed.connect(func(): quit_to_main_menu.emit())
 	else:
 		yes_button.pressed.connect(_on_button_pressed.bind("quit_confirm_yes"))
+	
 	row.add_child(yes_button)
 
 	var no_button := Button.new()
@@ -204,7 +212,7 @@ func _open_options_menu() -> void:
 	options_container.add_child(fullscreen_slider)
 
 	var vol_label := Label.new()
-	vol_label.text = "Volume"
+	vol_label.text = "Music Volume"
 	vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vol_label.add_theme_font_override("font", RECEIPT_FONT)
 	vol_label.add_theme_font_size_override("font_size", 36)
@@ -219,7 +227,7 @@ func _open_options_menu() -> void:
 	vol_slider.max_value = 1.0
 	vol_slider.step = 0.05
 	vol_slider.custom_minimum_size = Vector2(180, 0)
-	var bus_idx = AudioServer.get_bus_index("Master")
+	var bus_idx = AudioServer.get_bus_index("Music")
 	if bus_idx != -1:
 		vol_slider.value = db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
 	vol_slider.value_changed.connect(_volume_change)
