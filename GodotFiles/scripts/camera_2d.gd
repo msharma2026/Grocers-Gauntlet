@@ -41,5 +41,18 @@ func start_camera_pan() -> void:
 	$AnimationPlayer.play("pan_animation")
 	await $AnimationPlayer.animation_finished
 	
-	
+
+func ease_to_new_location(new_pos:Vector2,new_zoom:Vector2) -> void:
+	var new_tween : Tween = get_tree().create_tween()
+	var tween_two : Tween = get_tree().create_tween()
+	new_tween.tween_property(systems.camera,'zoom',new_zoom,1)
+	tween_two.tween_property(systems.camera,'position',new_pos,1)
+	systems.camera.anchor_pos = new_pos
+	await new_tween.finished
+	await tween_two.finished
+
+func set_new_location(new_pos:Vector2,new_zoom:Vector2) -> void:
+		systems.camera.position = new_pos
+		systems.camera.zoom = new_zoom	
+		systems.camera.anchor_pos = new_pos
 	

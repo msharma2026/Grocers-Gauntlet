@@ -218,6 +218,7 @@ func reset_camera() -> void:
 	if(default_camera_values['set']):
 			$Camera.position = default_camera_values['pos'] 
 			$Camera.zoom = default_camera_values['zoom']
+			$Camera.anchor_pos = default_camera_values['pos'] 
 
 func _clear_current_screen():
 	if current_screen:

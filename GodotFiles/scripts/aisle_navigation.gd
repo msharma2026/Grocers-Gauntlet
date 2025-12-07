@@ -67,16 +67,10 @@ func _ready() -> void:
 	if not game_data.has_meta(current_aisle_id + "_intro_shown"):
 		await systems.camera.start_camera_pan()
 		if aisle_camera:
-			var new_tween : Tween = get_tree().create_tween()
-			var tween_two : Tween = get_tree().create_tween()
-			new_tween.tween_property(systems.camera,'zoom',aisle_camera.zoom,1)
-			tween_two.tween_property(systems.camera,'position',aisle_camera.position,1)
-			await new_tween.finished
-			await tween_two.finished
+			await systems.camera.ease_to_new_location(aisle_camera.position,aisle_camera.zoom)
 	elif aisle_camera:
-		systems.camera.position = aisle_camera.position
-		systems.camera.zoom = aisle_camera.zoom		
-		aisle_camera.make_current()
+		systems.camera.set_new_location(aisle_camera.position,aisle_camera.zoom)
+		#aisle_camera.make_current()
 
 		
 	
