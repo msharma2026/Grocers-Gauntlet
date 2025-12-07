@@ -166,9 +166,8 @@ func _load_encounter(item_id: String) -> void:
 	if encounter_screen.has_method("setup_encounter"):
 		encounter_screen.setup_encounter(item_id)
 		
-	if current_screen != null:
-		remove_child(current_screen)
-		current_screen.queue_free()
+	
+	_clear_current_screen()
 	
 	reset_camera()
 	add_child(encounter_screen)
@@ -183,22 +182,9 @@ func _load_screen(screen_scene: PackedScene) -> void:
 		return
 		
 	await _play_transition()
-	
-	#var will_transition: bool = true
-	if current_screen != null:
-		remove_child(current_screen)
-		current_screen.queue_free()
-	#else:
-	#	will_transition = false
-	
-	reset_camera()
-	var new_screen : Screen = screen_scene.instantiate()
-	add_child(new_screen)
-	current_screen = new_screen
-	current_screen.change_screen.connect(_change_screen)
-	#if will_transition:
+	var new_screen : Screen = _swap_screen(screen_scene)
 	await _play_detransition()
-	current_screen._start_on_transition_end()
+	new_screen._start_on_transition_end()
 	
 	
 
@@ -232,3 +218,18 @@ func reset_camera() -> void:
 	if(default_camera_values['set']):
 			$Camera.position = default_camera_values['pos'] 
 			$Camera.zoom = default_camera_values['zoom']
+
+func _clear_current_screen():
+	if current_screen:
+		remove_child(current_screen)
+		current_screen.queue_free()
+		current_screen = null
+
+func _swap_screen(scene: PackedScene):
+	_clear_current_screen()
+	reset_camera()
+	var s: Screen = scene.instantiate()
+	add_child(s)
+	current_screen = s
+	current_screen.change_screen.connect(_change_screen)
+	return s
