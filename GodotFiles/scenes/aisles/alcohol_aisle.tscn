@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=4 uid="uid://vwpbcfs27l1a"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
-[ext_resource type="Texture2D" uid="uid://cnhksfro544xu" path="res://assets/sprites/aisle/another_shelf.png" id="2_nka5y"]
 [ext_resource type="Texture2D" uid="uid://cbb4crh10imk6" path="res://assets/sprites/aisle/alcohol_aisle.png" id="2_p6hyw"]
-[ext_resource type="Texture2D" uid="uid://c6x2gerww2t46" path="res://assets/sprites/aisle/a_third_shelf.png" id="3_p6hyw"]
-[ext_resource type="Texture2D" uid="uid://c6j5ufoud2yle" path="res://assets/sprites/aisle/one_shelf.png" id="4_dum62"]
-[ext_resource type="PackedScene" uid="uid://d34dmpuuq4cs0" path="res://scenes/FX/lighting/spot_light.tscn" id="6_dum62"]
+[ext_resource type="Script" uid="uid://m5pd3qpi1bfe" path="res://scripts/actors/liquor_store_npc.gd" id="4_dum62"]
+[ext_resource type="Texture2D" uid="uid://dgavswlmdw1vh" path="res://assets/sprites/character/liquor.png" id="5_tbfpc"]
+[ext_resource type="PackedScene" path="res://scenes/FX/lighting/spot_light.tscn" id="6_dum62"]
+[ext_resource type="Texture2D" uid="uid://b43p3l71s5nb6" path="res://assets/sprites/aisle/grocery store2 -3.png.png" id="6_j8d0n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dum62"]
 texture = ExtResource("2_p6hyw")
@@ -28,41 +28,71 @@ offset_right = 3343.0
 offset_bottom = 302.0
 
 [node name="NPC" parent="." index="2"]
+visible = false
 position = Vector2(804, 212)
 
-[node name="PlayerSpawn" parent="." index="3"]
-position = Vector2(91, 210)
-
-[node name="AnotherShelf" type="Sprite2D" parent="." index="4"]
-position = Vector2(212, 55)
-texture = ExtResource("2_nka5y")
-
-[node name="AThirdShelf" type="Sprite2D" parent="." index="5"]
-position = Vector2(623, 49)
-scale = Vector2(1, 1.0284553)
-texture = ExtResource("3_p6hyw")
-
-[node name="OneShelf" type="Sprite2D" parent="." index="6"]
-position = Vector2(1050, 51)
-scale = Vector2(1.0407726, 1)
-texture = ExtResource("4_dum62")
-
-[node name="Walls" parent="." index="7"]
+[node name="Walls" parent="." index="3"]
 position = Vector2(2, 16)
 
 [node name="Top" parent="Walls" index="0"]
 position = Vector2(639, -10)
 
 [node name="Bottom" parent="Walls" index="1"]
-position = Vector2(576, 661.5)
+position = Vector2(568, 324)
 
 [node name="Right" parent="Walls" index="3"]
-position = Vector2(1285, 320)
+position = Vector2(675, 315)
 
-[node name="PointLight2D" parent="." index="8" instance=ExtResource("6_dum62")]
-position = Vector2(803, 139)
+[node name="PointLight2D" parent="." index="4" instance=ExtResource("6_dum62")]
+position = Vector2(580, 138)
 scale = Vector2(0.57692313, 0.7217195)
 
-[node name="PointLight2D2" parent="." index="9" instance=ExtResource("6_dum62")]
+[node name="PointLight2D2" parent="." index="5" instance=ExtResource("6_dum62")]
 position = Vector2(93, 139)
 scale = Vector2(0.577, 0.722)
+
+[node name="LiquorStoreNPC" type="CharacterBody2D" parent="." index="6"]
+script = ExtResource("4_dum62")
+
+[node name="Sprite2D" type="Sprite2D" parent="LiquorStoreNPC" index="0"]
+position = Vector2(568.9999, 233.99998)
+scale = Vector2(1.8750019, 2.05)
+texture = ExtResource("5_tbfpc")
+
+[node name="GroceryStore23_png" type="Sprite2D" parent="." index="7"]
+position = Vector2(92.00001, 275)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png2" type="Sprite2D" parent="." index="8"]
+position = Vector2(185, 275)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png3" type="Sprite2D" parent="." index="9"]
+position = Vector2(374, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png4" type="Sprite2D" parent="." index="10"]
+position = Vector2(278, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png5" type="Sprite2D" parent="." index="11"]
+position = Vector2(472, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png6" type="Sprite2D" parent="." index="12"]
+position = Vector2(570, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="GroceryStore23_png7" type="Sprite2D" parent="." index="13"]
+position = Vector2(667, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_j8d0n")
+
+[node name="PlayerSpawn" type="Marker2D" parent="." index="14"]
+position = Vector2(87, 225)

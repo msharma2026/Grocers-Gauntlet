@@ -18,6 +18,7 @@ var soft_task_used: bool = false
 var _option_actions: Array[String] = []
 var is_repeat_encounter: bool = false
 var is_desperate: bool = false
+var current_aisle_id: String = ""
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
@@ -47,7 +48,6 @@ const MOODS := {
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
 	_rng.randomize()
-	# Position player at the bottom entrance
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
 		var spawn_point = Vector2(576, 550)
@@ -57,8 +57,12 @@ func _ready() -> void:
 		player.global_position = spawn_point
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
+	
+	if current_aisle_id == "alcohol" and not game_data.has_meta("alcohol_intro_shown"):
+		_show_alcohol_intro_dialogue()
 
 func setup_encounter(item_id: String) -> void:
+	current_aisle_id = item_id
 	for inv_item in game_data.inventory:
 		if inv_item and inv_item.type and inv_item.type.item_type_id == item_id:
 			item_config = inv_item
@@ -66,12 +70,33 @@ func setup_encounter(item_id: String) -> void:
 			return
 	item_name = item_id.capitalize()
 
+func _show_alcohol_intro_dialogue() -> void:
+	set_process(false)
+	game_data.set_meta("alcohol_intro_shown", true)
+	systems.audio.play_music("alcohol")
+	
+	var intro_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
+	add_child(intro_overlay)
+	
+	var lines: Array[String] = [
+		"Liquor bottles…",
+		"…No. Not now.",
+		"It's not that I don't drink. Honestly, lately I've been drinking more than I should.",
+		"Some nights, after she's finally asleep, the house gets so quiet it feels like it might swallow me.",
+		"And a drink is… easy."
+	]
+	
+	intro_overlay.start_dialogue("Player", lines)
+	intro_overlay.dialogue_finished.connect(func():
+		intro_overlay.queue_free()
+		set_process(true)
+	)
+
 func _process(_delta: float) -> void:
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player and npc:
 		var distance = player.global_position.distance_to(npc.global_position)
 		
-		# Trigger encounter when close
 		if distance < 80.0: 
 			start_encounter()
 
@@ -98,6 +123,36 @@ func start_encounter() -> void:
 	soft_task_used = false
 	haggles_this_encounter = 0
 	
+	if current_aisle_id == "alcohol":
+		_start_alcohol_encounter()
+	else:
+		_start_normal_encounter()
+
+func _start_alcohol_encounter() -> void:
+	dialogue_overlay.start_dialogue("Player", ["Why are you in a Santa costume?"])
+	dialogue_overlay.dialogue_finished.connect(_alcohol_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _alcohol_dialogue_step_1() -> void:
+	var lines: Array[String] = [
+		"Ho ho ho! It's December, of course!",
+		"Merry Christmas!",
+		"We have our eggnog special today!"
+	]
+	dialogue_overlay.start_dialogue("Liquor Clerk", lines)
+	dialogue_overlay.dialogue_finished.connect(_alcohol_dialogue_step_2, CONNECT_ONE_SHOT)
+
+func _alcohol_dialogue_step_2() -> void:
+	dialogue_overlay.start_dialogue("Player", ["But it's May?"])
+	dialogue_overlay.dialogue_finished.connect(_alcohol_dialogue_step_3, CONNECT_ONE_SHOT)
+
+func _alcohol_dialogue_step_3() -> void:
+	dialogue_overlay.start_dialogue("Liquor Clerk", ["..."])
+	dialogue_overlay.dialogue_finished.connect(_alcohol_dialogue_to_haggle, CONNECT_ONE_SHOT)
+
+func _alcohol_dialogue_to_haggle() -> void:
+	_start_normal_encounter()
+
+func _start_normal_encounter() -> void:
 	var lines: Array[String] = []
 	if is_repeat_encounter:
 		lines.append("You again! Think you can fool me twice?")
@@ -117,6 +172,7 @@ func start_encounter() -> void:
 	dialogue_overlay.start_dialogue("Merchant", lines)
 	dialogue_overlay.dialogue_finished.connect(_on_intro_finished)
 	dialogue_overlay.choice_selected.connect(_on_choice_made)
+
 
 func _on_intro_finished() -> void:
 	# Intro text done, now show choices

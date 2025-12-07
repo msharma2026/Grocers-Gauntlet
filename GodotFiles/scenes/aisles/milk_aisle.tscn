@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=4 uid="uid://druqpwqldwfji"]
+[gd_scene load_steps=9 format=4 uid="uid://druqpwqldwfji"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://lkpj0s5eg7g0" path="res://assets/sprites/aisle/milk_aisle.png" id="2_slqb1"]
+[ext_resource type="Script" uid="uid://cdq0idgvf2dgm" path="res://scripts/actors/grandma_npc.gd" id="3_pcvwx"]
+[ext_resource type="Texture2D" uid="uid://bnf60q647leoa" path="res://assets/sprites/character/grandma.png" id="4_ertv6"]
+[ext_resource type="Script" uid="uid://cbjvkahrib6fd" path="res://scripts/actors/grandpa_npc.gd" id="5_oaxh5"]
+[ext_resource type="Texture2D" uid="uid://c1h01uhcoyy03" path="res://assets/sprites/character/grandpa.png" id="6_qjcwj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pp4pg"]
 texture = ExtResource("2_slqb1")
@@ -22,3 +26,22 @@ offset_left = 1604.0
 offset_top = 722.0
 offset_right = 2756.0
 offset_bottom = 1370.0
+
+[node name="NPC" parent="." index="2"]
+visible = false
+
+[node name="GrandmaNPC" type="CharacterBody2D" parent="." index="4"]
+script = ExtResource("3_pcvwx")
+
+[node name="Sprite2D" type="Sprite2D" parent="GrandmaNPC" index="0"]
+position = Vector2(829.5, 75.5)
+scale = Vector2(2.1875, 2.05)
+texture = ExtResource("4_ertv6")
+
+[node name="GrandpaNPC" type="CharacterBody2D" parent="." index="5"]
+script = ExtResource("5_oaxh5")
+
+[node name="Sprite2D" type="Sprite2D" parent="GrandpaNPC" index="0"]
+position = Vector2(839.5, 176)
+scale = Vector2(1.8125, 2.1)
+texture = ExtResource("6_qjcwj")
