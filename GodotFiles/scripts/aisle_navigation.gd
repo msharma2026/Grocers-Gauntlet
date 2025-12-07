@@ -20,6 +20,7 @@ var is_repeat_encounter: bool = false
 var is_desperate: bool = false
 var current_aisle_id: String = ""
 
+
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
 	preload("res://scenes/user interface/haggle_minigame.tscn"),
@@ -60,9 +61,24 @@ func _ready() -> void:
 		player.global_position = spawn_point
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
+	
+	var aisle_camera = get_node_or_null("Camera2D")
 		
 	if not game_data.has_meta(current_aisle_id + "_intro_shown"):
 		await systems.camera.start_camera_pan()
+		if aisle_camera:
+			var new_tween : Tween = get_tree().create_tween()
+			var tween_two : Tween = get_tree().create_tween()
+			new_tween.tween_property(systems.camera,'zoom',aisle_camera.zoom,1)
+			tween_two.tween_property(systems.camera,'position',aisle_camera.position,1)
+			await new_tween.finished
+			await tween_two.finished
+	elif aisle_camera:
+		systems.camera.position = aisle_camera.position
+		systems.camera.zoom = aisle_camera.zoom		
+		aisle_camera.make_current()
+
+		
 	
 	if current_aisle_id == "alcohol" and not game_data.has_meta("alcohol_intro_shown"): 
 		_show_alcohol_intro_dialogue()
@@ -70,9 +86,7 @@ func _ready() -> void:
 	if current_aisle_id == "meat" and not game_data.has_meta("meat_intro_shown"):
 		_show_meat_intro_dialogue()
 	
-	var aisle_camera = get_node_or_null("Camera2D")
-	if aisle_camera:
-		aisle_camera.make_current()
+
 
 func _find_npc() -> CharacterBody2D:
 	for child in get_children():

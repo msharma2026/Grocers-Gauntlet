@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cbb4crh10imk6" path="res://assets/sprites/aisle/alcohol_aisle.png" id="2_p6hyw"]
 [ext_resource type="Script" uid="uid://m5pd3qpi1bfe" path="res://scripts/actors/liquor_store_npc.gd" id="4_dum62"]
 [ext_resource type="Texture2D" uid="uid://dgavswlmdw1vh" path="res://assets/sprites/character/liquor.png" id="5_tbfpc"]
-[ext_resource type="PackedScene" path="res://scenes/FX/lighting/spot_light.tscn" id="6_dum62"]
+[ext_resource type="PackedScene" uid="uid://d34dmpuuq4cs0" path="res://scenes/FX/lighting/spot_light.tscn" id="6_dum62"]
 [ext_resource type="Texture2D" uid="uid://b43p3l71s5nb6" path="res://assets/sprites/aisle/alcohol_shelf.png" id="6_j8d0n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dum62"]

@@ -13,6 +13,12 @@ var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
 var current_screen_ref
 var previous_screen_ref
+var default_camera_values : Dictionary = {
+	'pos': Vector2(0,0),
+	'zoom': Vector2(0,0),
+	'set':false
+}
+
 
 @onready var player: Player
 @onready var ui_bar: UIBars
@@ -21,6 +27,10 @@ var previous_screen_ref
 func _ready() -> void:
 	systems.audio = $Audio
 	systems.camera = $Camera
+	
+	default_camera_values['pos'] = $Camera.position
+	default_camera_values['zoom'] = $Camera.zoom
+	default_camera_values['set'] = true
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -160,6 +170,7 @@ func _load_encounter(item_id: String) -> void:
 		remove_child(current_screen)
 		current_screen.queue_free()
 	
+	reset_camera()
 	add_child(encounter_screen)
 	current_screen = encounter_screen
 	current_screen.change_screen.connect(_change_screen)
@@ -175,12 +186,12 @@ func _load_screen(screen_scene: PackedScene) -> void:
 	
 	#var will_transition: bool = true
 	if current_screen != null:
-	
 		remove_child(current_screen)
 		current_screen.queue_free()
 	#else:
 	#	will_transition = false
-		
+	
+	reset_camera()
 	var new_screen : Screen = screen_scene.instantiate()
 	add_child(new_screen)
 	current_screen = new_screen
@@ -216,3 +227,8 @@ func _reset_player_position() -> void:
 	if player:
 		player.global_position = player.start_position
 		player.velocity = Vector2.ZERO
+
+func reset_camera() -> void:
+	if(default_camera_values['set']):
+			$Camera.position = default_camera_values['pos'] 
+			$Camera.zoom = default_camera_values['zoom']
