@@ -104,6 +104,26 @@ func show_choices(prompt: String, options: Array[String]) -> void:
 	# Create new buttons
 	for i in range(options.size()):
 		var btn = Button.new()
+		# Handles button styling
+		var button_style = StyleBoxTexture.new()
+		button_style.texture = DIALOGUE_BACKGROUND
+		button_style.texture_margin_left = 10
+		button_style.texture_margin_right = 10
+		button_style.texture_margin_top = 5
+		button_style.texture_margin_bottom = 5
+		
+		btn.add_theme_stylebox_override("normal", button_style)
+		btn.add_theme_stylebox_override("hover", button_style)
+		btn.add_theme_stylebox_override("pressed", button_style)
+		btn.add_theme_stylebox_override("focus", button_style)
+		
+		btn.add_theme_color_override("font_color", Color.BLACK)
+		btn.add_theme_color_override("font_pressed_color", Color.BLACK)
+		btn.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+		btn.add_theme_color_override("font_focus_color", Color.BLACK)
+		btn.add_theme_font_override("font", RECEIPT_FONT)
+		btn.add_theme_font_size_override("font_size", 24)
+		
 		btn.text = options[i]
 		btn.pressed.connect(_on_choice_pressed.bind(i))
 		choice_container.add_child(btn)

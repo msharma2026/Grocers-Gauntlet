@@ -4,6 +4,9 @@ class_name Entrance
 extends Screen
 
 const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/item_library.tscn")
+const PRICE_TAG_TEXTURE: CompressedTexture2D = preload("res://assets/sprites/price_tag.png")
+const RECEIPT_FONT: FontFile = preload("res://assets/fonts/Merchant_Copy.ttf")
+const DIALOGUE_BACKGROUND: CompressedTexture2D = preload("res://assets/sprites/dialogue_background.png")
 
 # for transition animation
 @export var transition_curve: Curve
@@ -85,13 +88,35 @@ func _create_back_button() -> void:
 	var canvas_layer_node := CanvasLayer.new()
 	var container_node := VBoxContainer.new()
 	var back_button := Button.new()
+	var back_button_style := StyleBoxTexture.new()
 	
 	add_child(canvas_layer_node)
 	canvas_layer_node.add_child(container_node)
 	container_node.add_child(back_button)
 	
+	back_button_style.texture = PRICE_TAG_TEXTURE
+	back_button_style.texture_margin_left = 20
+	back_button_style.texture_margin_right = 50
+	back_button_style.texture_margin_top = 5
+	back_button_style.texture_margin_bottom = 5
+	
 	back_button.text = "Go Back"
 	back_button.icon = null
+	back_button.custom_minimum_size = Vector2(200, 50)
+	# Back button styling
+	back_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	back_button.add_theme_stylebox_override("normal", back_button_style)
+	back_button.add_theme_stylebox_override("hover", back_button_style)
+	back_button.add_theme_stylebox_override("pressed", back_button_style)
+	back_button.add_theme_stylebox_override("focus", back_button_style)
+	
+	back_button.add_theme_color_override("font_color", Color.BLACK)
+	back_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	back_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	back_button.add_theme_font_override("font", RECEIPT_FONT)
+	back_button.add_theme_font_size_override("font_size", 36)
+	
 	back_button.pressed.connect(_on_back_selected.bind("main_menu"))
 	
 	container_node.position = Vector2(5, 5)
@@ -107,23 +132,22 @@ func _build_cart_menu() -> void:
 	ui_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	canvas_layer_node.add_child(ui_root)
 
-	if background_texture:
-		var bg := TextureRect.new()
-		bg.texture = background_texture
-		bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-		bg.stretch_mode = TextureRect.STRETCH_SCALE
-		bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		ui_root.add_child(bg)
-	else:
-		var bg_color := ColorRect.new()
-		bg_color.color = background_color
-		bg_color.set_anchors_preset(Control.PRESET_FULL_RECT)
-		bg_color.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		ui_root.add_child(bg_color)
+	var bg := NinePatchRect.new()
+	bg.texture = DIALOGUE_BACKGROUND
+	bg.patch_margin_left	 = 5
+	bg.patch_margin_right = 5
+	bg.patch_margin_top = 5
+	bg.patch_margin_bottom = 5
+	bg.custom_minimum_size = Vector2(450, 150)
+	bg.anchors_preset = Control.PRESET_CENTER
+	bg.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	bg.grow_vertical = Control.GROW_DIRECTION_BOTH
+	ui_root.add_child(bg)
+	_center_container(bg)
 
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	ui_root.add_child(center)
+	bg.add_child(center)
 
 	var container_node := VBoxContainer.new()
 	container_node.add_theme_constant_override("separation", button_spacing)
@@ -133,6 +157,9 @@ func _build_cart_menu() -> void:
 	var message := Label.new()
 	message.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	message.text = "Choose a Cart Configuration:"
+	message.add_theme_font_override("font", RECEIPT_FONT)
+	message.add_theme_font_size_override("font_size", 36)
+	message.add_theme_color_override("font_color", Color.BLACK)
 	container_node.add_child(message)
 	
 	var slider_row := HBoxContainer.new()
@@ -142,6 +169,13 @@ func _build_cart_menu() -> void:
 
 	var prev_button := Button.new()
 	prev_button.text = "<"
+	prev_button.flat = true
+	prev_button.add_theme_font_override("font", RECEIPT_FONT)
+	prev_button.add_theme_color_override("font_color", Color.BLACK)
+	prev_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	prev_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	prev_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	prev_button.add_theme_font_size_override("font_size", 24)
 	prev_button.pressed.connect(func(): _cycle_cart(-1))
 	slider_row.add_child(prev_button)
 
@@ -152,20 +186,40 @@ func _build_cart_menu() -> void:
 
 	cart_label = Label.new()
 	cart_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	cart_label.add_theme_font_override("font", RECEIPT_FONT)
+	cart_label.add_theme_font_size_override("font_size", 24)
+	cart_label.add_theme_color_override("font_color", Color.BLACK)
 	info_column.add_child(cart_label)
 
 	stats_label = Label.new()
 	stats_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	stats_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	stats_label.add_theme_font_override("font", RECEIPT_FONT)
+	stats_label.add_theme_font_size_override("font_size", 24)
+	stats_label.add_theme_color_override("font_color", Color.BLACK)
 	info_column.add_child(stats_label)
 
 	var next_button := Button.new()
 	next_button.text = ">"
+	next_button.flat = true
+	next_button.add_theme_font_override("font", RECEIPT_FONT)
+	next_button.add_theme_color_override("font_color", Color.BLACK)
+	next_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	next_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	next_button.add_theme_color_override("font_focus_color", Color.BLACK)
+	next_button.add_theme_font_size_override("font_size", 24)
 	next_button.pressed.connect(func(): _cycle_cart(1))
 	slider_row.add_child(next_button)
 
 	var select_button := Button.new()
 	select_button.text = "Select Cart"
+	select_button.flat = true
+	select_button.add_theme_font_override("font", RECEIPT_FONT)
+	select_button.add_theme_font_size_override("font_size", 36)
+	select_button.add_theme_color_override("font_color", Color.BLACK)
+	select_button.add_theme_color_override("font_pressed_color", Color.BLACK)
+	select_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	select_button.add_theme_color_override("font_focus_color", Color.BLACK)
 	select_button.pressed.connect(func(): _on_cart_selected(_current_cart().cart_id))
 	container_node.add_child(select_button)
 	
@@ -257,6 +311,7 @@ func _ensure_default_carts() -> void:
 	paladin.defense = 80
 	carts.append(paladin)
 	
+	
 func _start_slide() -> void:
 	is_animating = true
 	anim_time = 0.0
@@ -267,6 +322,7 @@ func _start_slide() -> void:
 	next_start = next_cart.position
 	next_end = Vector2(100, 100)
 
+
 func _finish_slide() -> void:
 	is_animating = false
 
@@ -275,3 +331,19 @@ func _finish_slide() -> void:
 	var temp = main_cart
 	main_cart = next_cart
 	next_cart = temp
+	
+
+func _center_container(container: Control) -> void:
+	await get_tree().process_frame
+	
+	if container == null:
+		return
+	
+	var container_size: Vector2 = container.size
+	
+	if container_size == Vector2.ZERO:
+		container_size = container.get_combined_minimum_size()
+		
+	var viewport_size = get_viewport_rect().size
+		
+	container.position = (viewport_size - container_size) * 0.5
