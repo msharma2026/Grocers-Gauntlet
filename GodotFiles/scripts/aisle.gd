@@ -17,6 +17,7 @@ var _pending_texture: Texture2D
 func _ready() -> void:
 	outline_material = ShaderMaterial.new()
 	outline_material.shader = OUTLINE_SHADER
+	outline_material.set_shader_parameter("outline_thickness",15.0)
 	connect("input_event", Callable(self, "_on_click"))
 	connect("mouse_entered", Callable(self, "_on_hover"))
 	connect("mouse_exited", Callable(self, "_revert_sprite"))
@@ -54,6 +55,7 @@ func _on_hover() -> void:
 	if animated_sprite.sprite_frames.has_animation("hovering"):
 		animated_sprite.play("hovering")
 	animated_sprite.material = outline_material
+	
 
 func _revert_sprite() -> void:
 	if animated_sprite.sprite_frames.has_animation("default"):
