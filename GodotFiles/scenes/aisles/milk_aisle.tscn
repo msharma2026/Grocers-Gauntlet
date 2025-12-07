@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://druqpwqldwfji"]
+[gd_scene load_steps=10 format=4 uid="uid://druqpwqldwfji"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://lkpj0s5eg7g0" path="res://assets/sprites/aisle/milk_aisle.png" id="2_slqb1"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bnf60q647leoa" path="res://assets/sprites/character/grandma.png" id="4_ertv6"]
 [ext_resource type="Script" uid="uid://cbjvkahrib6fd" path="res://scripts/actors/grandpa_npc.gd" id="5_oaxh5"]
 [ext_resource type="Texture2D" uid="uid://c1h01uhcoyy03" path="res://assets/sprites/character/grandpa.png" id="6_qjcwj"]
+[ext_resource type="Texture2D" uid="uid://jko3eh73jse5" path="res://assets/sprites/aisle/milk_shelf.png" id="7_ertv6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pp4pg"]
 texture = ExtResource("2_slqb1")
@@ -30,11 +31,14 @@ offset_bottom = 1370.0
 [node name="NPC" parent="." index="2"]
 visible = false
 
+[node name="PlayerSpawn" parent="." index="3"]
+position = Vector2(182, 215)
+
 [node name="GrandmaNPC" type="CharacterBody2D" parent="." index="4"]
 script = ExtResource("3_pcvwx")
 
 [node name="Sprite2D" type="Sprite2D" parent="GrandmaNPC" index="0"]
-position = Vector2(829.5, 75.5)
+position = Vector2(501, 190)
 scale = Vector2(2.1875, 2.05)
 texture = ExtResource("4_ertv6")
 
@@ -42,6 +46,54 @@ texture = ExtResource("4_ertv6")
 script = ExtResource("5_oaxh5")
 
 [node name="Sprite2D" type="Sprite2D" parent="GrandpaNPC" index="0"]
-position = Vector2(839.5, 176)
+position = Vector2(501, 215)
 scale = Vector2(1.8125, 2.1)
 texture = ExtResource("6_qjcwj")
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(583, 378)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(81, 321)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(609, 322)
+
+[node name="MilkShelf" type="Sprite2D" parent="." index="7"]
+position = Vector2(194, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="MilkShelf2" type="Sprite2D" parent="." index="8"]
+position = Vector2(480, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="MilkShelf3" type="Sprite2D" parent="." index="9"]
+position = Vector2(385, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="MilkShelf4" type="Sprite2D" parent="." index="10"]
+position = Vector2(575, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="MilkShelf5" type="Sprite2D" parent="." index="11"]
+position = Vector2(288, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="MilkShelf6" type="Sprite2D" parent="." index="12"]
+position = Vector2(673, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")
+
+[node name="Camera2D" type="Camera2D" parent="." index="13"]
+position = Vector2(431, 180)
+zoom = Vector2(1.7, 1.7)
+
+[node name="MilkShelf7" type="Sprite2D" parent="." index="14"]
+position = Vector2(770, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("7_ertv6")

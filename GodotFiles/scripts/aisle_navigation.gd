@@ -66,6 +66,10 @@ func _ready() -> void:
 	
 	if current_aisle_id == "meat" and not game_data.has_meta("meat_intro_shown"):
 		_show_meat_intro_dialogue()
+	
+	var aisle_camera = get_node_or_null("Camera2D")
+	if aisle_camera:
+		aisle_camera.make_current()
 
 func _find_npc() -> CharacterBody2D:
 	for child in get_children():

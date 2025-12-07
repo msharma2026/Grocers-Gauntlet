@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://jd2bna1k33eb"]
+[gd_scene load_steps=9 format=4 uid="uid://jd2bna1k33eb"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://ij221qx5nmlc" path="res://assets/sprites/aisle/meat_aisle.png" id="2_drv3o"]
 [ext_resource type="PackedScene" path="res://scenes/FX/lighting/spot_light.tscn" id="3_81w4h"]
 [ext_resource type="Script" uid="uid://bht4ti1hlysbr" path="res://scripts/actors/butcher_npc.gd" id="4_cnejp"]
 [ext_resource type="Texture2D" uid="uid://cfwy53i2ab2fq" path="res://assets/sprites/character/butcher.png" id="5_0tjba"]
+[ext_resource type="Texture2D" uid="uid://df6cguct4q6dg" path="res://assets/sprites/aisle/meat_shelf.png" id="6_0tjba"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_81w4h"]
 texture = ExtResource("2_drv3o")
@@ -29,6 +30,9 @@ offset_bottom = 1338.0
 [node name="NPC" parent="." index="2"]
 visible = false
 
+[node name="PlayerSpawn" parent="." index="3"]
+position = Vector2(215, 196)
+
 [node name="PointLight2D" parent="." index="4" instance=ExtResource("3_81w4h")]
 position = Vector2(577, 80)
 scale = Vector2(0.7133997, 1)
@@ -41,3 +45,48 @@ script = ExtResource("4_cnejp")
 position = Vector2(15, 15.5)
 scale = Vector2(2.875, 2.55)
 texture = ExtResource("5_0tjba")
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(98, 319)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(692, 318)
+
+[node name="MeatShelf" type="Sprite2D" parent="." index="7"]
+position = Vector2(308, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf2" type="Sprite2D" parent="." index="8"]
+position = Vector2(211, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf3" type="Sprite2D" parent="." index="9"]
+position = Vector2(405, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf4" type="Sprite2D" parent="." index="10"]
+position = Vector2(501, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf5" type="Sprite2D" parent="." index="11"]
+position = Vector2(694, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf6" type="Sprite2D" parent="." index="12"]
+position = Vector2(599, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="Camera2D" type="Camera2D" parent="." index="13"]
+position = Vector2(437, 173)
+zoom = Vector2(1.8, 1.8)
+
+[node name="MeatShelf7" type="Sprite2D" parent="." index="14"]
+position = Vector2(790.00006, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")

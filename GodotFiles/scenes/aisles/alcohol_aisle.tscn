@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://m5pd3qpi1bfe" path="res://scripts/actors/liquor_store_npc.gd" id="4_dum62"]
 [ext_resource type="Texture2D" uid="uid://dgavswlmdw1vh" path="res://assets/sprites/character/liquor.png" id="5_tbfpc"]
 [ext_resource type="PackedScene" path="res://scenes/FX/lighting/spot_light.tscn" id="6_dum62"]
-[ext_resource type="Texture2D" uid="uid://b43p3l71s5nb6" path="res://assets/sprites/aisle/grocery store2 -3.png.png" id="6_j8d0n"]
+[ext_resource type="Texture2D" uid="uid://b43p3l71s5nb6" path="res://assets/sprites/aisle/alcohol_shelf.png" id="6_j8d0n"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dum62"]
 texture = ExtResource("2_p6hyw")
@@ -96,3 +96,7 @@ position = Vector2(568, 324)
 
 [node name="Right" parent="Walls" index="3"]
 position = Vector2(675, 315)
+
+[node name="Camera2D" type="Camera2D" parent="." index="15"]
+position = Vector2(333, 173)
+zoom = Vector2(1.8, 1.8)

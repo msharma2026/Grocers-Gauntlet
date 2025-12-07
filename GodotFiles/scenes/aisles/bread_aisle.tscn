@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://cl33rqioetvje"]
+[gd_scene load_steps=8 format=4 uid="uid://cl33rqioetvje"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://4jpkea0jjdnu" path="res://assets/sprites/aisle/bread_aisle.png" id="2_y6l7x"]
 [ext_resource type="Script" uid="uid://bxfxtmh54a4d1" path="res://scripts/actors/baker_npc.gd" id="3_3qb4k"]
 [ext_resource type="Texture2D" uid="uid://c7a8n4pv3bcwv" path="res://assets/sprites/character/baker.png" id="4_6smpv"]
+[ext_resource type="Texture2D" uid="uid://daiosu72c6dul" path="res://assets/sprites/aisle/bread_shelf.png" id="5_6smpv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0aqv0"]
 texture = ExtResource("2_y6l7x")
@@ -28,10 +29,74 @@ offset_bottom = -353.0
 [node name="NPC" parent="." index="2"]
 visible = false
 
+[node name="PlayerSpawn" parent="." index="3"]
+position = Vector2(301, 291)
+
 [node name="BakerNPC" type="CharacterBody2D" parent="." index="4"]
 script = ExtResource("3_3qb4k")
 
 [node name="Sprite2D" type="Sprite2D" parent="BakerNPC" index="0"]
-position = Vector2(864, 258)
+position = Vector2(839, 258)
 scale = Vector2(2.875, 3.1999998)
 texture = ExtResource("4_6smpv")
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(573, 127)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(578, 452)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(189, 320)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(1090, 325)
+
+[node name="BreadShelf" type="Sprite2D" parent="Walls" index="4"]
+position = Vector2(1090, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf" type="Sprite2D" parent="." index="6"]
+position = Vector2(294, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf2" type="Sprite2D" parent="." index="7"]
+position = Vector2(390, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf3" type="Sprite2D" parent="." index="8"]
+position = Vector2(490, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf4" type="Sprite2D" parent="." index="9"]
+position = Vector2(590, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf5" type="Sprite2D" parent="." index="10"]
+position = Vector2(689, 275)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf6" type="Sprite2D" parent="." index="11"]
+position = Vector2(787, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf7" type="Sprite2D" parent="." index="12"]
+position = Vector2(884, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf8" type="Sprite2D" parent="." index="13"]
+position = Vector2(989, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="Camera2D" type="Camera2D" parent="." index="14"]
+position = Vector2(618, 261)
+zoom = Vector2(1.5, 1.5)

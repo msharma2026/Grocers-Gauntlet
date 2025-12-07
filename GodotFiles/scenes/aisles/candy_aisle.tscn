@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://ogvqt7je07js"]
+[gd_scene load_steps=8 format=4 uid="uid://ogvqt7je07js"]
 
 [ext_resource type="PackedScene" uid="uid://b2u4lk0mwjqhv" path="res://scenes/aisle_navigation.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://cf1focjiq3kob" path="res://assets/sprites/aisle/candy_aisle.png" id="2_0ybpt"]
 [ext_resource type="Script" uid="uid://bh5dvflj2sikg" path="res://scripts/actors/cashier_npc.gd" id="3_o2qlw"]
 [ext_resource type="Texture2D" uid="uid://d30u0vcvdu0mf" path="res://assets/sprites/character/cf.png" id="4_quo5r"]
+[ext_resource type="Texture2D" uid="uid://um177cqofvcn" path="res://assets/sprites/aisle/candy_shelf.png" id="5_quo5r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vxk76"]
 texture = ExtResource("2_0ybpt")
@@ -28,10 +29,74 @@ offset_bottom = 1649.0
 [node name="NPC" parent="." index="2"]
 visible = false
 
+[node name="PlayerSpawn" parent="." index="3"]
+position = Vector2(419, 291)
+
 [node name="CashierNPC" type="CharacterBody2D" parent="." index="4"]
 script = ExtResource("3_o2qlw")
 
 [node name="Sprite2D" type="Sprite2D" parent="CashierNPC" index="0"]
-position = Vector2(978, 177.5)
+position = Vector2(860.00006, 281)
 scale = Vector2(3.5, 2.85)
 texture = ExtResource("4_quo5r")
+
+[node name="Top" parent="Walls" index="0"]
+position = Vector2(569, 69)
+
+[node name="Bottom" parent="Walls" index="1"]
+position = Vector2(561, 425)
+
+[node name="Left" parent="Walls" index="2"]
+position = Vector2(154, 325)
+
+[node name="Right" parent="Walls" index="3"]
+position = Vector2(984, 324)
+
+[node name="CandyShelf" type="Sprite2D" parent="Walls" index="4"]
+position = Vector2(636, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf2" type="Sprite2D" parent="Walls" index="5"]
+position = Vector2(350, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf3" type="Sprite2D" parent="Walls" index="6"]
+position = Vector2(447, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf4" type="Sprite2D" parent="Walls" index="7"]
+position = Vector2(543, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf5" type="Sprite2D" parent="Walls" index="8"]
+position = Vector2(256, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf6" type="Sprite2D" parent="Walls" index="9"]
+position = Vector2(831.00006, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf7" type="Sprite2D" parent="Walls" index="10"]
+position = Vector2(734, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf8" type="Sprite2D" parent="Walls" index="11"]
+position = Vector2(928, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf9" type="Sprite2D" parent="Walls" index="12"]
+position = Vector2(1024, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="Camera2D" type="Camera2D" parent="." index="6"]
+position = Vector2(580, 223)
+zoom = Vector2(1.7, 1.7)
