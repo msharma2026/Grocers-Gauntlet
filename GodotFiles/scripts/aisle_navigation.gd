@@ -1,7 +1,7 @@
 class_name AisleNavigation
 extends Screen
 
-@onready var npc: CharacterBody2D = $NPC
+var npc: CharacterBody2D
 
 # State variables
 var dialogue_overlay: DialogueOverlay
@@ -48,6 +48,9 @@ const MOODS := {
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
 	_rng.randomize()
+	
+	npc = _find_npc()
+	
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
 		var spawn_point = Vector2(576, 550)
@@ -60,6 +63,17 @@ func _ready() -> void:
 	
 	if current_aisle_id == "alcohol" and not game_data.has_meta("alcohol_intro_shown"):
 		_show_alcohol_intro_dialogue()
+	
+	if current_aisle_id == "meat" and not game_data.has_meta("meat_intro_shown"):
+		_show_meat_intro_dialogue()
+
+func _find_npc() -> CharacterBody2D:
+	for child in get_children():
+		if child is NPC and child.visible:
+			return child
+	if has_node("NPC"):
+		return $NPC
+	return null
 
 func setup_encounter(item_id: String) -> void:
 	current_aisle_id = item_id
@@ -92,13 +106,33 @@ func _show_alcohol_intro_dialogue() -> void:
 		set_process(true)
 	)
 
+func _show_meat_intro_dialogue() -> void:
+	set_process(false)
+	game_data.set_meta("meat_intro_shown", true)
+	
+	var intro_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
+	add_child(intro_overlay)
+	
+	intro_overlay.start_dialogue("Player", ["There's too much blood everywhere."])
+	intro_overlay.dialogue_finished.connect(func():
+		intro_overlay.queue_free()
+		set_process(true)
+	)
+
 func _process(_delta: float) -> void:
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player and npc:
-		var distance = player.global_position.distance_to(npc.global_position)
+		var npc_position = _get_npc_visual_position()
+		var distance = player.global_position.distance_to(npc_position)
 		
 		if distance < 80.0: 
 			start_encounter()
+
+func _get_npc_visual_position() -> Vector2:
+	for child in npc.get_children():
+		if child is Sprite2D or child is AnimatedSprite2D:
+			return npc.global_position + child.position
+	return npc.global_position
 
 func start_encounter() -> void:
 	print("Encounter Started!")
@@ -125,8 +159,46 @@ func start_encounter() -> void:
 	
 	if current_aisle_id == "alcohol":
 		_start_alcohol_encounter()
+	elif current_aisle_id == "bread":
+		_start_baker_encounter()
+	elif current_aisle_id == "meat":
+		_start_butcher_encounter()
 	else:
 		_start_normal_encounter()
+
+func _start_baker_encounter() -> void:
+	var lines: Array[String] = [
+		"Mmm… smells like heaven.",
+		"Haven't smelt this in years."
+	]
+	dialogue_overlay.start_dialogue("Player", lines)
+	dialogue_overlay.dialogue_finished.connect(_baker_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _baker_dialogue_step_1() -> void:
+	dialogue_overlay.start_dialogue("Baker", ["Warm bread has a way of finding people who need it."])
+	dialogue_overlay.dialogue_finished.connect(_baker_dialogue_to_haggle, CONNECT_ONE_SHOT)
+
+func _baker_dialogue_to_haggle() -> void:
+	_start_normal_encounter()
+
+func _start_butcher_encounter() -> void:
+	dialogue_overlay.start_dialogue("Butcher", ["You look out of shape and weak.", "YOU NEED SOME PROTEIN!"])
+	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _butcher_dialogue_step_1() -> void:
+	dialogue_overlay.start_dialogue("Player", ["Can I put it in the air fryer? That's all I can work."])
+	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_step_2, CONNECT_ONE_SHOT)
+
+func _butcher_dialogue_step_2() -> void:
+	dialogue_overlay.start_dialogue("Butcher", ["You want to put good steak in the air fryer?", "Don't make me stab you."])
+	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_step_3, CONNECT_ONE_SHOT)
+
+func _butcher_dialogue_step_3() -> void:
+	dialogue_overlay.start_dialogue("Player", ["Okay..."])
+	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_to_haggle, CONNECT_ONE_SHOT)
+
+func _butcher_dialogue_to_haggle() -> void:
+	_start_normal_encounter()
 
 func _start_alcohol_encounter() -> void:
 	dialogue_overlay.start_dialogue("Player", ["Why are you in a Santa costume?"])

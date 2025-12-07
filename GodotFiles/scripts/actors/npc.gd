@@ -38,6 +38,8 @@ func _physics_process(_delta: float) -> void:
 	pass
 	
 func change_mood(new_mood: String) -> void:
+	if not sprite:
+		return
 	var mat := ShaderMaterial.new()
 
 	match new_mood:
@@ -46,11 +48,11 @@ func change_mood(new_mood: String) -> void:
 			mat.shader = render_shader
 			var new_color: Color = Color(0.0, 1.0, 0.0, 1.0)
 			mat.set_shader_parameter("target_color", new_color)
-			$AnimatedSprite2D.material = mat
+			sprite.material = mat
 		'grumpy':
 			print_debug("grumpy")
 			mat.shader = pulsate_red_shader
-			$AnimatedSprite2D.material = mat
+			sprite.material = mat
 		_:
 			print_debug("neutral")
-			$AnimatedSprite2D.material = null
+			sprite.material = null

@@ -15,7 +15,14 @@ enum Facing {
 	IS_FACING_DOWN,
 }
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite: Node2D = _find_sprite()
+
+func _find_sprite() -> Node2D:
+	if has_node("AnimatedSprite2D"):
+		return $AnimatedSprite2D
+	elif has_node("Sprite2D"):
+		return $Sprite2D
+	return null
 
 var character_facing: Facing
 
