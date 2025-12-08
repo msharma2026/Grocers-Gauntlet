@@ -1,20 +1,22 @@
 shader_type canvas_item;
 
 uniform sampler2D noise_tex;
-uniform float dust_rise : hint_range(0.0, 1.0) = 1.0;
-uniform float dust_cutoff = 0.2;
-
+uniform float noise_scale : hint_range(0.5, 8.0) = 2.0;
+uniform float dirt_strength : hint_range(0.0, 2.0) = 1.2;
 
 void fragment() {
     vec4 base = texture(TEXTURE, UV);
-	float y = UV.y;
-	float dist_from_cutoff = dust_rise - y;
-	float alpha = texture(TEXTURE,UV).a;
-	if(alpha > 0.0) {
-		float intensity = texture(noise_tex,UV).b;
-		COLOR.rgb = texture(TEXTURE,UV).rgb  * (intensity);
-		
+
+    if (base.a <= 0.0) {
+        COLOR = vec4(0.0);
+    }
+	else {
+	    vec2 nuv = UV * noise_scale;
+	    float n = texture(noise_tex, nuv).r;
+
+	    float dirt = n;
+
+	    vec3 final_rgb = base.rgb * (1.0 - dirt * dirt_strength);
+	    COLOR = vec4(final_rgb, base.a);
 	}
-	
-	
 }

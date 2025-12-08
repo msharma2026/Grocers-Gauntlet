@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://dyvegd0oliw13"]
+[gd_scene load_steps=90 format=3 uid="uid://dyvegd0oliw13"]
 
 [ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/item_library.gd" id="1_2weng"]
 [ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/item_config.gd" id="2_ctlof"]
@@ -55,9 +55,9 @@ atlas = ExtResource("3_eb6ku")
 script = ExtResource("2_ctlof")
 item_id = "Whole Pizza"
 type = ExtResource("2_kx350")
+size = 1
 health_increase = 10
 description = "Party-sized pie that powers midnight runs."
-size = 1
 icon = SubResource("AtlasTexture_pdmpn")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 

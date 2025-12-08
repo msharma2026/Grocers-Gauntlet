@@ -26,6 +26,9 @@ extends Screen
 @export var header_bias: int = -60
 @export var banner_background_texture: Texture2D
 
+const RAINBOW_SHADER:Shader = preload("res://assets/shaders/rainbow.gdshader")
+const DIRTY_SHADER:Shader = preload("res://assets/shaders/dirty.gdshader")
+
 const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 const TEXT_FONT_COLOR = Color.WHITE
 const TITLE_FONT_COLOR = Color.BLACK
@@ -208,6 +211,10 @@ func _build_item_entry(item: ItemConfig, content_size: Vector2, count: int) -> V
 	icon_rect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	if(icon_holder.item.quality == icon_holder.item.QUALITY.PERFECT):
+		icon_rect.material = _get_perfect_shader()
+	elif(icon_holder.item.quality == icon_holder.item.QUALITY.ROUGH):
+		icon_rect.material = _get_rough_shader()
 	icon_holder.add_child(icon_rect)
 	# Use custom tooltip to show name, stats, and description.
 	icon_holder.tooltip_text = " "  # needs a non-empty tooltip to trigger _make_custom_tooltip
@@ -601,3 +608,20 @@ func _build_inventory_banner() -> Control:
 	margin.add_child(label)
 	wrapper.add_child(margin)
 	return wrapper
+
+
+func _get_perfect_shader() -> ShaderMaterial:
+	var mat := ShaderMaterial.new()
+	mat.shader = RAINBOW_SHADER
+	#mat.set_shader_parameter("outline_thickness", 3.0)
+	return mat
+	
+func _get_rough_shader() -> ShaderMaterial:
+	var mat := ShaderMaterial.new()
+	var noise := FastNoiseLite.new()
+	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX   # SIMPLEX!
+	var noise_tex := NoiseTexture2D.new()
+	noise_tex.noise = noise
+	mat.shader = DIRTY_SHADER
+	mat.set_shader_parameter("noise_tex", noise_tex)
+	return mat

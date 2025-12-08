@@ -33,11 +33,13 @@ func assign_starter_items() -> void:
 			continue
 		
 		if config.size <= capacity_left:
+			config.finalize_quality()
 			game_data.inventory.append(config)
 			capacity_left -= config.size
 
 
 func add_item_to_inventory(config: ItemConfig) -> bool:
+	config.finalize_quality()
 	if config == null:
 		return false
 	if game_data.inventory.size() >= MAX_ITEMS:
