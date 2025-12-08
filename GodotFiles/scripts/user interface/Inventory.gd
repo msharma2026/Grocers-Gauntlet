@@ -390,8 +390,8 @@ func _scaled_font_size(base: int, min_size: int) -> int:
 	if vp == null:
 		return base
 	var size := vp.get_visible_rect().size
-	var scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
-	return clamp(int(round(base * scale)), min_size, 200)
+	var new_scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
+	return clamp(int(round(base * new_scale)), min_size, 200)
 
 
 func _scaled_px(base: int) -> int:
@@ -399,9 +399,9 @@ func _scaled_px(base: int) -> int:
 	if vp == null:
 		return base
 	var size := vp.get_visible_rect().size
-	var scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
+	var new_scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
 	var max_val := int(base * SCALE_CLAMP)
-	return clamp(int(round(base * scale)), base, max_val)
+	return clamp(int(round(base * new_scale)), base, max_val)
 
 
 func _wrap_with_bias(node: Control, bias_px: int) -> Control:
