@@ -405,7 +405,8 @@ func _handle_forced_leave() -> void:
 		"You're wasting my time! Get out of here!",
 		"(You were kicked out because you couldn't afford the forced price.)"
 	])
-	dialogue_overlay.dialogue_finished.disconnect(_handle_forced_leave)
+	if dialogue_overlay.dialogue_finished.is_connected(_handle_forced_leave):
+		dialogue_overlay.dialogue_finished.disconnect(_handle_forced_leave)
 	dialogue_overlay.dialogue_finished.connect(_handle_leave)
 	
 
