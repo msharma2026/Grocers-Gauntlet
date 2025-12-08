@@ -226,7 +226,7 @@ func _baker_dialogue_step_1() -> void:
 	dialogue_overlay.dialogue_finished.connect(_baker_dialogue_to_haggle, CONNECT_ONE_SHOT)
 
 func _baker_dialogue_to_haggle() -> void:
-	_start_normal_encounter()
+	_show_price_and_choices("Baker")
 
 func _start_butcher_encounter() -> void:
 	dialogue_overlay.start_dialogue("Butcher", ["You look out of shape and weak.", "YOU NEED SOME PROTEIN!"])
@@ -267,7 +267,7 @@ func _butcher_dialogue_step_3() -> void:
 	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_to_haggle, CONNECT_ONE_SHOT)
 
 func _butcher_dialogue_to_haggle() -> void:
-	_start_normal_encounter()
+	_show_price_and_choices("Butcher")
 
 func _start_alcohol_encounter() -> void:
 	dialogue_overlay.start_dialogue("Player", ["Why are you in a Santa costume?"])
@@ -291,7 +291,16 @@ func _alcohol_dialogue_step_3() -> void:
 	dialogue_overlay.dialogue_finished.connect(_alcohol_dialogue_to_haggle, CONNECT_ONE_SHOT)
 
 func _alcohol_dialogue_to_haggle() -> void:
-	_start_normal_encounter()
+	_show_price_and_choices("Liquor Clerk")
+
+func _show_price_and_choices(merchant_name: String) -> void:
+	var lines: Array[String] = [
+		"I've got this fine " + item_name + " for just $" + str(current_price) + ".",
+		"(Budget: $" + str(game_data.budget) + ")"
+	]
+	dialogue_overlay.start_dialogue(merchant_name, lines)
+	dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+	dialogue_overlay.choice_selected.connect(_on_choice_made)
 
 func _start_normal_encounter() -> void:
 	var lines: Array[String] = []
