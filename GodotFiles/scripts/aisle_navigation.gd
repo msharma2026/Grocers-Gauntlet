@@ -309,7 +309,9 @@ func _start_normal_encounter() -> void:
 	else:
 		lines.append("Hey there, traveler... (" + _get_mood_label() + ")")
 	
-	lines.append("Looking for some fresh produce?")
+	var pitch := _get_aisle_pitch()
+	if pitch != "":
+		lines.append(pitch)
 	lines.append("I've got this fine " + item_name + " for just $" + str(current_price) + ".")
 	
 	if is_desperate:
@@ -327,6 +329,21 @@ func _start_normal_encounter() -> void:
 func _on_intro_finished() -> void:
 	# Intro text done, now show choices
 	_show_main_choices()
+
+func _get_aisle_pitch() -> String:
+	match current_aisle_id:
+		"candy":
+			return "Craving something sweet?"
+		"milk":
+			return "Need something to drink?"
+		"bread":
+			return "Looking for nourishment?"
+		"meat":
+			return "How about a fresh meal?"
+		"alcohol":
+			return "Something to take the edge off?"
+		_:
+			return "Looking for some fresh produce?"
 
 func _show_main_choices() -> void:
 	var can_afford = game_data.budget >= current_price
