@@ -44,8 +44,43 @@ func add_item_to_inventory(config: ItemConfig) -> bool:
 		return false
 	if game_data.inventory.size() >= MAX_ITEMS:
 		return false
-	# Optional capacity check if size matters; skip if not enforced here.
-	#if config.size > 0 and game_data.inventory.size() + config.size > MAX_ITEMS:
-		#return false
 	game_data.inventory.append(config)
 	return true
+
+func use_item(config: ItemConfig) -> bool:
+	if config == null:
+		return false
+	# Apply buffs to player stats
+	if config.health_increase != 0:
+		game_data.health_percentage = clamp(
+			game_data.health_percentage + config.health_increase,
+			0,
+			GameState.MAX_HEALTH
+		)
+	if config.charisma_increase != 0:
+		game_data.charisma = clamp(
+			game_data.charisma + config.charisma_increase,
+			0,
+			GameState.MAX_CHARISMA
+		)
+	if config.dexterity_increase != 0:
+		game_data.dexterity = clamp(
+			game_data.dexterity + config.dexterity_increase,
+			0,
+			GameState.MAX_DEXTERITY
+		)
+	if config.defense_increase != 0:
+		game_data.defense = clamp(
+			game_data.defense + config.defense_increase,
+			0,
+			GameState.MAX_DEFENSE
+		)
+	if config.budget_increase != 0.0:
+		game_data.budget += config.budget_increase
+	# Remove a single instance of this item from inventory
+	for i in range(game_data.inventory.size()):
+		var inv_item: ItemConfig = game_data.inventory[i]
+		if inv_item == config or (inv_item and inv_item.resource_path == config.resource_path):
+			game_data.inventory.remove_at(i)
+			return true
+	return false
