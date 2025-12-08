@@ -212,7 +212,7 @@ func _open_options_menu() -> void:
 	options_container.add_child(fullscreen_slider)
 
 	var vol_label := Label.new()
-	vol_label.text = "Music Volume"
+	vol_label.text = "Master Volume"
 	vol_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vol_label.add_theme_font_override("font", RECEIPT_FONT)
 	vol_label.add_theme_font_size_override("font_size", 36)
@@ -227,7 +227,7 @@ func _open_options_menu() -> void:
 	vol_slider.max_value = 1.0
 	vol_slider.step = 0.05
 	vol_slider.custom_minimum_size = Vector2(180, 0)
-	var bus_idx = AudioServer.get_bus_index("Music")
+	var bus_idx = AudioServer.get_bus_index("Master")
 	if bus_idx != -1:
 		vol_slider.value = db_to_linear(AudioServer.get_bus_volume_db(bus_idx))
 	vol_slider.value_changed.connect(_volume_change)
