@@ -75,7 +75,12 @@ func _generate_aisles() -> void:
 		aisle_instance.aisle_clicked.connect(_on_aisle_clicked)
 		
 		var path = aisle_textures[aisle_id]
-		var tex = load(path)
+		var tex: Texture2D = load(path)
+
+
+		if aisle_id != BLACK_MARKET_ID:
+			tex = _upscale_texture(tex, 20)
+
 		aisle_instance.set_aisle_texture(tex)
 
 func _collect_markers() -> Array[Marker2D]:
@@ -134,3 +139,7 @@ func _show_intro_dialogue() -> void:
 	dialogue.start_dialogue("Player", lines)
 	dialogue.dialogue_finished.connect(func(): dialogue.queue_free())
 	
+func _upscale_texture(tex: Texture2D, factor: int) -> Texture2D:
+	var img := tex.get_image()
+	img.resize(img.get_width() * factor, img.get_height() * factor, Image.INTERPOLATE_NEAREST)
+	return ImageTexture.create_from_image(img)

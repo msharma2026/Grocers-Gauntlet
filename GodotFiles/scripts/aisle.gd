@@ -43,7 +43,6 @@ func set_aisle_texture(texture: Texture2D) -> void:
 	frames.add_frame("default", texture)
 	frames.add_animation("hovering")
 	frames.add_frame("hovering", texture)
-
 	animated_sprite.sprite_frames = frames
 	animated_sprite.play("default")
 
