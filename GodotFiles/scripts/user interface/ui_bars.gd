@@ -9,7 +9,7 @@ const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 
 func _process(_delta: float) -> void:
 	if budget_label:
-		budget_label.text = "Budget: $" + str(game_data.budget)
+		budget_label.text = "Budget: $%0.2f" % game_data.budget
 		var budget_style = StyleBoxTexture.new()
 		budget_style.texture = DIALOGUE_BACKGROUND
 		budget_style.texture_margin_left = 5
