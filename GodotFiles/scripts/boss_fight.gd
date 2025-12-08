@@ -38,6 +38,12 @@ func _start_on_transition_end() -> void:
 
 func _on_boss_area_body_entered(body: Node2D) -> void:
 	if body is Player and not battle_active:
+		if player:
+			player.set_physics_process(false)
+			player.velocity = Vector2.ZERO
+			if player.sprite:
+				player.sprite.play("idle_straight")
+		
 		if dialogue_overlay == null:
 			start_boss_dialogue()
 
@@ -54,11 +60,7 @@ func start_boss_dialogue() -> void:
 func _start_battle_sequence() -> void:
 	battle_active = true
 	
-	if player:
-		player.set_physics_process(false)
-		player.velocity = Vector2.ZERO
-		if player.sprite:
-			player.sprite.play("idle_straight")
+	# Logic for locking movement removed here because it was moved to _on_boss_area_body_entered
 
 	if dialogue_overlay.dialogue_finished.is_connected(_start_battle_sequence):
 		dialogue_overlay.dialogue_finished.disconnect(_start_battle_sequence)
