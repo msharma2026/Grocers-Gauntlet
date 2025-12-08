@@ -4,12 +4,12 @@ class_name HowToPlay
 extends Screen
 
 const RECEIPT_FONT := preload("res://assets/fonts/Merchant_Copy.ttf")
-
-@export_multiline var instructions_text := """Move with WASD or the Arrow Keys.
-Left click to interact with shelves and shoppers.
-Press Space to dash past obstacles.
-Keep an eye on your list and budget at the top of the screen.
-Hit Esc to pause or open your inventory."""
+const TUTORIAL_IMAGE = preload("res://assets/sprites/tutorial.png")
+#@export_multiline var instructions_text := """Move with WASD or the Arrow Keys.
+#Left click to interact with shelves and shoppers.
+#Press Space to dash past obstacles.
+#Keep an eye on your list and budget at the top of the screen.
+#Hit Esc to pause or open your inventory."""
 
 @export var button_spacing: int = 12
 @export var content_width: int = 640
@@ -47,17 +47,12 @@ func _build_screen() -> void:
 	title.add_theme_color_override("font_color", Color.WHITE)
 	container.add_child(title)
 	
-	var instructions := RichTextLabel.new()
-	instructions.bbcode_enabled = true
-	instructions.fit_content = true
-	instructions.scroll_active = false
-	instructions.autowrap_mode = TextServer.AUTOWRAP_WORD
-	instructions.custom_minimum_size = Vector2(content_width, 0)
-	instructions.add_theme_font_override("normal_font", RECEIPT_FONT)
-	instructions.add_theme_font_size_override("normal_font_size", 32)
-	instructions.add_theme_color_override("default_color", Color.WHITE)
-	instructions.text = _build_bullets(instructions_text)
-	container.add_child(instructions)
+	var img := TextureRect.new()
+	img.texture = TUTORIAL_IMAGE
+	img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	img.size_flags_horizontal = Control.SIZE_FILL
+	img.size_flags_vertical = Control.SIZE_FILL
+	container.add_child(img)
 	
 	var back_button := Button.new()
 	back_button.text = "Back"

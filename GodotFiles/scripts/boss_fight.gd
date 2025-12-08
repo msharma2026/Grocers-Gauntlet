@@ -6,8 +6,8 @@ const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogu
 
 # Boss Stats
 var boss_name: String = "Manager"
-var boss_health: int = 75
-var boss_max_health: int = 75
+var boss_health: int = 50
+var boss_max_health: int = 50
 var boss_attack: int = 60
 var boss_defense: int = 20
 var boss_speed: int = 30

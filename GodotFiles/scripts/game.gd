@@ -4,8 +4,8 @@ extends Node2D
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/ui_bars.tscn")
 const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/aisle_navigation.tscn")
-# [New] Preload the boss scene
 const BOSS_SCENE: PackedScene = preload("res://scenes/boss_fight.tscn")
+const END_SCENE: PackedScene = preload("res://scenes/end_scene.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
@@ -31,9 +31,10 @@ var default_camera_values : Dictionary = {
 @onready var health_bar: ProgressBar
 
 func _ready() -> void:
-	# [New] Manually register the boss scene so "boss_fight" is a valid key
 	if not screens.has("boss_fight"):
 		screens["boss_fight"] = BOSS_SCENE
+	if not screens.has("end_scene"):
+		screens["end_scene"] = END_SCENE
 
 	systems.audio = $Audio
 	systems.camera = $Camera
@@ -167,15 +168,13 @@ func _change_screen(screen_ref) -> void:
 		
 		_load_screen(screens[screen_id])
 		
-		# FIX: Check specifically for "aisles" to make player visible
 		if screen_id == "aisles":
 			_reset_player_position()
 			_update_player_visibility(true)
 		elif screen_id == "boss_fight":
-			# [New] Handle player visibility for boss fight specifically if needed
 			_update_player_visibility(true)
 		else:
-			# Hide player on main_menu, entrance, etc.
+			# Hide player on main_menu, entrance, end_scene, etc.
 			_update_player_visibility(false)
 		return
 	
