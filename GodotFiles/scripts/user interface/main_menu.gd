@@ -6,6 +6,7 @@ extends Screen
 const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
 const LOGO_TEXTURE = preload("res://assets/sprites/logo.png")
 const PRICE_TAG_TEXTURE = preload("res://assets/sprites/price_tag.png")
+const DIALOGUE_TEXTURE = preload("res://assets/sprites/dialogue_background.png")
 
 @export var button_map: Array[ButtonConfig]
 @export var button_spacing: int = 15
@@ -95,6 +96,12 @@ func _on_button_pressed(screen_ref) -> void:
 		elif screen_ref == "exit_confirm_no":
 			_build_main_menu()
 			return
+		elif screen_ref == "credits":
+			_build_credits_menu()
+			return
+		elif screen_ref == "main_menu":
+			_build_main_menu()
+			return
 	
 	change_screen.emit(screen_ref)
 	
@@ -166,7 +173,100 @@ func _are_you_sure_message() -> void:
 		container_size = confirm_container.get_combined_minimum_size()
 	
 	confirm_container.position = (viewport_size - container_size) * 0.5
+
+
+func _build_credits_menu() -> void:
+	if canvas_layer_node:
+		canvas_layer_node.queue_free()
 	
+	canvas_layer_node = CanvasLayer.new()
+	add_child(canvas_layer_node)
+	
+	var main_container: VBoxContainer = VBoxContainer.new()
+	canvas_layer_node.add_child(main_container)
+	main_container.set_anchors_preset(Control.PRESET_CENTER)
+	main_container.add_theme_constant_override("separation", 20)
+	
+	var title_background: NinePatchRect = NinePatchRect.new()
+	title_background.texture = DIALOGUE_TEXTURE
+	title_background.patch_margin_left = 25
+	title_background.patch_margin_right = 25
+	title_background.patch_margin_top = 25
+	title_background.patch_margin_bottom = 25
+	title_background.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	title_background.custom_minimum_size = Vector2(200, 50)
+	main_container.add_child(title_background)
+	
+	var title: Label = Label.new()
+	title.text = "Credits"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.add_theme_font_override("font", RECEIPT_FONT)
+	title.add_theme_font_size_override("font_size", 80)
+	title.add_theme_color_override("font_color", Color.BLACK)
+	title_background.add_child(title)
+	title.set_anchors_preset(Control.PRESET_FULL_RECT)
+	
+	var credits_background: NinePatchRect = NinePatchRect.new()
+	credits_background.texture = DIALOGUE_TEXTURE
+	credits_background.patch_margin_left = 25
+	credits_background.patch_margin_right = 25
+	credits_background.patch_margin_top = 25
+	credits_background.patch_margin_bottom = 25
+	credits_background.custom_minimum_size = Vector2(950, 200)
+	credits_background.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	main_container.add_child(credits_background)
+	
+	# Credits Text
+	var credits_text := "Technical Artist + Player Onboarding and Tutorials:\
+						Joshua Clark\n\
+						Game Logic + Game Feel: Marq Lott\n\
+						Procedural Content Design + Audio: Manav Sharma\n\
+						Animations and Visuals + Narrative Design: Yugraj Dhillon\n\
+						Movement and Physics + Press Kit and Trailer: Aktan Azat\n\
+						User Interface and Input + Gameplay Testing: David Estrella"
+	var credits_label: Label = Label.new()
+	credits_label.text = credits_text
+	credits_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	credits_label.add_theme_font_override("font", RECEIPT_FONT)
+	credits_label.add_theme_font_size_override("font_size", 40)
+	credits_label.add_theme_color_override("font_color", Color.BLACK)
+	credits_background.add_child(credits_label)
+	credits_label.set_anchors_preset(Control.PRESET_FULL_RECT)
+	credits_label.add_theme_constant_override("margin_top", 20)
+	credits_label.add_theme_constant_override("margin_bottom", 20)
+	
+	# Back Button
+	var price_tag: StyleBoxTexture = StyleBoxTexture.new()
+	price_tag.texture = PRICE_TAG_TEXTURE
+	price_tag.texture_margin_left = 20
+	price_tag.texture_margin_right = 20
+	price_tag.texture_margin_top = 10
+	price_tag.texture_margin_bottom = 10
+	
+	var back_button: Button = Button.new()
+	back_button.text = "Back"
+	back_button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	back_button.custom_minimum_size = Vector2(200, 20)
+	back_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	
+	back_button.add_theme_stylebox_override("normal", price_tag)
+	back_button.add_theme_stylebox_override("hover", price_tag)
+	back_button.add_theme_stylebox_override("pressed", price_tag)
+	back_button.add_theme_stylebox_override("focus", price_tag)
+	
+	back_button.add_theme_font_override("font", RECEIPT_FONT)
+	back_button.add_theme_font_size_override("font_size", 60)
+	back_button.add_theme_color_override("font_color", Color.BLACK)
+	back_button.add_theme_color_override("font_hover_color", Color.CORNFLOWER_BLUE)
+	
+	back_button.pressed.connect(_on_button_pressed.bind("main_menu"))
+	back_button.mouse_entered.connect(_on_button_hover)
+	
+	main_container.add_child(back_button)
+	
+	await _center_container(main_container, Vector2(0, 0))
+
 	
 func _center_container(container: Control, offset: Vector2) -> void:
 	await get_tree().process_frame
