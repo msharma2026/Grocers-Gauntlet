@@ -13,6 +13,7 @@ const MAX_HEALTH: int = 100
 const MAX_CHARISMA: int = 100
 const MAX_DEXTERITY: int = 100
 const MAX_DEFENSE: int = 100
+const MAX_ATTACK: int = 100
 const MAX_MARKUP_RATE: float = 2.0
 const START_BUDGET: float = 100.0
 
@@ -25,6 +26,7 @@ var map_depth: int  #set to 0 in game.gd _ready()
 var health_percentage: int = 100
 var charisma: int
 var dexterity: int
+var attack: int = 10
 var defense: int
 var current_markup_rate: float
 var budget: float = START_BUDGET

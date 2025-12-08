@@ -2,17 +2,26 @@ class_name BossFight
 extends Screen
 
 var dialogue_overlay: DialogueOverlay
-
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
+
+# --- Boss Stats (UPDATED) ---
+var boss_name: String = "Manager"
+var boss_health: int = 300      # Increased HP for a longer fight
+var boss_max_health: int = 500
+var boss_attack: int = 60       # Increased from 25 to 60 to penetrate player defense
+var boss_defense: int = 20      # Increased slightly
+var boss_speed: int = 30
+
+# --- Battle State ---
+var is_player_blocking: bool = false
+var is_boss_blocking: bool = false
+var battle_active: bool = false
 
 func _ready() -> void:
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
-		# Ensure player is visible and active
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
-		
-		# Set player position to the spawn marker
 		var spawn_point = Vector2(576, 500)
 		if has_node("PlayerSpawn"):
 			spawn_point = get_node("PlayerSpawn").global_position
@@ -23,65 +32,166 @@ func _ready() -> void:
 		boss_camera.make_current()
 
 func _start_on_transition_end() -> void:
-	# Previously this started dialogue immediately. 
-	# Now we leave it empty so the player is free to move.
 	pass
 
-# [New] Connected from the BossArea Area2D signal in the editor
 func _on_boss_area_body_entered(body: Node2D) -> void:
-	# DEBUG: Print what entered the area to the Output console
-	print("Body entered boss area: ", body.name)
-	
-	if body is Player:
-		# DEBUG: Confirm it found the script class correctly
-		print("Body identified as Player!")
-		
-		# Check if dialogue is already running to prevent double triggers
+	if body is Player and not battle_active:
 		if dialogue_overlay == null:
 			start_boss_dialogue()
 
+# Intro
 func start_boss_dialogue() -> void:
 	dialogue_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
 	add_child(dialogue_overlay)
+	# Connect signals for the battle menu
+	dialogue_overlay.choice_selected.connect(_on_battle_choice_made)
 	
-	dialogue_overlay.start_dialogue("Manager", ["STOP!"])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_1, CONNECT_ONE_SHOT)
+	dialogue_overlay.start_dialogue(boss_name, ["STOP!", "You are cheating yourself again."])
+	dialogue_overlay.dialogue_finished.connect(_start_battle_sequence, CONNECT_ONE_SHOT)
 
-func _dialogue_step_1() -> void:
-	dialogue_overlay.start_dialogue("Manager", ["You are cheating yourself again."])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_2, CONNECT_ONE_SHOT)
+# Battle Implementation
+func _start_battle_sequence() -> void:
+	battle_active = true
+	# Disconnect any old signals
+	if dialogue_overlay.dialogue_finished.is_connected(_start_battle_sequence):
+		dialogue_overlay.dialogue_finished.disconnect(_start_battle_sequence)
+	
+	_start_new_turn()
 
-func _dialogue_step_2() -> void:
-	dialogue_overlay.start_dialogue("Player", ["Again?"])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_3, CONNECT_ONE_SHOT)
+func _start_new_turn() -> void:
+	# Reset temporary turn flags
+	is_player_blocking = false
+	is_boss_blocking = false
+	
+	# Determine turn order based on Speed (Dexterity)
+	if game_data.dexterity >= boss_speed:
+		_player_choice_menu()
+	else:
+		_boss_turn()
 
-func _dialogue_step_3() -> void:
-	dialogue_overlay.start_dialogue("Manager", ["You take the easy way out to help yourself."])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_4, CONNECT_ONE_SHOT)
+func _player_choice_menu() -> void:
+	var hp_text = "Boss HP: %d / %d" % [boss_health, boss_max_health]
+	var options: Array[String] = [
+		"Strike (Attack)", 
+		"Block (Defense)", 
+		"Outmaneuver (Speed)"
+	]
+	dialogue_overlay.show_choices(hp_text + "\nIt's your turn! Choose an action:", options)
 
-func _dialogue_step_4() -> void:
-	dialogue_overlay.start_dialogue("Player", ["I was given bad cards, give me a break."])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_5, CONNECT_ONE_SHOT)
+func _on_battle_choice_made(index: int) -> void:
+	if not battle_active: return
+	
+	match index:
+		0: _player_attack()
+		1: _player_defend()
+		2: _player_speed_move()
 
-func _dialogue_step_5() -> void:
-	dialogue_overlay.start_dialogue("Manager", ["Would your own daughter accept that excuse?"])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_6, CONNECT_ONE_SHOT)
+# Player Actions
+func _player_attack() -> void:
+	# Damage Formula: Attack vs Boss Defense
+	# We divide boss defense by 2 so it doesn't mitigate 100% of damage
+	var raw_damage = game_data.attack * 2.0 
+	var mitigation = boss_defense / 2
+	
+	if is_boss_blocking:
+		mitigation = boss_defense * 1.5 # Blocking boosts defense
+		
+	var actual_damage = int(max(1, raw_damage - mitigation))
+	boss_health -= actual_damage
+	
+	_narrate_action("Player", "You threw a can of beans!", "Dealt %d damage to the Manager." % actual_damage)
+	
+	await dialogue_overlay.dialogue_finished
+	_check_win_condition(false)
 
-func _dialogue_step_6() -> void:
-	dialogue_overlay.start_dialogue("Player", ["My daughter?"])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_7, CONNECT_ONE_SHOT)
+func _player_defend() -> void:
+	is_player_blocking = true
+	_narrate_action("Player", "You raise your shopping cart shield!", "Blocking next attack.")
+	
+	await dialogue_overlay.dialogue_finished
+	_end_player_turn()
 
-func _dialogue_step_7() -> void:
-	dialogue_overlay.start_dialogue("Manager", ["You are dense. Did you not read her note?"])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_step_8, CONNECT_ONE_SHOT)
+func _player_speed_move() -> void:
+	var success_chance = float(game_data.dexterity) / 100.0
+	success_chance = clamp(success_chance, 0.3, 0.9)
+	
+	if randf() < success_chance:
+		# Success: Deal damage based on speed and avoid hit
+		var damage = int(max(1, game_data.dexterity * 0.4))
+		boss_health -= damage
+		is_player_blocking = true 
+		_narrate_action("Player", "You zipped past him!", "Dealt %d damage and prepared to dodge." % damage)
+	else:
+		_narrate_action("Player", "You tried to run but slipped!", "The move failed!")
+		
+	await dialogue_overlay.dialogue_finished
+	_check_win_condition(false)
 
-func _dialogue_step_8() -> void:
-	dialogue_overlay.start_dialogue("Player", ["I'm not taking this anymore.", "I'm done with this weird grocery store."])
-	dialogue_overlay.dialogue_finished.connect(_dialogue_finished, CONNECT_ONE_SHOT)
+# Boss Actions
+func _boss_turn() -> void:
+	# 20% chance to block, 80% chance to attack
+	if randf() < 0.2:
+		is_boss_blocking = true
+		_narrate_action(boss_name, "The Manager braces himself.", "He is guarding against your next hit.")
+	else:
+		_boss_attack()
+	
+	await dialogue_overlay.dialogue_finished
+	
+	if game_data.dexterity >= boss_speed:
+		_start_new_turn()
+	else:
+		_player_choice_menu()
 
-func _dialogue_finished() -> void:
-	if dialogue_overlay:
+func _boss_attack() -> void:
+	var raw_damage = boss_attack
+	
+	# Count Defense as 50% effective
+	var mitigation = game_data.defense / 2
+	
+	if is_player_blocking:
+		mitigation = game_data.defense # Blocking makes defense 100% effective
+		
+	var actual_damage = int(max(1, raw_damage - mitigation))
+	
+	var player = get_parent().get_node_or_null("GlobalPlayer")
+	if player:
+		player.take_damage(actual_damage)
+	
+	_narrate_action(boss_name, "The Manager shouts 'PRICE CHECK!'", "You took %d damage." % actual_damage)
+
+func _end_player_turn() -> void:
+	if game_data.dexterity >= boss_speed:
+		_boss_turn()
+	else:
+		_start_new_turn()
+
+func _narrate_action(speaker: String, line1: String, line2: String) -> void:
+	var signals = dialogue_overlay.dialogue_finished.get_connections()
+	for conn in signals:
+		dialogue_overlay.dialogue_finished.disconnect(conn.callable)
+		
+	dialogue_overlay.start_dialogue(speaker, [line1, line2])
+
+func _check_win_condition(is_boss_turn: bool) -> void:
+	var signals = dialogue_overlay.dialogue_finished.get_connections()
+	for conn in signals:
+		dialogue_overlay.dialogue_finished.disconnect(conn.callable)
+
+	if boss_health <= 0:
+		_win_battle()
+	elif game_data.health_percentage <= 0:
+		change_screen.emit("game_over")
+	else:
+		if is_boss_turn:
+			_start_new_turn()
+		else:
+			_end_player_turn()
+
+func _win_battle() -> void:
+	battle_active = false
+	dialogue_overlay.start_dialogue(boss_name, ["Impossible...", "You... you actually saved money?"])
+	dialogue_overlay.dialogue_finished.connect(func(): 
 		dialogue_overlay.close()
-		dialogue_overlay = null
-	# Here you can add logic for what happens after the fight (e.g., transition to credits)
-	# change_screen.emit("credits")
+		change_screen.emit("exit") 
+	)
