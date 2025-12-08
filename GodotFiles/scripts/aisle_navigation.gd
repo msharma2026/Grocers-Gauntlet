@@ -20,6 +20,9 @@ var is_repeat_encounter: bool = false
 var is_desperate: bool = false
 var current_aisle_id: String = ""
 var _item_library: ItemLibrary
+var blood_offer_hp: int = 0
+var blood_offer_cash: int = 0
+var blood_offer_used: bool = false
 var current_agression
 
 const agression_animation : PackedScene = preload("res://scenes/agression_marks.tscn")
@@ -83,9 +86,9 @@ func _ready() -> void:
 	
 	npc = _find_npc()
 	
-	var player = get_parent().get_node_or_null("GlobalPlayer")
+	var player: Player = get_parent().get_node_or_null("GlobalPlayer") as Player
 	if player:
-		var spawn_point = Vector2(576, 550)
+		var spawn_point: Vector2 = Vector2(576, 550)
 		if has_node("PlayerSpawn"):
 			spawn_point = get_node("PlayerSpawn").global_position
 			
@@ -93,7 +96,7 @@ func _ready() -> void:
 		player.visible = true
 		player.process_mode = Node.PROCESS_MODE_INHERIT
 	
-	var aisle_camera = get_node_or_null("Camera2D")
+	var aisle_camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
 		
 	if not game_data.has_meta(current_aisle_id + "_intro_shown"):
 		await systems.camera.start_camera_pan()
@@ -135,7 +138,7 @@ func _show_alcohol_intro_dialogue() -> void:
 	game_data.set_meta("alcohol_intro_shown", true)
 	systems.audio.play_music("alcohol")
 	
-	var intro_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
+	var intro_overlay: DialogueOverlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
 	add_child(intro_overlay)
 	
 	var lines: Array[String] = [
@@ -156,7 +159,7 @@ func _show_meat_intro_dialogue() -> void:
 	set_process(false)
 	game_data.set_meta("meat_intro_shown", true)
 	
-	var intro_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
+	var intro_overlay: DialogueOverlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
 	add_child(intro_overlay)
 	
 	intro_overlay.start_dialogue("Player", ["There's too much blood everywhere."])
@@ -166,10 +169,10 @@ func _show_meat_intro_dialogue() -> void:
 	)
 
 func _process(_delta: float) -> void:
-	var player = get_parent().get_node_or_null("GlobalPlayer")
+	var player: Player = get_parent().get_node_or_null("GlobalPlayer") as Player
 	if player and npc:
-		var npc_position = _get_npc_visual_position()
-		var distance = player.global_position.distance_to(npc_position)
+		var npc_position: Vector2 = _get_npc_visual_position()
+		var distance: float = player.global_position.distance_to(npc_position)
 		
 		if distance < 80.0: 
 			start_encounter()
@@ -198,6 +201,11 @@ func start_encounter() -> void:
 	npc_patience = 3
 	_apply_mood_to_patience()
 	_apply_depth_patience()
+	blood_offer_hp = 0
+	blood_offer_cash = 0
+	blood_offer_used = false
+	if _is_black_market():
+		_compute_blood_offer()
 	surprise = _roll_surprise()
 	soft_task_available = false
 	soft_task_used = false
@@ -296,7 +304,6 @@ func _start_butcher_encounter() -> void:
 	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_step_1, CONNECT_ONE_SHOT)
 
 func _start_black_market_encounter() -> void:
-	# Friendlier, dad-joke-y merchant for the Black Market.
 	var opener: Array[String] = []
 	if is_repeat_encounter:
 		opener = [
@@ -309,8 +316,13 @@ func _start_black_market_encounter() -> void:
 		]
 	var merchant_intro: Array[String] = [
 		"Today's special: " + item_name + ". Marked down because I like your face.",
-		"Current price: $" + str(current_price) + " — mood: " + _get_mood_label()
+		"Current price: $" + str(current_price) + " — mood: " + _get_mood_label(),
+		"(Budget: $" + str(game_data.budget) + " | Health: " + str(game_data.health_percentage) + "%)"
 	]
+	if blood_offer_hp > 0:
+		merchant_intro.append("Short on cash? I'll buy a vial: -%d HP for +$%d." % [blood_offer_hp, blood_offer_cash])
+	else:
+		merchant_intro.append("You look pale. No blood deals until you eat something.")
 	dialogue_overlay.start_dialogue("Merchant", opener)
 	dialogue_overlay.dialogue_finished.connect(func():
 		dialogue_overlay.start_dialogue("Merchant", merchant_intro)
@@ -372,7 +384,7 @@ func _start_normal_encounter() -> void:
 	else:
 		lines.append("Hey there, traveler... (" + _get_mood_label() + ")")
 	
-	var pitch := _get_aisle_pitch()
+	var pitch: String = _get_aisle_pitch()
 	if pitch != "":
 		lines.append(pitch)
 
@@ -410,9 +422,11 @@ func _get_aisle_pitch() -> String:
 			return "Looking for some fresh produce?"
 
 func _show_main_choices() -> void:
-	var can_afford = game_data.budget >= current_price
+	var can_afford: bool = game_data.budget >= current_price
 	_option_actions.clear()
-	var buy_text = "Buy ($" + str(current_price) + ")"
+	if dialogue_overlay and not dialogue_overlay.choice_selected.is_connected(_on_choice_made):
+		dialogue_overlay.choice_selected.connect(_on_choice_made)
+	var buy_text: String = "Buy ($" + str(current_price) + ")"
 	if not can_afford:
 		buy_text += " [TOO EXPENSIVE]"
 	
@@ -423,6 +437,17 @@ func _show_main_choices() -> void:
 	
 	options.append("Haggle (Charisma Check)")
 	_option_actions.append("haggle")
+
+	if _is_black_market():
+		var blood_text: String = ""
+		if blood_offer_used:
+			blood_text = "Sell blood [ALREADY TRADED]"
+		elif blood_offer_hp <= 0:
+			blood_text = "Sell blood [NOT SAFE]"
+		else:
+			blood_text = "Sell blood (+$%d, -%d HP)" % [blood_offer_cash, blood_offer_hp]
+		options.append(blood_text)
+		_option_actions.append("blood")
 	
 	if soft_task_available and not soft_task_used:
 		options.append("Run a quick favor to calm them down")
@@ -445,6 +470,8 @@ func _on_choice_made(index: int) -> void:
 				_handle_cant_afford()
 		"haggle":
 			_handle_haggle()
+		"blood":
+			_handle_blood_barter()
 		"favor":
 			_handle_soft_favor()
 		"leave":
@@ -466,7 +493,7 @@ func _handle_cant_afford() -> void:
 
 
 func _handle_buy() -> void:
-	var charge := current_price
+	var charge: int = current_price
 	#if game_data.budget - charge < 1.0:
 	#	charge = max(0.0, game_data.budget - 1.0)
 	print("Player bought item for: ", charge)
@@ -517,12 +544,12 @@ func _on_haggle_finished(success: bool) -> void:
 		var depth_resistance: float = 1.0 - (game_data.map_depth * 0.05)
 		var desperation_penalty: float = 1.0 - (0.3 if is_desperate else 0.0)
 		var effective_potential: float = haggle_potential * depth_resistance * desperation_penalty
-		var new_price := int(round(current_price * (1.0 - 0.2 * effective_potential)))
+		var new_price: int = int(round(current_price * (1.0 - 0.2 * effective_potential)))
 		if new_price >= current_price:
 			new_price = max(1, current_price - 1) # always drop at least $1 on success
 		current_price = new_price
 		
-		var success_lines = _get_haggle_success_dialogue()
+		var success_lines: Array[String] = _get_haggle_success_dialogue()
 		dialogue_overlay.start_dialogue("Merchant", success_lines)
 	else:
 		npc_patience -= 1
@@ -530,7 +557,7 @@ func _on_haggle_finished(success: bool) -> void:
 			_apply_aggression()
 		current_price = int(current_price * 1.1)
 		
-		var fail_lines = _get_haggle_fail_dialogue()
+		var fail_lines: Array[String] = _get_haggle_fail_dialogue()
 		dialogue_overlay.start_dialogue("Merchant", fail_lines)
 		soft_task_available = true
 	
@@ -595,8 +622,40 @@ func _handle_soft_favor() -> void:
 	_reset_dialogue_finished_connections()
 	dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
 
+func _handle_blood_barter() -> void:
+	var min_health_after: int = 20
+	if blood_offer_used:
+		dialogue_overlay.start_dialogue("Merchant", [
+			"Already tapped that vein. Save some for next time."
+		])
+		_reset_dialogue_finished_connections()
+		dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+		return
+	if blood_offer_hp <= 0 or game_data.health_percentage - blood_offer_hp < min_health_after:
+		dialogue_overlay.start_dialogue("Merchant", [
+			"You're already running on fumes.",
+			"No blood deals until you look steadier."
+		])
+		_reset_dialogue_finished_connections()
+		dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+		return
+	
+	_apply_health_cost(blood_offer_hp)
+	game_data.budget += blood_offer_cash
+	current_price = max(1, int(round(current_price * 0.9)))
+	blood_offer_used = true
+	
+	var lines: Array[String] = [
+		"Sharp little prick, big payout.",
+		"Budget is now $" + "%0.2f" % game_data.budget + ".",
+		"I'll shave the item to $" + str(current_price) + " for the donation."
+	]
+	dialogue_overlay.start_dialogue("Merchant", lines)
+	_reset_dialogue_finished_connections()
+	dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+
 func _set_merchant_mood() -> void:
-	var mood_dict := _get_mood_table()
+	var mood_dict: Dictionary = _get_mood_table()
 	var moods: Array[String] = []
 	for key in mood_dict.keys():
 		moods.append(str(key))
@@ -605,40 +664,61 @@ func _set_merchant_mood() -> void:
 		merchant_mood = "grumpy"
 
 func _get_mood_label() -> String:
-	var mood_dict := _get_mood_table()
+	var mood_dict: Dictionary = _get_mood_table()
 	if mood_dict.has(merchant_mood):
 		return mood_dict[merchant_mood]["label"]
 	return "Neutral"
 
 func _apply_mood_to_price() -> void:
-	var mood_dict := _get_mood_table()
+	var mood_dict: Dictionary = _get_mood_table()
 	if mood_dict.has(merchant_mood):
-		var multiplier = mood_dict[merchant_mood]["price_multiplier"]
+		var multiplier: float = mood_dict[merchant_mood]["price_multiplier"]
 		current_price = int(round(float(current_price) * multiplier))
 
+func _compute_blood_offer() -> void:
+	var safe_buffer: int = 20
+	var max_give: int = max(game_data.health_percentage - safe_buffer, 0)
+	if max_give < 5:
+		blood_offer_hp = 0
+		blood_offer_cash = 0
+		return
+	blood_offer_hp = clamp(_rng.randi_range(5, min(18, max_give)), 5, max_give)
+	var mood_bonus: float = 1.0
+	match merchant_mood:
+		"friendly":
+			mood_bonus = 1.25
+		"grumpy":
+			mood_bonus = 0.9
+		_:
+			mood_bonus = 1.0
+	var depth_bonus: float = 1.0 + float(game_data.map_depth) * 0.15
+	var desperation_bonus: float = 1.15 if is_desperate else 1.0
+	var payout_per_hp: float = 2.5 * mood_bonus * depth_bonus * desperation_bonus
+	blood_offer_cash = max(int(round(float(blood_offer_hp) * payout_per_hp)), 5)
+
 func _compute_item_price() -> int:
-	var min_price := 20
-	var max_price := 50
+	var min_price: int = 20
+	var max_price: int = 50
 	if _is_black_market():
 		min_price = 10
 		max_price = 25
-	var price := _rng.randi_range(min_price, max_price)
+	var price: int = _rng.randi_range(min_price, max_price)
 	if item_config:
 		if item_config.base_price > 0:
 			price = int(round(item_config.base_price))
-		var size_factor := 1.0 + float(item_config.size) * 0.04
+		var size_factor: float = 1.0 + float(item_config.size) * 0.04
 		var haggle_factor : float = 1.0 - clamp(item_config.haggle_potential * 0.08, 0.0, 0.3)
 		price = int(round(price * size_factor * haggle_factor))
 		if item_config.is_on_sale:
 			price = int(round(price * 0.85))
 		if item_config.max_price > 0:
 			price = min(price, int(item_config.max_price))
-	var variance := _rng.randi_range(-5, 5)
+	var variance: int = _rng.randi_range(-5, 5)
 	price = max(5, price + variance)
 	return price
 
 func _apply_mood_to_patience() -> void:
-	var mood_dict := _get_mood_table()
+	var mood_dict: Dictionary = _get_mood_table()
 	if mood_dict.has(merchant_mood):
 		npc_patience = mood_dict[merchant_mood]["patience"]
 		if npc_patience < 3:
@@ -772,7 +852,7 @@ func _prettify_name(name: String) -> String:
 func _pick_market_item() -> void:
 	# Pull a random item from the full library
 	if _item_library and _item_library.types.size() > 0:
-		var idx := _rng.randi_range(0, _item_library.types.size() - 1)
+		var idx: int = _rng.randi_range(0, _item_library.types.size() - 1)
 		item_config = _item_library.types[idx]
 		item_name = _prettify_name(item_config.item_id)
 	else:
@@ -783,7 +863,7 @@ func _pick_market_item() -> void:
 func _add_market_item_to_inventory() -> void:
 	if item_config == null:
 		return
-	var added := false
+	var added: bool = false
 	if _item_library and _item_library.has_method("add_item_to_inventory"):
 		added = _item_library.add_item_to_inventory(item_config)
 	if not added:
@@ -791,6 +871,13 @@ func _add_market_item_to_inventory() -> void:
 		dialogue_overlay.start_dialogue("Narrator", [
 			"The item doesn't fit in your cart, but you paid for it anyway."
 		])
+
+func _apply_health_cost(amount: int) -> void:
+	var player: Player = get_parent().get_node_or_null("GlobalPlayer") as Player
+	if player:
+		player.take_damage(amount)
+	else:
+		game_data.health_percentage = clamp(game_data.health_percentage - amount, 0, GameState.MAX_HEALTH)
 
 
 func _is_black_market() -> bool:
@@ -807,11 +894,11 @@ func _pick_aisle_item_from_library(type_id: String) -> void:
 		return
 	var mapped_type: String = str(AISLE_TYPE_MAP.get(type_id, type_id))
 	print_debug("pick_aisle_item: mapped %s -> %s, library size=%d" % [type_id, mapped_type, _item_library.types.size()])
-	var total := _item_library.types.size()
-	var start := _rng.randi_range(0, total - 1)
-	var checked := 0
+	var total: int = _item_library.types.size()
+	var start: int = _rng.randi_range(0, total - 1)
+	var checked: int = 0
 	while checked < total:
-		var idx := (start + checked) % total
+		var idx: int = (start + checked) % total
 		var candidate: ItemConfig = _item_library.types[idx]
 		if candidate and candidate.type and candidate.type.item_type_id == mapped_type:
 			item_config = candidate

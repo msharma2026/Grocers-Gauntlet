@@ -87,6 +87,8 @@ func _build_main_menu() -> void:
 			target = "main menu"
 		elif config.button_id.to_lower() == "exit game":
 			target = "exit game"
+		elif config.button_id.to_lower() == "inventory":
+			target = "inventory"
 		elif target == null:
 			target = config.button_id.strip_edges().to_lower()
 
