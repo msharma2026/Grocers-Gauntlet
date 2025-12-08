@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dyvegd0oliw13"]
+[gd_scene load_steps=80 format=3 uid="uid://dyvegd0oliw13"]
 
 [ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/item_library.gd" id="1_2weng"]
 [ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/item_config.gd" id="2_ctlof"]
@@ -19,6 +19,34 @@
 [ext_resource type="Texture2D" uid="uid://q0str1hgusqr" path="res://resources/item textures/candy cane.tres" id="17_qbdkj"]
 [ext_resource type="Texture2D" uid="uid://dab4ieu4ntiwg" path="res://resources/item textures/martini.tres" id="18_2b004"]
 [ext_resource type="Texture2D" uid="uid://c0mpff440nq7w" path="res://resources/item textures/grain alcohol.tres" id="19_2b004"]
+[ext_resource type="Texture2D" uid="uid://b2kun3tv86tfr" path="res://resources/item textures/burger.tres" id="20_burger"]
+[ext_resource type="Texture2D" uid="uid://dyug3nueuawr1" path="res://resources/item textures/beer glass.tres" id="21_beerglass"]
+[ext_resource type="Texture2D" uid="uid://cc1qi6tah6w0p" path="res://resources/item textures/sushi roll.tres" id="22_sushiroll"]
+[ext_resource type="Texture2D" uid="uid://d305qwjlf6tbq" path="res://resources/item textures/steak.tres" id="23_steak"]
+[ext_resource type="Texture2D" uid="uid://bsx4b5ppg0p7w" path="res://resources/item textures/pumpkin.tres" id="24_pumpkin"]
+[ext_resource type="Texture2D" uid="uid://bl6yrmdm7hk5c" path="res://resources/item textures/freeze pop.tres" id="25_freezepop"]
+[ext_resource type="Texture2D" uid="uid://vsg1f2m6nmff" path="res://resources/item textures/empanadas.tres" id="26_empanadas"]
+[ext_resource type="Texture2D" uid="uid://ukr0oa4qghkc" path="res://resources/item textures/scotch whisky glass.tres" id="27_scotch"]
+[ext_resource type="Texture2D" uid="uid://b2rubw868mgw7" path="res://resources/item textures/vanilla milk.tres" id="28_vanillamilk"]
+[ext_resource type="Texture2D" uid="uid://cv3ekerrt0ybu" path="res://resources/item textures/original whiskey bottle.tres" id="29_whiskey"]
+[ext_resource type="Texture2D" uid="uid://e6rdes2ha7id" path="res://resources/item textures/red wine glass.tres" id="30_redwineglass"]
+[ext_resource type="Texture2D" uid="uid://bo6ionr6r48fb" path="res://resources/item textures/sandwich half.tres" id="31_sandwich"]
+[ext_resource type="Texture2D" uid="uid://bvpmoec02bpc5" path="res://resources/item textures/beer pitcher.tres" id="32_pitcher"]
+[ext_resource type="Texture2D" uid="uid://cwn7hd4nnarpq" path="res://resources/item textures/pizza slice.tres" id="33_pizzaslice"]
+[ext_resource type="Texture2D" uid="uid://roexe0xsep2y" path="res://resources/item textures/water.tres" id="34_water"]
+[ext_resource type="Texture2D" uid="uid://ne5btwlwgp4y" path="res://resources/item textures/ice cream.tres" id="35_icecream"]
+[ext_resource type="Texture2D" uid="uid://s1wps41y2p1r" path="res://resources/item textures/donut.tres" id="36_donut"]
+[ext_resource type="Texture2D" uid="uid://d24gu1dm5csps" path="res://resources/item textures/chocolate cake.tres" id="37_cake"]
+[ext_resource type="Texture2D" uid="uid://cqxbd3ytafhpa" path="res://resources/item textures/fries.tres" id="38_fries"]
+[ext_resource type="Texture2D" uid="uid://4wdajd4ut026" path="res://resources/item textures/cucumber.tres" id="39_cucumber"]
+[ext_resource type="Texture2D" uid="uid://c0fp7qaaq6la0" path="res://resources/item textures/shrimp.tres" id="40_shrimp"]
+[ext_resource type="Texture2D" uid="uid://bi7888kch5028" path="res://resources/item textures/beer mug.tres" id="41_beermug"]
+[ext_resource type="Texture2D" uid="uid://bj4367gl6qxpg" path="res://resources/item textures/orange.tres" id="42_orange"]
+[ext_resource type="Texture2D" uid="uid://yddgh5ynnqq5" path="res://resources/item textures/boiled egg half.tres" id="43_egg"]
+[ext_resource type="Texture2D" uid="uid://c1o5b8uuyj7dn" path="res://resources/item textures/tennessee whiskey glass.tres" id="44_tnwhiskey"]
+[ext_resource type="Texture2D" uid="uid://c0wf84b7igc3n" path="res://resources/item textures/white chocolate bar.tres" id="45_whitechoc"]
+[ext_resource type="Texture2D" uid="uid://dfdak1wso2doo" path="res://resources/item textures/small cowboy steak.tres" id="46_smallsteak"]
+[ext_resource type="Texture2D" uid="uid://byeic4qvk1ui" path="res://resources/item textures/red mushrooms.tres" id="47_redmush"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdmpn"]
 atlas = ExtResource("3_eb6ku")
@@ -27,6 +55,8 @@ atlas = ExtResource("3_eb6ku")
 script = ExtResource("2_ctlof")
 item_id = "Whole Pizza"
 type = ExtResource("2_kx350")
+health_increase = 10
+description = "Party-sized pie that powers midnight runs."
 size = 1
 icon = SubResource("AtlasTexture_pdmpn")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -35,6 +65,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Lolipop"
 type = ExtResource("7_uj7i3")
+charisma_increase = 10
+description = "Sugar swirl that sweet-talks any clerk and leaves your breath smelling like a candy-coated bribe."
 icon = ExtResource("5_eb6ku")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -42,6 +74,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Broccoli"
 type = ExtResource("8_amf7a")
+defense_increase = 10
+description = "Tiny trees that toughen your armor and make you feel like a health guru with a lunchbox."
 icon = ExtResource("7_ffeqv")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -49,6 +83,11 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Chocolate Milk"
 type = ExtResource("5_crla1")
+health_increase = 10
+charisma_increase = 10
+dexterity_increase = 10
+defense_increase = 10
+description = "Cocoa rocket fuel for sprinting carts; tastes like childhood, hits like espresso, lasts through checkout."
 icon = ExtResource("9_mv38h")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -56,6 +95,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Blowpop"
 type = ExtResource("7_uj7i3")
+budget_increase = 10.0
+description = "Sweet deal-maker that somehow pads your wallet; lick twice for a discount, thrice for a free bag."
 icon = ExtResource("11_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -63,6 +104,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Crown Apple Bottle"
 type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Apple-tinged confidence in a bottle; suddenly every aisle is a runway and every clerk your best friend."
 icon = ExtResource("12_vtpcj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -70,6 +113,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Mimosa"
 type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Brunch-tier bravery with bubbly charm; pairs best with bad decisions and unlimited breadsticks."
 icon = ExtResource("14_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -77,6 +122,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Red Wine Bottle"
 type = ExtResource("6_agybx")
+defense_increase = 10
+description = "Tannins that steel your nerves; swirl, sniff, sip, then block damage with sheer sophistication."
 icon = ExtResource("15_vtpcj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -84,6 +131,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Champagne Glass"
 type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Fizz that makes every pitch sound genius and gives your small talk extra sparkle."
 icon = ExtResource("16_daaf8")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -91,6 +140,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Candy Cane"
 type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Minty wand for quick, precise moves; doubles as an emergency pointer for holiday presentations."
 icon = ExtResource("17_qbdkj")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -98,6 +149,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Martini"
 type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Shaken confidence in a glass; suave enough to talk past security, strong enough to forget why."
 icon = ExtResource("18_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -105,6 +158,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Grain Alcohol"
 type = ExtResource("6_agybx")
+health_increase = 10
+description = "Sterilizes doubt; burns but heals. Side effects: bravery, questionable karaoke, and disinfected wounds."
 icon = ExtResource("19_2b004")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
@@ -112,9 +167,263 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 script = ExtResource("2_ctlof")
 item_id = "Grain Alcohol"
 type = ExtResource("6_agybx")
+health_increase = 10
+description = "Sterilizes doubt; burns but heals. Side effects: bravery, questionable karaoke, and disinfected wounds."
 icon = ExtResource("19_2b004")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_burger"]
+script = ExtResource("2_ctlof")
+item_id = "Burger"
+type = ExtResource("2_kx350")
+health_increase = 10
+description = "Stacked patty tower that heals the soul and clogs the arteries—worth it every time."
+icon = ExtResource("20_burger")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_beerglass"]
+script = ExtResource("2_ctlof")
+item_id = "Beer Glass"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Liquid courage in a frosty mug; suddenly everyone is your best friend—or so it seems."
+icon = ExtResource("21_beerglass")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_sushiroll"]
+script = ExtResource("2_ctlof")
+item_id = "Sushi Roll"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Precision-packed rice and fish; boosts chopstick finesse and cart-dodging agility."
+icon = ExtResource("22_sushiroll")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_steak"]
+script = ExtResource("2_ctlof")
+item_id = "Steak"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Armored protein slab—well marbled and thick enough to parry a price hike."
+icon = ExtResource("23_steak")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_pumpkin"]
+script = ExtResource("2_ctlof")
+item_id = "Pumpkin"
+type = ExtResource("8_amf7a")
+health_increase = 10
+description = "Autumn flavor bomb that patches you up and doubles as improvised headgear."
+icon = ExtResource("24_pumpkin")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_freezepop"]
+script = ExtResource("2_ctlof")
+item_id = "Freeze Pop"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Frosty sugar lance that chills the competition and hones your stick-handling."
+icon = ExtResource("25_freezepop")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_empanadas"]
+script = ExtResource("2_ctlof")
+item_id = "Empanadas"
+type = ExtResource("2_kx350")
+health_increase = 10
+description = "Hand pies of pure comfort—heals bruised egos and rumbling stomachs on contact."
+icon = ExtResource("26_empanadas")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_scotch"]
+script = ExtResource("2_ctlof")
+item_id = "Scotch Glass"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Peaty persuasion in a glass; smooth talk bonus guaranteed, memory optional."
+icon = ExtResource("27_scotch")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_vanillamilk"]
+script = ExtResource("2_ctlof")
+item_id = "Vanilla Milk"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Creamy shield in a carton—fortifies bones and excuses you from spicy dares."
+icon = ExtResource("28_vanillamilk")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_whiskey"]
+script = ExtResource("2_ctlof")
+item_id = "Old Whiskey Bottle"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Dusty amber liquid that whispers tall tales; boosts charm while lowering volume control."
+icon = ExtResource("29_whiskey")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_redwineglass"]
+script = ExtResource("2_ctlof")
+item_id = "Red Wine Glass"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Swirl-and-sip swagger upgrade; a single pour turns small talk into a TED talk."
+icon = ExtResource("30_redwineglass")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_sandwich"]
+script = ExtResource("2_ctlof")
+item_id = "Sandwich Half"
+type = ExtResource("2_kx350")
+health_increase = 10
+description = "Half the sandwich, twice the comfort—perfect for tactical snacking between aisles."
+icon = ExtResource("31_sandwich")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_pitcher"]
+script = ExtResource("2_ctlof")
+item_id = "Beer Pitcher"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Team-bonding jug that boosts group charm; pours out courage by the pint."
+icon = ExtResource("32_pitcher")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_pizzaslice"]
+script = ExtResource("2_ctlof")
+item_id = "Pizza Slice"
+type = ExtResource("2_kx350")
+health_increase = 10
+description = "Cheesy morale booster—one bite erases cooldowns and bad decisions alike."
+icon = ExtResource("33_pizzaslice")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_water"]
+script = ExtResource("2_ctlof")
+item_id = "Water Bottle"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Hydration shield that quenches doubt and lets you tank spicy samples."
+icon = ExtResource("34_water")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_icecream"]
+script = ExtResource("2_ctlof")
+item_id = "Ice Cream"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Cold scoops that keep your hands steady and your mood frosty-sweet."
+icon = ExtResource("35_icecream")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_donut"]
+script = ExtResource("2_ctlof")
+item_id = "Donut"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Frosted focus ring—spin it for luck, eat it for sugar-fueled reflexes."
+icon = ExtResource("36_donut")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_cake"]
+script = ExtResource("2_ctlof")
+item_id = "Chocolate Cake"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Slice of celebration that turns button-mashing into elegant keystrokes."
+icon = ExtResource("37_cake")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_fries"]
+script = ExtResource("2_ctlof")
+item_id = "Fries"
+type = ExtResource("8_amf7a")
+health_increase = 10
+description = "Golden salt sticks that patch morale faster than any first-aid kit."
+icon = ExtResource("38_fries")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_cucumber"]
+script = ExtResource("2_ctlof")
+item_id = "Cucumber"
+type = ExtResource("8_amf7a")
+health_increase = 10
+description = "Crisp green hydration bar—cool as a stealth mission, crunchy as a victory bite."
+icon = ExtResource("39_cucumber")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_shrimp"]
+script = ExtResource("2_ctlof")
+item_id = "Shrimp"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Tiny surf rockets that boost nimble fingers and nimble feet."
+icon = ExtResource("40_shrimp")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_beermug"]
+script = ExtResource("2_ctlof")
+item_id = "Beer Mug"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Foamy handshake in glass form—social armor with a citrusy aftertaste."
+icon = ExtResource("41_beermug")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_orange"]
+script = ExtResource("2_ctlof")
+item_id = "Orange"
+type = ExtResource("8_amf7a")
+health_increase = 10
+description = "Citrus grenade full of Vitamin C and optimism; peel for instant pep."
+icon = ExtResource("42_orange")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_egg"]
+script = ExtResource("2_ctlof")
+item_id = "Boiled Egg Half"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Protein shield on a plate—small, mighty, and ready to harden your defenses."
+icon = ExtResource("43_egg")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_tnwhiskey"]
+script = ExtResource("2_ctlof")
+item_id = "Tennessee Whiskey Glass"
+type = ExtResource("6_agybx")
+charisma_increase = 10
+description = "Smooth southern charm in one pour; twangy jokes included at no extra cost."
+icon = ExtResource("44_tnwhiskey")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_whitechoc"]
+script = ExtResource("2_ctlof")
+item_id = "White Chocolate Bar"
+type = ExtResource("7_uj7i3")
+dexterity_increase = 10
+description = "Sweet ivory boost that melts in your hand and makes your moves buttery smooth."
+icon = ExtResource("45_whitechoc")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_smallsteak"]
+script = ExtResource("2_ctlof")
+item_id = "Small Cowboy Steak"
+type = ExtResource("2_kx350")
+health_increase = 10
+description = "Pocket-sized protein slab—chewy courage for the road and grill marks for style."
+icon = ExtResource("46_smallsteak")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_redmush"]
+script = ExtResource("2_ctlof")
+item_id = "Red Mushrooms"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Spotted fungi that toughen you up; may cause unexpected jumping urges."
+icon = ExtResource("47_redmush")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
 [node name="ItemLibrary" type="Node2D"]
 script = ExtResource("1_2weng")
-types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0"), SubResource("Resource_esysa"), SubResource("Resource_yj814"), SubResource("Resource_k82np"), SubResource("Resource_oaxch"), SubResource("Resource_ymvvt"), SubResource("Resource_vkynk"), SubResource("Resource_tnvdf"), SubResource("Resource_j1u4v"), SubResource("Resource_m1uud"), SubResource("Resource_yht2g"), SubResource("Resource_30if6"), SubResource("Resource_pllp5")])
+types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0"), SubResource("Resource_esysa"), SubResource("Resource_yj814"), SubResource("Resource_k82np"), SubResource("Resource_oaxch"), SubResource("Resource_ymvvt"), SubResource("Resource_vkynk"), SubResource("Resource_tnvdf"), SubResource("Resource_j1u4v"), SubResource("Resource_m1uud"), SubResource("Resource_yht2g"), SubResource("Resource_30if6"), SubResource("Resource_pllp5"), SubResource("Resource_burger"), SubResource("Resource_beerglass"), SubResource("Resource_sushiroll"), SubResource("Resource_steak"), SubResource("Resource_pumpkin"), SubResource("Resource_freezepop"), SubResource("Resource_empanadas"), SubResource("Resource_scotch"), SubResource("Resource_vanillamilk"), SubResource("Resource_whiskey"), SubResource("Resource_redwineglass"), SubResource("Resource_sandwich"), SubResource("Resource_pitcher"), SubResource("Resource_pizzaslice"), SubResource("Resource_water"), SubResource("Resource_icecream"), SubResource("Resource_donut"), SubResource("Resource_cake"), SubResource("Resource_fries"), SubResource("Resource_cucumber"), SubResource("Resource_shrimp"), SubResource("Resource_beermug"), SubResource("Resource_orange"), SubResource("Resource_egg"), SubResource("Resource_tnwhiskey"), SubResource("Resource_whitechoc"), SubResource("Resource_smallsteak"), SubResource("Resource_redmush")])

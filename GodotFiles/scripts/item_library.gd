@@ -3,7 +3,7 @@ extends Node
 
 @export var types: Array[ItemConfig]
 
-const MAX_ITEMS: int = 20
+const MAX_ITEMS: int = 41
 
 var _rng := RandomNumberGenerator.new()
 

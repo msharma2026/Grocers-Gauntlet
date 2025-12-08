@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dql4rkolkkick"]
+[gd_scene load_steps=5 format=3 uid="uid://dql4rkolkkick"]
 
 [ext_resource type="Script" uid="uid://dlqogvdms5un8" path="res://scripts/user interface/Inventory.gd" id="1_110rm"]
+[ext_resource type="Texture2D" uid="uid://c2j6ab7hco2ea" path="res://assets/backgrounds/inventory_background.png" id="2_jpcs2"]
+[ext_resource type="Texture2D" uid="uid://bscet0x5b3r2m" path="res://assets/backgrounds/whiteboard2.png" id="3_bxato"]
+[ext_resource type="Texture2D" uid="uid://bg722hyxix6q8" path="res://assets/backgrounds/scroll3.png" id="4_ten2e"]
 
 [node name="Inventory" type="Node2D"]
 script = ExtResource("1_110rm")
+background_texture = ExtResource("2_jpcs2")
+slot_background_color = Color(0.023529412, 0.023529412, 0.019607844, 0.41960785)
+title_background_texture = ExtResource("3_bxato")
+banner_background_texture = ExtResource("4_ten2e")
