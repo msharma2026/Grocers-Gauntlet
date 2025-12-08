@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bflc6bhxmejsn"]
+[gd_scene load_steps=8 format=3 uid="uid://bflc6bhxmejsn"]
 
 [ext_resource type="Script" uid="uid://5ede7nvebftd" path="res://scripts/boss_fight.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://b74400gxr3c4q" path="res://assets/sprites/character/boss.png" id="2_85w88"]
@@ -10,6 +10,9 @@ size = Vector2(1278, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
 size = Vector2(20, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85w88"]
+size = Vector2(100.70917, 114.0845)
 
 [node name="BossFight" type="Node2D"]
 script = ExtResource("1_script")
@@ -38,11 +41,6 @@ shape = SubResource("RectangleShape2D_wall_v")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(576, 324)
 
-[node name="Boss" type="Sprite2D" parent="."]
-position = Vector2(966, 214)
-scale = Vector2(1.41, 1.42)
-texture = ExtResource("2_85w88")
-
 [node name="GroceryStore28_png" type="Sprite2D" parent="."]
 position = Vector2(561, -82)
 scale = Vector2(4.5625, 4.5)
@@ -52,3 +50,16 @@ texture = ExtResource("3_67f06")
 position = Vector2(817, 324)
 scale = Vector2(2.875, 2.6510417)
 texture = ExtResource("4_31neg")
+
+[node name="BossArea" type="Area2D" parent="."]
+position = Vector2(966, 214)
+scale = Vector2(1.41, 1.42)
+
+[node name="Boss" type="Sprite2D" parent="BossArea"]
+texture = ExtResource("2_85w88")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossArea"]
+position = Vector2(-1.418457, 2.8169098)
+shape = SubResource("RectangleShape2D_85w88")
+
+[connection signal="body_entered" from="BossArea" to="." method="_on_boss_area_body_entered"]
