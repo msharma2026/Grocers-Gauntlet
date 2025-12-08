@@ -24,13 +24,18 @@ func _ready() -> void:
 
 func _start_on_transition_end() -> void:
 	# Previously this started dialogue immediately. 
-	# Now we leave it empty (or use it for visual effects) 
-	# so the player is free to move.
+	# Now we leave it empty so the player is free to move.
 	pass
 
 # [New] Connected from the BossArea Area2D signal in the editor
 func _on_boss_area_body_entered(body: Node2D) -> void:
+	# DEBUG: Print what entered the area to the Output console
+	print("Body entered boss area: ", body.name)
+	
 	if body is Player:
+		# DEBUG: Confirm it found the script class correctly
+		print("Body identified as Player!")
+		
 		# Check if dialogue is already running to prevent double triggers
 		if dialogue_overlay == null:
 			start_boss_dialogue()
