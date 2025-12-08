@@ -131,6 +131,6 @@ func _show_intro_dialogue() -> void:
 		"I've been doing it since my wife passed."
 	]
 	
-	dialogue.start_dialogue("Player", lines)
+	dialogue.start_dialogue("Aeryl:", lines)
 	dialogue.dialogue_finished.connect(func(): dialogue.queue_free())
 	

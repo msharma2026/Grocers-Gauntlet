@@ -15,7 +15,10 @@ var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
 var current_screen_ref
 var previous_screen_ref
-var suspended_screen: Screen = null
+var inventory_overlay: Screen = null
+var inventory_layer: CanvasLayer = null
+var _gameplay_was_visible: bool = true
+var _disabled_layers: Array[CanvasLayer] = []
 var default_camera_values : Dictionary = {
 	'pos': Vector2(0,0),
 	'zoom': Vector2(0,0),
@@ -64,6 +67,12 @@ func _process(_delta: float) -> void:
 	
 	
 func _unhandled_input(event: InputEvent) -> void:
+	# Block pause/inventory toggles if an inventory overlay is already open (except to close it)
+	if inventory_overlay != null and event.is_action_pressed("pause_menu"):
+		return
+	# Block inventory if pause menu is up
+	if pause_menu_instance != null and event.is_action_pressed("inventory"):
+		return
 	if event.is_action_pressed("pause_menu") and \
 			(current_screen is Aisles or \
 			current_screen is AisleNavigation):
@@ -80,11 +89,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("inventory") and \
 			(current_screen is Aisles or \
 			 current_screen is AisleNavigation):
-		_change_screen("inventory")
-	elif event.is_action_pressed("inventory") and \
-			current_screen != null and \
-			current_screen.name == "Inventory":
-		_change_screen("previous_screen")
+		if inventory_overlay != null:
+			_close_inventory_overlay()
+		else:
+			_open_inventory_overlay()
+	elif event.is_action_pressed("inventory") and inventory_overlay != null:
+		_close_inventory_overlay()
 			
 
 func _resume_game() -> void:
@@ -112,16 +122,9 @@ func _change_screen_from_pause(screen_ref) -> void:
 	_change_screen(screen_ref)
 
 func _change_screen(screen_ref) -> void:
-	# Special handling: return from inventory without recreating the prior screen
-	if screen_ref is String and screen_ref == "previous_screen" and suspended_screen != null:
-		_clear_current_screen() # free the inventory screen
-		current_screen = suspended_screen
-		suspended_screen = null
-		add_child(current_screen)
-		current_screen_ref = previous_screen_ref
-		# restore player/UI visibility based on the reinstated screen
-		var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation or current_screen is BossFight
-		_toggle_gameplay_object_visibility(show_gameplay_objects)
+	# If inventory overlay is open and we request previous, just close it
+	if screen_ref is String and screen_ref == "previous_screen" and inventory_overlay != null:
+		_close_inventory_overlay()
 		return
 	
 	reset_camera()
@@ -138,11 +141,10 @@ func _change_screen(screen_ref) -> void:
 	if screen_ref is String:
 		var screen_id: String = screen_ref
 		
-		# Opening inventory: keep the current screen alive and reattach later
-		if screen_id == "inventory" and current_screen != null and suspended_screen == null:
-			remove_child(current_screen)
-			suspended_screen = current_screen
-			current_screen = null
+		# Opening inventory: overlay it instead of swapping screens
+		if screen_id == "inventory" and (current_screen is Aisles or current_screen is AisleNavigation):
+			_open_inventory_overlay()
+			return
 		
 		if screen_id == "pause_menu":
 			get_tree().paused = true
@@ -277,6 +279,74 @@ func _swap_screen(scene: PackedScene):
 	current_screen = s
 	current_screen.change_screen.connect(_change_screen)
 	return s
+
+func _open_inventory_overlay() -> void:
+	if inventory_overlay != null:
+		return
+	if not screens.has("inventory"):
+		return
+	var inv_scene: PackedScene = screens["inventory"]
+	# Create a dedicated top-level canvas layer and put the inventory inside it
+	inventory_layer = CanvasLayer.new()
+	inventory_layer.layer = 5000
+	add_child(inventory_layer)
+	inventory_overlay = inv_scene.instantiate()
+	inventory_layer.add_child(inventory_overlay)
+	inventory_overlay.change_screen.connect(_change_screen)
+	get_tree().paused = true
+	# Hide current screen visuals while inventory is open
+	if current_screen:
+		current_screen.visible = false
+	# Hide gameplay UI while overlay is open
+	_gameplay_was_visible = ui_bar.visible if ui_bar else true
+	_toggle_gameplay_object_visibility(false)
+	# Disable other CanvasLayers (fog, dialogue, ui) so overlay sits on top
+	_disabled_layers.clear()
+	# Explicitly hide known overlay layers
+	var fog := get_node_or_null("PixelateLayer") as CanvasLayer
+	var burn := get_node_or_null("BurnLayer") as CanvasLayer
+	if fog and fog.visible:
+		_disabled_layers.append(fog)
+		fog.visible = false
+	if burn and burn.visible:
+		_disabled_layers.append(burn)
+		burn.visible = false
+	# Hide any dialogue overlay instances attached to the root
+	for child in get_children():
+		if child is DialogueOverlay or child is CanvasLayer:
+			var layer := child as CanvasLayer
+			if layer and layer != inventory_layer and layer.visible:
+				_disabled_layers.append(layer)
+				layer.visible = false
+	# Hide any CanvasLayers under the current screen (dialogue overlays in aisles, etc.)
+	if current_screen:
+		for child in current_screen.get_children():
+			if child is CanvasLayer:
+				var layer := child as CanvasLayer
+				if layer.visible:
+					_disabled_layers.append(layer)
+					layer.visible = false
+
+func _close_inventory_overlay() -> void:
+	if inventory_overlay != null:
+		if inventory_overlay.change_screen.is_connected(_change_screen):
+			inventory_overlay.change_screen.disconnect(_change_screen)
+		inventory_overlay.queue_free()
+		inventory_overlay = null
+	if inventory_layer != null:
+		inventory_layer.queue_free()
+		inventory_layer = null
+	# Restore current screen visibility
+	if current_screen:
+		current_screen.visible = true
+	# Restore gameplay UI visibility
+	_toggle_gameplay_object_visibility(_gameplay_was_visible)
+	# Re-enable previously disabled layers
+	for layer in _disabled_layers:
+		if is_instance_valid(layer):
+			layer.visible = true
+	_disabled_layers.clear()
+	get_tree().paused = false
 
 func _burn_transition_start() -> void:
 	await get_tree().create_timer(1.0).timeout
