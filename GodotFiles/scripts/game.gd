@@ -4,6 +4,8 @@ extends Node2D
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player.tscn")
 const UI_BARS_SCENE: PackedScene = preload("res://scenes/user interface/ui_bars.tscn")
 const AISLE_NAVIGATION_SCENE: PackedScene = preload("res://scenes/aisle_navigation.tscn")
+# [New] Preload the boss scene
+const BOSS_SCENE: PackedScene = preload("res://scenes/boss_fight.tscn")
 
 @export var screens: Dictionary[String, PackedScene]
 @export var pause_menu_scene: PackedScene
@@ -25,6 +27,10 @@ var default_camera_values : Dictionary = {
 @onready var health_bar: ProgressBar
 
 func _ready() -> void:
+	# [New] Manually register the boss scene so "boss_fight" is a valid key
+	if not screens.has("boss_fight"):
+		screens["boss_fight"] = BOSS_SCENE
+
 	systems.audio = $Audio
 	systems.camera = $Camera
 	
@@ -51,7 +57,8 @@ func _ready() -> void:
 	_change_screen("main_menu")
 	
 func _process(_delta: float) -> void:
-	var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation
+	# [Updated] Add boss_fight to visibility check so UI/Player show up during boss
+	var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation or current_screen is BossFight
 	_toggle_gameplay_object_visibility(show_gameplay_objects)
 	
 	
@@ -136,6 +143,9 @@ func _change_screen(screen_ref) -> void:
 		# FIX: Check specifically for "aisles" to make player visible
 		if screen_id == "aisles":
 			_reset_player_position()
+			_update_player_visibility(true)
+		elif screen_id == "boss_fight":
+			# [New] Handle player visibility for boss fight specifically if needed
 			_update_player_visibility(true)
 		else:
 			# Hide player on main_menu, entrance, etc.

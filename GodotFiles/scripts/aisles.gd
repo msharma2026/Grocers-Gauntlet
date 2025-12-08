@@ -36,6 +36,11 @@ func _ready() -> void:
 	
 
 func _start_on_transition_end() -> void:
+	# [New] Check for Boss Floor
+	if game_data.map_depth >= 4:
+		change_screen.emit("boss_fight")
+		return
+
 	_generate_aisles()
 	systems.audio.play_music('fun')
 	
@@ -128,3 +133,4 @@ func _show_intro_dialogue() -> void:
 	
 	dialogue.start_dialogue("Player", lines)
 	dialogue.dialogue_finished.connect(func(): dialogue.queue_free())
+	

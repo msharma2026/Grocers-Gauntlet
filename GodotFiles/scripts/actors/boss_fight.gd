@@ -8,32 +8,20 @@ const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogu
 func _ready() -> void:
 	var player = get_parent().get_node_or_null("GlobalPlayer")
 	if player:
-		# Ensure player is visible and active
-		player.visible = true
-		player.process_mode = Node.PROCESS_MODE_INHERIT
-		
-		# Set player position to the spawn marker
 		var spawn_point = Vector2(576, 500)
 		if has_node("PlayerSpawn"):
 			spawn_point = get_node("PlayerSpawn").global_position
 		player.global_position = spawn_point
+		player.visible = true
+		player.process_mode = Node.PROCESS_MODE_INHERIT
 	
 	var boss_camera = get_node_or_null("Camera2D")
 	if boss_camera:
 		boss_camera.make_current()
 
+# [New] Trigger dialogue when transition finishes
 func _start_on_transition_end() -> void:
-	# Previously this started dialogue immediately. 
-	# Now we leave it empty (or use it for visual effects) 
-	# so the player is free to move.
-	pass
-
-# [New] Connected from the BossArea Area2D signal in the editor
-func _on_boss_area_body_entered(body: Node2D) -> void:
-	if body is Player:
-		# Check if dialogue is already running to prevent double triggers
-		if dialogue_overlay == null:
-			start_boss_dialogue()
+	start_boss_dialogue()
 
 func start_boss_dialogue() -> void:
 	dialogue_overlay = DIALOGUE_SCENE.instantiate() as DialogueOverlay
@@ -75,8 +63,4 @@ func _dialogue_step_8() -> void:
 	dialogue_overlay.dialogue_finished.connect(_dialogue_finished, CONNECT_ONE_SHOT)
 
 func _dialogue_finished() -> void:
-	if dialogue_overlay:
-		dialogue_overlay.close()
-		dialogue_overlay = null
-	# Here you can add logic for what happens after the fight (e.g., transition to credits)
-	# change_screen.emit("credits")
+	dialogue_overlay.close()
