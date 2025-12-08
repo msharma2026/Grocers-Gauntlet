@@ -210,10 +210,39 @@ func start_encounter() -> void:
 		_start_butcher_encounter()
 	elif current_aisle_id == "milk":
 		_start_milk_encounter()
+	elif current_aisle_id == "candy":
+		_start_candy_encounter()
 	elif _is_black_market():
 		_start_black_market_encounter()
 	else:
 		_start_normal_encounter()
+
+func _start_candy_encounter() -> void:
+	dialogue_overlay.start_dialogue("Player", ["Hey, aren't you my daughter's friend?"])
+	dialogue_overlay.dialogue_finished.connect(_candy_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _candy_dialogue_step_1() -> void:
+	var lines: Array[String] = [
+		"Mister, I haven't been friends with your daughter for ages.",
+		"Do you even pay attention?"
+	]
+	dialogue_overlay.start_dialogue("Cashier", lines)
+	dialogue_overlay.dialogue_finished.connect(_candy_dialogue_step_2, CONNECT_ONE_SHOT)
+
+func _candy_dialogue_step_2() -> void:
+	dialogue_overlay.start_dialogue("Player", ["I mean, I know she likes dolls..."])
+	dialogue_overlay.dialogue_finished.connect(_candy_dialogue_step_3, CONNECT_ONE_SHOT)
+
+func _candy_dialogue_step_3() -> void:
+	var lines: Array[String] = [
+		"You need to try harder.",
+		"First, let's crave that sweet tooth."
+	]
+	dialogue_overlay.start_dialogue("Cashier", lines)
+	dialogue_overlay.dialogue_finished.connect(_candy_dialogue_to_haggle, CONNECT_ONE_SHOT)
+
+func _candy_dialogue_to_haggle() -> void:
+	_show_price_and_choices("Cashier")
 
 func _start_baker_encounter() -> void:
 	var lines: Array[String] = [
