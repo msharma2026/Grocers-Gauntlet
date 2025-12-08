@@ -383,11 +383,9 @@ func _start_normal_encounter() -> void:
 		lines.append("You again! Think you can fool me twice?")
 	else:
 		lines.append("Hey there, traveler... (" + _get_mood_label() + ")")
-	
-	var pitch: String = _get_aisle_pitch()
-	if pitch != "":
-		lines.append(pitch)
-
+	var aisle_pitch := _get_aisle_pitch()
+	if aisle_pitch != "":
+		lines.append(aisle_pitch)
 	lines.append("I've got this fine " + item_name + " for just $" + str(current_price) + ".")
 	
 	if is_desperate:
