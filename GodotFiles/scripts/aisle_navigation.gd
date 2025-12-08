@@ -208,6 +208,8 @@ func start_encounter() -> void:
 		_start_baker_encounter()
 	elif current_aisle_id == "meat":
 		_start_butcher_encounter()
+	elif current_aisle_id == "milk":
+		_start_milk_encounter()
 	elif _is_black_market():
 		_start_black_market_encounter()
 	else:
@@ -227,6 +229,37 @@ func _baker_dialogue_step_1() -> void:
 
 func _baker_dialogue_to_haggle() -> void:
 	_show_price_and_choices("Baker")
+
+func _start_milk_encounter() -> void:
+	var lines: Array[String] = [
+		"Mom? Dad? Is that really you?",
+		"You look… older? Younger? I can't even tell."
+	]
+	dialogue_overlay.start_dialogue("Player", lines)
+	dialogue_overlay.dialogue_finished.connect(_milk_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _milk_dialogue_step_1() -> void:
+	dialogue_overlay.start_dialogue("Grandma", ["We're the same as ever. Time moves kinder on the farm."])
+	dialogue_overlay.dialogue_finished.connect(_milk_dialogue_step_2, CONNECT_ONE_SHOT)
+
+func _milk_dialogue_step_2() -> void:
+	dialogue_overlay.start_dialogue("Grandpa", ["Healthy, steady, predictable. Just how we like it."])
+	dialogue_overlay.dialogue_finished.connect(_milk_dialogue_step_3, CONNECT_ONE_SHOT)
+
+func _milk_dialogue_step_3() -> void:
+	dialogue_overlay.start_dialogue("Grandma", ["Shame your daughter checks in more than you do."])
+	dialogue_overlay.dialogue_finished.connect(_milk_dialogue_step_4, CONNECT_ONE_SHOT)
+
+func _milk_dialogue_step_4() -> void:
+	var lines: Array[String] = [
+		"Okay, okay I get it. I've been swamped.",
+		"…So? What do you have for me?"
+	]
+	dialogue_overlay.start_dialogue("Player", lines)
+	dialogue_overlay.dialogue_finished.connect(_milk_dialogue_to_haggle, CONNECT_ONE_SHOT)
+
+func _milk_dialogue_to_haggle() -> void:
+	_show_price_and_choices("Grandma")
 
 func _start_butcher_encounter() -> void:
 	dialogue_overlay.start_dialogue("Butcher", ["You look out of shape and weak.", "YOU NEED SOME PROTEIN!"])

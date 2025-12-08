@@ -15,6 +15,7 @@ var current_screen: Screen
 var pause_menu_instance: PauseMenu = null
 var current_screen_ref
 var previous_screen_ref
+var suspended_screen: Screen = null
 var default_camera_values : Dictionary = {
 	'pos': Vector2(0,0),
 	'zoom': Vector2(0,0),
@@ -64,7 +65,8 @@ func _process(_delta: float) -> void:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_menu") and \
-			current_screen is Aisles:
+			(current_screen is Aisles or \
+			current_screen is AisleNavigation):
 		if pause_menu_instance != null:
 			_resume_game()
 		else:
@@ -76,8 +78,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			pause_menu_instance.change_screen.connect(_change_screen_from_pause)
 			add_child(pause_menu_instance)
 	elif event.is_action_pressed("inventory") and \
-			current_screen is Aisles:
+			(current_screen is Aisles or \
+			 current_screen is AisleNavigation):
 		_change_screen("inventory")
+	elif event.is_action_pressed("inventory") and \
+			current_screen != null and \
+			current_screen.name == "Inventory":
+		_change_screen("previous_screen")
 			
 
 func _resume_game() -> void:
@@ -105,6 +112,18 @@ func _change_screen_from_pause(screen_ref) -> void:
 	_change_screen(screen_ref)
 
 func _change_screen(screen_ref) -> void:
+	# Special handling: return from inventory without recreating the prior screen
+	if screen_ref is String and screen_ref == "previous_screen" and suspended_screen != null:
+		_clear_current_screen() # free the inventory screen
+		current_screen = suspended_screen
+		suspended_screen = null
+		add_child(current_screen)
+		current_screen_ref = previous_screen_ref
+		# restore player/UI visibility based on the reinstated screen
+		var show_gameplay_objects := current_screen is Aisles or current_screen is AisleNavigation or current_screen is BossFight
+		_toggle_gameplay_object_visibility(show_gameplay_objects)
+		return
+	
 	reset_camera()
 	#var requested_previous := false
 	if screen_ref is String and screen_ref == "previous_screen":
@@ -118,6 +137,12 @@ func _change_screen(screen_ref) -> void:
 
 	if screen_ref is String:
 		var screen_id: String = screen_ref
+		
+		# Opening inventory: keep the current screen alive and reattach later
+		if screen_id == "inventory" and current_screen != null and suspended_screen == null:
+			remove_child(current_screen)
+			suspended_screen = current_screen
+			current_screen = null
 		
 		if screen_id == "pause_menu":
 			get_tree().paused = true
