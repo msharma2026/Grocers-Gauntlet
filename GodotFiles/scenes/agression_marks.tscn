@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1atji28nbabr"]
+
+[ext_resource type="Texture2D" uid="uid://cqy7rl8y8m5mb" path="res://assets/sprites/placeholders/agression_marks.png" id="1_qkh0p"]
+[ext_resource type="Script" uid="uid://nfdsdj11wjbo" path="res://scripts/agression_marks.gd" id="2_jsm2k"]
+
+[sub_resource type="Curve" id="Curve_orvg4"]
+_limits = [1.0011091, 2.0, 0.0, 1.0]
+_data = [Vector2(0.11821087, 1.0011091), 0.0, 0.0, 0, 0, Vector2(0.3290735, 1.7418598), 0.0, 0.0, 0, 0, Vector2(0.52396166, 1.1919086), 0.0, 0.0, 0, 0, Vector2(0.6932907, 1.7418598), 0.0, 0.0, 0, 0, Vector2(0.89137375, 1.0011091), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[node name="AgressionMarks" type="Sprite2D"]
+scale = Vector2(0.24, 0.24)
+texture = ExtResource("1_qkh0p")
+script = ExtResource("2_jsm2k")
+anim_curve = SubResource("Curve_orvg4")

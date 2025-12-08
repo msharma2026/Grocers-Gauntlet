@@ -20,8 +20,9 @@ var is_repeat_encounter: bool = false
 var is_desperate: bool = false
 var current_aisle_id: String = ""
 var _item_library: ItemLibrary
+var current_agression
 
-
+const agression_animation : PackedScene = preload("res://scenes/agression_marks.tscn")
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
 const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
 	preload("res://scenes/user interface/haggle_minigame.tscn"),
@@ -525,6 +526,8 @@ func _on_haggle_finished(success: bool) -> void:
 		dialogue_overlay.start_dialogue("Merchant", success_lines)
 	else:
 		npc_patience -= 1
+		if npc_patience < 3: 
+			_apply_aggression()
 		current_price = int(current_price * 1.1)
 		
 		var fail_lines = _get_haggle_fail_dialogue()
@@ -582,6 +585,8 @@ func _handle_soft_favor() -> void:
 	var price_drop: int = max(int(round(current_price * discount)), 1)
 	current_price = max(current_price - price_drop, 1)
 	npc_patience += 1
+	if npc_patience >= 3:
+		_remove_aggression()
 	dialogue_overlay.start_dialogue("Narrator", [
 		"You dash to a side aisle and grab the merchant's favorite iced coffee.",
 		"Steam stops coming out of their ears.",
@@ -636,6 +641,9 @@ func _apply_mood_to_patience() -> void:
 	var mood_dict := _get_mood_table()
 	if mood_dict.has(merchant_mood):
 		npc_patience = mood_dict[merchant_mood]["patience"]
+		if npc_patience < 3:
+			_apply_aggression()
+
 
 func _apply_depth_pricing() -> void:
 	var depth_markup: float = 1.0 + (game_data.map_depth * 0.1)
@@ -643,7 +651,8 @@ func _apply_depth_pricing() -> void:
 
 func _apply_depth_patience() -> void:
 	npc_patience = max(1, npc_patience - game_data.map_depth)
-
+	if npc_patience < 3:
+		_apply_aggression()
 func _apply_mood_tint() -> void:
 	if not npc:
 		return
@@ -718,6 +727,10 @@ func _apply_one_off_surprise(lines: Array[String]) -> void:
 			lines.append("FLASH SALE! Price drops to $" + str(current_price) + ".")
 		"shoplifter_alert":
 			npc_patience = max(npc_patience - 1, 1)
+			if npc_patience >= 3:
+				_remove_aggression()
+			else:
+				_apply_aggression()
 			lines.append("Shoplifter alert! Merchant is on edge (patience reduced).")
 		_:
 			pass
@@ -817,3 +830,14 @@ func _ensure_item_library() -> void:
 	if _item_library == null:
 		_item_library = ITEM_LIBRARY_SCENE.instantiate() as ItemLibrary
 		add_child(_item_library)
+
+func _apply_aggression() -> void:
+	if not current_agression:
+		current_agression = agression_animation.instantiate()
+		npc.add_child(current_agression)
+		current_agression.position = Vector2(40,0)
+
+func _remove_aggression() -> void:
+	if current_agression:
+		npc.remove_child(current_agression)
+	current_agression = null
