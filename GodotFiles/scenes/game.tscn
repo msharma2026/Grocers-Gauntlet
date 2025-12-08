@@ -203,12 +203,16 @@ bus = &"SFX"
 
 [node name="Candy" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("14_trtic")
+bus = &"Music"
 
 [node name="Alcohol" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("15_ca42v")
+bus = &"Music"
 
 [node name="Success" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("16_ca42v")
+bus = &"SFX"
 
 [node name="Tick" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("18_ssvqc")
+bus = &"SFX"
