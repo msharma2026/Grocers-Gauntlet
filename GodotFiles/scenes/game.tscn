@@ -129,7 +129,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 4, 4.9666667),
 "transitions": PackedFloat32Array(-2, 1, 1),
 "update": 0,
-"values": [Vector2(294, 173), Vector2(864, 173), Vector2(577, 324)]
+"values": [Vector2(294, 173), Vector2(750, 173), Vector2(577, 324)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1kice"]
