@@ -161,6 +161,7 @@ func _load_encounter(item_id: String) -> void:
 		"milk": scene_path = "res://scenes/aisles/milk_aisle.tscn"
 		"candy": scene_path = "res://scenes/aisles/candy_aisle.tscn"
 		"alcohol": scene_path = "res://scenes/aisles/alcohol_aisle.tscn"
+		"Black_Market": scene_path = "res://scenes/aisles/black_market.tscn"
 		
 	var encounter_scene = load(scene_path)
 	var encounter_screen = encounter_scene.instantiate()

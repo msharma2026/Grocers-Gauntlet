@@ -19,6 +19,7 @@ var _option_actions: Array[String] = []
 var is_repeat_encounter: bool = false
 var is_desperate: bool = false
 var current_aisle_id: String = ""
+var _item_library: ItemLibrary
 
 
 const DIALOGUE_SCENE: PackedScene = preload("res://scenes/user interface/dialogue_overlay.tscn")
@@ -27,6 +28,16 @@ const HAGGLE_MINIGAME_SCENES: Array[PackedScene] = [
 	preload("res://scenes/user interface/haggle_minigame_coinflip.tscn"),
 	preload("res://scenes/user interface/haggle_minigame_reaction.tscn")
 ]
+const ITEM_LIBRARY_SCENE: PackedScene = preload("res://scenes/item_library.tscn")
+
+const AISLE_TYPE_MAP := {
+	"bread": "h_item",    # health
+	"meat": "a_item",     # attack
+	"milk": "def_item",   # defense
+	"candy": "dex_item",  # dexterity
+	"alcohol": "c_item",  # charisma
+	"Black_Market": "BLACK_MARKET_ID"
+}
 
 const MOODS := {
 	"friendly": {
@@ -46,9 +57,28 @@ const MOODS := {
 	}
 }
 
+const BLACK_MARKET_MOODS := {
+	"friendly": {
+		"price_multiplier": 0.4,
+		"patience": 5,
+		"label": "Friendly"
+	},
+	"neutral": {
+		"price_multiplier": 0.5,
+		"patience": 4,
+		"label": "Neutral"
+	},
+	"grumpy": {
+		"price_multiplier": 0.85,
+		"patience": 3,
+		"label": "Grumpy"
+	}
+}
+
 func _ready() -> void:
 	print("AisleNavigation: Scene Loaded")
 	_rng.randomize()
+	_ensure_item_library()
 	
 	npc = _find_npc()
 	
@@ -91,13 +121,13 @@ func _find_npc() -> CharacterBody2D:
 	return null
 
 func setup_encounter(item_id: String) -> void:
+	_ensure_item_library()
 	current_aisle_id = item_id
-	for inv_item in game_data.inventory:
-		if inv_item and inv_item.type and inv_item.type.item_type_id == item_id:
-			item_config = inv_item
-			item_name = inv_item.item_id.capitalize()
-			return
-	item_name = item_id.capitalize()
+	if _is_black_market():
+		_pick_market_item()
+	else:
+		print_debug("setup_encounter: aisle_id=%s" % item_id)
+		_pick_aisle_item_from_library(item_id)
 
 func _show_alcohol_intro_dialogue() -> void:
 	set_process(false)
@@ -178,6 +208,8 @@ func start_encounter() -> void:
 		_start_baker_encounter()
 	elif current_aisle_id == "meat":
 		_start_butcher_encounter()
+	elif _is_black_market():
+		_start_black_market_encounter()
 	else:
 		_start_normal_encounter()
 
@@ -199,6 +231,28 @@ func _baker_dialogue_to_haggle() -> void:
 func _start_butcher_encounter() -> void:
 	dialogue_overlay.start_dialogue("Butcher", ["You look out of shape and weak.", "YOU NEED SOME PROTEIN!"])
 	dialogue_overlay.dialogue_finished.connect(_butcher_dialogue_step_1, CONNECT_ONE_SHOT)
+
+func _start_black_market_encounter() -> void:
+	# Friendlier, dad-joke-y merchant for the Black Market.
+	var opener: Array[String] = []
+	if is_repeat_encounter:
+		opener = [
+			"Back so soon? I should start a punch card. Buy 9, get a stern look free."
+		]
+	else:
+		opener = [
+			"Welcome to the not-so-secret market. We do bargains and bad jokes.",
+			"I keep prices low and expectations even lower."
+		]
+	var merchant_intro: Array[String] = [
+		"Today's special: " + item_name + ". Marked down because I like your face.",
+		"Current price: $" + str(current_price) + " — mood: " + _get_mood_label()
+	]
+	dialogue_overlay.start_dialogue("Merchant", opener)
+	dialogue_overlay.dialogue_finished.connect(func():
+		dialogue_overlay.start_dialogue("Merchant", merchant_intro)
+		dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
+	, CONNECT_ONE_SHOT)
 
 func _butcher_dialogue_step_1() -> void:
 	dialogue_overlay.start_dialogue("Player", ["Can I put it in the air fryer? That's all I can work."])
@@ -329,7 +383,7 @@ func _handle_buy() -> void:
 	# Update GameData
 	game_data.budget = max(1.0, game_data.budget - charge)
 	_record_merchant_beaten()
-	# TODO: Add item to inventory
+	_add_market_item_to_inventory()
 	
 	dialogue_overlay.start_dialogue("Merchant", ["Pleasure doing business with you!"])
 	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
@@ -369,10 +423,14 @@ func _on_haggle_finished(success: bool) -> void:
 	
 	if success:
 		var haggle_potential: float = item_config.haggle_potential if item_config else 1.0
+		haggle_potential = max(0.5, haggle_potential) # ensure some movement
 		var depth_resistance: float = 1.0 - (game_data.map_depth * 0.05)
 		var desperation_penalty: float = 1.0 - (0.3 if is_desperate else 0.0)
 		var effective_potential: float = haggle_potential * depth_resistance * desperation_penalty
-		current_price = int(current_price * (1.0 - 0.2 * effective_potential))
+		var new_price := int(round(current_price * (1.0 - 0.2 * effective_potential)))
+		if new_price >= current_price:
+			new_price = max(1, current_price - 1) # always drop at least $1 on success
+		current_price = new_price
 		
 		var success_lines = _get_haggle_success_dialogue()
 		dialogue_overlay.start_dialogue("Merchant", success_lines)
@@ -444,23 +502,33 @@ func _handle_soft_favor() -> void:
 	dialogue_overlay.dialogue_finished.connect(_show_main_choices, CONNECT_ONE_SHOT)
 
 func _set_merchant_mood() -> void:
-	var moods: Array[String] = ["friendly", "neutral", "grumpy"]
+	var mood_dict := _get_mood_table()
+	var moods: Array[String] = []
+	for key in mood_dict.keys():
+		moods.append(str(key))
 	merchant_mood = moods[_rng.randi_range(0, moods.size() - 1)]
 	if is_repeat_encounter:
 		merchant_mood = "grumpy"
 
 func _get_mood_label() -> String:
-	if MOODS.has(merchant_mood):
-		return MOODS[merchant_mood]["label"]
+	var mood_dict := _get_mood_table()
+	if mood_dict.has(merchant_mood):
+		return mood_dict[merchant_mood]["label"]
 	return "Neutral"
 
 func _apply_mood_to_price() -> void:
-	if MOODS.has(merchant_mood):
-		var multiplier = MOODS[merchant_mood]["price_multiplier"]
+	var mood_dict := _get_mood_table()
+	if mood_dict.has(merchant_mood):
+		var multiplier = mood_dict[merchant_mood]["price_multiplier"]
 		current_price = int(round(float(current_price) * multiplier))
 
 func _compute_item_price() -> int:
-	var price := _rng.randi_range(20, 50) # Lowered base range
+	var min_price := 20
+	var max_price := 50
+	if _is_black_market():
+		min_price = 10
+		max_price = 25
+	var price := _rng.randi_range(min_price, max_price)
 	if item_config:
 		if item_config.base_price > 0:
 			price = int(round(item_config.base_price))
@@ -476,8 +544,9 @@ func _compute_item_price() -> int:
 	return price
 
 func _apply_mood_to_patience() -> void:
-	if MOODS.has(merchant_mood):
-		npc_patience = MOODS[merchant_mood]["patience"]
+	var mood_dict := _get_mood_table()
+	if mood_dict.has(merchant_mood):
+		npc_patience = mood_dict[merchant_mood]["patience"]
 
 func _apply_depth_pricing() -> void:
 	var depth_markup: float = 1.0 + (game_data.map_depth * 0.1)
@@ -591,8 +660,71 @@ func _record_merchant_beaten() -> void:
 	var beaten: Dictionary = game_data.get_meta("beaten_merchants")
 	beaten[item_type_id] = true
 
+
+func _prettify_name(name: String) -> String:
+	if name.is_empty():
+		return "Unknown Item"
+	return name.capitalize()
+
+
+func _pick_market_item() -> void:
+	# Pull a random item from the full library
+	if _item_library and _item_library.types.size() > 0:
+		var idx := _rng.randi_range(0, _item_library.types.size() - 1)
+		item_config = _item_library.types[idx]
+		item_name = _prettify_name(item_config.item_id)
+	else:
+		item_config = null
+		item_name = _prettify_name(current_aisle_id)
+
+
+func _add_market_item_to_inventory() -> void:
+	if item_config == null:
+		return
+	var added := false
+	if _item_library and _item_library.has_method("add_item_to_inventory"):
+		added = _item_library.add_item_to_inventory(item_config)
+	if not added:
+		# If it doesn't fit or failed, still charge; we already charged.
+		dialogue_overlay.start_dialogue("Narrator", [
+			"The item doesn't fit in your cart, but you paid for it anyway."
+		])
+
+
+func _is_black_market() -> bool:
+	return current_aisle_id == "Black_Market"
+
+func _get_mood_table() -> Dictionary:
+	return BLACK_MARKET_MOODS if _is_black_market() else MOODS
+
+func _pick_aisle_item_from_library(type_id: String) -> void:
+	item_config = null
+	item_name = type_id.capitalize()
+	if not _item_library or _item_library.types.is_empty():
+		print_debug("pick_aisle_item: library missing or empty")
+		return
+	var mapped_type: String = str(AISLE_TYPE_MAP.get(type_id, type_id))
+	print_debug("pick_aisle_item: mapped %s -> %s, library size=%d" % [type_id, mapped_type, _item_library.types.size()])
+	var total := _item_library.types.size()
+	var start := _rng.randi_range(0, total - 1)
+	var checked := 0
+	while checked < total:
+		var idx := (start + checked) % total
+		var candidate: ItemConfig = _item_library.types[idx]
+		if candidate and candidate.type and candidate.type.item_type_id == mapped_type:
+			item_config = candidate
+			item_name = _prettify_name(candidate.item_id)
+			return
+		checked += 1
+	print_debug("No item of type " + mapped_type + " found in item library (aisle_id was " + type_id + ").")
+
 func _reset_dialogue_finished_connections() -> void:
 	if dialogue_overlay.dialogue_finished.is_connected(_on_intro_finished):
 		dialogue_overlay.dialogue_finished.disconnect(_on_intro_finished)
 	if dialogue_overlay.dialogue_finished.is_connected(_show_main_choices):
 		dialogue_overlay.dialogue_finished.disconnect(_show_main_choices)
+
+func _ensure_item_library() -> void:
+	if _item_library == null:
+		_item_library = ITEM_LIBRARY_SCENE.instantiate() as ItemLibrary
+		add_child(_item_library)

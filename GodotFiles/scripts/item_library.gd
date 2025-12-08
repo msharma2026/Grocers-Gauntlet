@@ -3,7 +3,7 @@ extends Node
 
 @export var types: Array[ItemConfig]
 
-const MAX_ITEMS: int = 41
+const MAX_ITEMS: int = 100
 
 var _rng := RandomNumberGenerator.new()
 
@@ -45,7 +45,7 @@ func add_item_to_inventory(config: ItemConfig) -> bool:
 	if game_data.inventory.size() >= MAX_ITEMS:
 		return false
 	# Optional capacity check if size matters; skip if not enforced here.
-	if config.size > 0 and game_data.inventory.size() + config.size > MAX_ITEMS:
-		return false
+	#if config.size > 0 and game_data.inventory.size() + config.size > MAX_ITEMS:
+		#return false
 	game_data.inventory.append(config)
 	return true

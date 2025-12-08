@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=90 format=3 uid="uid://dyvegd0oliw13"]
+=======
+[gd_scene load_steps=86 format=3 uid="uid://dyvegd0oliw13"]
+>>>>>>> Stashed changes
 
 [ext_resource type="Script" uid="uid://chdp1v8woogae" path="res://scripts/item_library.gd" id="1_2weng"]
 [ext_resource type="Script" uid="uid://bu2ofjuo5b36g" path="res://scripts/item_config.gd" id="2_ctlof"]
@@ -41,6 +45,9 @@
 [ext_resource type="Texture2D" uid="uid://4wdajd4ut026" path="res://resources/item textures/cucumber.tres" id="39_cucumber"]
 [ext_resource type="Texture2D" uid="uid://c0fp7qaaq6la0" path="res://resources/item textures/shrimp.tres" id="40_shrimp"]
 [ext_resource type="Texture2D" uid="uid://bi7888kch5028" path="res://resources/item textures/beer mug.tres" id="41_beermug"]
+[ext_resource type="Texture2D" uid="uid://mango_tex_uid" path="res://resources/item textures/mango.tres" id="48_mango"]
+[ext_resource type="Texture2D" uid="uid://wholemilk_tex_uid" path="res://resources/item textures/whole milk.tres" id="49_wholemilk"]
+[ext_resource type="Texture2D" uid="uid://carrot_tex_uid" path="res://resources/item textures/radish and carrot.tres" id="50_carrot"]
 [ext_resource type="Texture2D" uid="uid://bj4367gl6qxpg" path="res://resources/item textures/orange.tres" id="42_orange"]
 [ext_resource type="Texture2D" uid="uid://yddgh5ynnqq5" path="res://resources/item textures/boiled egg half.tres" id="43_egg"]
 [ext_resource type="Texture2D" uid="uid://c1o5b8uuyj7dn" path="res://resources/item textures/tennessee whiskey glass.tres" id="44_tnwhiskey"]
@@ -193,8 +200,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_sushiroll"]
 script = ExtResource("2_ctlof")
 item_id = "Sushi Roll"
-type = ExtResource("7_uj7i3")
-dexterity_increase = 10
+type = ExtResource("2_kx350")
+attack_increase = 10
 description = "Precision-packed rice and fish; boosts chopstick finesse and cart-dodging agility."
 icon = ExtResource("22_sushiroll")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -202,8 +209,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_steak"]
 script = ExtResource("2_ctlof")
 item_id = "Steak"
-type = ExtResource("5_crla1")
-defense_increase = 10
+type = ExtResource("2_kx350")
+attack_increase = 10
 description = "Armored protein slab—well marbled and thick enough to parry a price hike."
 icon = ExtResource("23_steak")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -337,8 +344,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_fries"]
 script = ExtResource("2_ctlof")
 item_id = "Fries"
-type = ExtResource("8_amf7a")
-health_increase = 10
+type = ExtResource("2_kx350")
+attack_increase = 10
 description = "Golden salt sticks that patch morale faster than any first-aid kit."
 icon = ExtResource("38_fries")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -355,8 +362,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_shrimp"]
 script = ExtResource("2_ctlof")
 item_id = "Shrimp"
-type = ExtResource("7_uj7i3")
-dexterity_increase = 10
+type = ExtResource("2_kx350")
+attack_increase = 10
 description = "Tiny surf rockets that boost nimble fingers and nimble feet."
 icon = ExtResource("40_shrimp")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -382,8 +389,8 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_egg"]
 script = ExtResource("2_ctlof")
 item_id = "Boiled Egg Half"
-type = ExtResource("5_crla1")
-defense_increase = 10
+type = ExtResource("2_kx350")
+attack_increase = 10
 description = "Protein shield on a plate—small, mighty, and ready to harden your defenses."
 icon = ExtResource("43_egg")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
@@ -418,12 +425,39 @@ metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 [sub_resource type="Resource" id="Resource_redmush"]
 script = ExtResource("2_ctlof")
 item_id = "Red Mushrooms"
-type = ExtResource("5_crla1")
-defense_increase = 10
+type = ExtResource("8_amf7a")
+health_increase = 10
 description = "Spotted fungi that toughen you up; may cause unexpected jumping urges."
 icon = ExtResource("47_redmush")
 metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
 
+[sub_resource type="Resource" id="Resource_wholemilk"]
+script = ExtResource("2_ctlof")
+item_id = "Whole Milk"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Creamy calcium shield—one glass and your bones argue with gravity."
+icon = ExtResource("49_wholemilk")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_mangojuice"]
+script = ExtResource("2_ctlof")
+item_id = "Mango Smoothie"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Sunshine in a cup; tropical armor that makes you shrug off bumps and bad vibes."
+icon = ExtResource("48_mango")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
+[sub_resource type="Resource" id="Resource_carrotjuice"]
+script = ExtResource("2_ctlof")
+item_id = "Carrot Juice"
+type = ExtResource("5_crla1")
+defense_increase = 10
+description = "Beta-carotene barricade; drink up for eyesight sharp enough to read price tags from afar."
+icon = ExtResource("50_carrot")
+metadata/_custom_type_script = "uid://bu2ofjuo5b36g"
+
 [node name="ItemLibrary" type="Node2D"]
 script = ExtResource("1_2weng")
-types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0"), SubResource("Resource_esysa"), SubResource("Resource_yj814"), SubResource("Resource_k82np"), SubResource("Resource_oaxch"), SubResource("Resource_ymvvt"), SubResource("Resource_vkynk"), SubResource("Resource_tnvdf"), SubResource("Resource_j1u4v"), SubResource("Resource_m1uud"), SubResource("Resource_yht2g"), SubResource("Resource_30if6"), SubResource("Resource_pllp5"), SubResource("Resource_burger"), SubResource("Resource_beerglass"), SubResource("Resource_sushiroll"), SubResource("Resource_steak"), SubResource("Resource_pumpkin"), SubResource("Resource_freezepop"), SubResource("Resource_empanadas"), SubResource("Resource_scotch"), SubResource("Resource_vanillamilk"), SubResource("Resource_whiskey"), SubResource("Resource_redwineglass"), SubResource("Resource_sandwich"), SubResource("Resource_pitcher"), SubResource("Resource_pizzaslice"), SubResource("Resource_water"), SubResource("Resource_icecream"), SubResource("Resource_donut"), SubResource("Resource_cake"), SubResource("Resource_fries"), SubResource("Resource_cucumber"), SubResource("Resource_shrimp"), SubResource("Resource_beermug"), SubResource("Resource_orange"), SubResource("Resource_egg"), SubResource("Resource_tnwhiskey"), SubResource("Resource_whitechoc"), SubResource("Resource_smallsteak"), SubResource("Resource_redmush")])
+types = Array[ExtResource("2_ctlof")]([SubResource("Resource_hlbg0"), SubResource("Resource_esysa"), SubResource("Resource_yj814"), SubResource("Resource_k82np"), SubResource("Resource_oaxch"), SubResource("Resource_ymvvt"), SubResource("Resource_vkynk"), SubResource("Resource_tnvdf"), SubResource("Resource_j1u4v"), SubResource("Resource_m1uud"), SubResource("Resource_yht2g"), SubResource("Resource_30if6"), SubResource("Resource_pllp5"), SubResource("Resource_burger"), SubResource("Resource_beerglass"), SubResource("Resource_sushiroll"), SubResource("Resource_steak"), SubResource("Resource_pumpkin"), SubResource("Resource_freezepop"), SubResource("Resource_empanadas"), SubResource("Resource_scotch"), SubResource("Resource_vanillamilk"), SubResource("Resource_whiskey"), SubResource("Resource_redwineglass"), SubResource("Resource_sandwich"), SubResource("Resource_pitcher"), SubResource("Resource_pizzaslice"), SubResource("Resource_water"), SubResource("Resource_icecream"), SubResource("Resource_donut"), SubResource("Resource_cake"), SubResource("Resource_fries"), SubResource("Resource_cucumber"), SubResource("Resource_shrimp"), SubResource("Resource_beermug"), SubResource("Resource_orange"), SubResource("Resource_egg"), SubResource("Resource_tnwhiskey"), SubResource("Resource_whitechoc"), SubResource("Resource_smallsteak"), SubResource("Resource_redmush"), SubResource("Resource_wholemilk"), SubResource("Resource_mangojuice"), SubResource("Resource_carrotjuice")])
