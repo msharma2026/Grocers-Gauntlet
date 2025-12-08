@@ -218,10 +218,15 @@ func _load_encounter(item_id: String) -> void:
 func _load_screen(screen_scene: PackedScene) -> void:
 	if screen_scene == null:
 		return
-		
-	await _play_transition()
+	if screen_scene.resource_path.ends_with("boss_fight.tscn"):
+		await _burn_transition_start()
+	else:
+		await _play_transition()
 	var new_screen : Screen = _swap_screen(screen_scene)
-	await _play_detransition()
+	if screen_scene.resource_path.ends_with("boss_fight.tscn"):
+		await _burn_detransition()
+	else:
+		await _play_detransition()
 	new_screen._start_on_transition_end()
 	
 	
@@ -272,3 +277,13 @@ func _swap_screen(scene: PackedScene):
 	current_screen = s
 	current_screen.change_screen.connect(_change_screen)
 	return s
+
+func _burn_transition_start() -> void:
+	await get_tree().process_frame
+	$BurnLayer/FakeScreen.texture = ImageTexture.create_from_image(get_viewport().get_texture().get_image())
+	
+
+func _burn_detransition() -> void:
+	$TransitionPlayer.play("burn_transition")
+	await $TransitionPlayer.animation_finished
+	$BurnLayer/FakeScreen.texture = null
