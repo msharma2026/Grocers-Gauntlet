@@ -207,4 +207,5 @@ func _win_battle() -> void:
 func _handle_game_over() -> void:
 	if player:
 		player.set_physics_process(true)
+	player.take_damage(-100)
 	change_screen.emit("game_over")
