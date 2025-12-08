@@ -426,7 +426,6 @@ func _handle_forced_buy() -> void:
 
 func _handle_leave() -> void:
 	dialogue_overlay.close()
-	game_data.budget -= current_price
 	change_screen.emit("aisles")
 
 func _handle_soft_favor() -> void:
