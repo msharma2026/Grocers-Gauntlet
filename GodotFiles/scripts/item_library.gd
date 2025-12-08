@@ -3,7 +3,7 @@ extends Node
 
 @export var types: Array[ItemConfig]
 
-const MAX_ITEMS: int = 100
+const MAX_ITEMS_AT_START: int = 15
 
 var _rng := RandomNumberGenerator.new()
 
@@ -27,7 +27,7 @@ func assign_starter_items() -> void:
 	var capacity_left := game_data.max_capacity
 	
 	for config in pool:
-		if game_data.inventory.size() >= MAX_ITEMS:
+		if game_data.inventory.size() >= MAX_ITEMS_AT_START:
 			break
 		if config == null:
 			continue
@@ -42,7 +42,7 @@ func add_item_to_inventory(config: ItemConfig) -> bool:
 	config.finalize_quality()
 	if config == null:
 		return false
-	if game_data.inventory.size() >= MAX_ITEMS:
+	if game_data.inventory.size() >= MAX_ITEMS_AT_START:
 		return false
 	game_data.inventory.append(config)
 	return true
