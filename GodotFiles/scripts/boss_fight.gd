@@ -201,7 +201,7 @@ func _win_battle() -> void:
 	dialogue_overlay.start_dialogue(boss_name, ["Impossible...", "You... you actually saved money?"])
 	dialogue_overlay.dialogue_finished.connect(func(): 
 		dialogue_overlay.close()
-		change_screen.emit("exit") 
+		change_screen.emit("end_scene") 
 	)
 
 func _handle_game_over() -> void:
