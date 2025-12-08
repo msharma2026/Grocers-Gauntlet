@@ -4,7 +4,7 @@ class_name Inventory
 extends Screen
 
 @export var item_spacing: int = 10
-@export var default_row_size: int = 10
+@export var default_row_size: int = 11
 @export var default_col_size: int = 4
 @export var grid_padding: int = 48
 @export var slot_padding: int = 6

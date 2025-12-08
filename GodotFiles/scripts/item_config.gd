@@ -15,5 +15,8 @@ extends Resource
 @export var dexterity_increase: int
 @export var defense_increase: int
 @export var budget_increase: float
+@export var attack_increase: float
 @export var description: String
 @export var icon: Texture2D
+
+var sell_price: float
