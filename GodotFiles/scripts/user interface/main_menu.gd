@@ -194,7 +194,7 @@ func _build_credits_menu() -> void:
 	title_background.patch_margin_top = 25
 	title_background.patch_margin_bottom = 25
 	title_background.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	title_background.custom_minimum_size = Vector2(200, 50)
+	title_background.custom_minimum_size = Vector2(220, 75)
 	main_container.add_child(title_background)
 	
 	var title: Label = Label.new()
@@ -204,7 +204,17 @@ func _build_credits_menu() -> void:
 	title.add_theme_font_override("font", RECEIPT_FONT)
 	title.add_theme_font_size_override("font_size", 80)
 	title.add_theme_color_override("font_color", Color.BLACK)
-	title_background.add_child(title)
+	
+	var title_margin := MarginContainer.new()
+	title_margin.add_theme_constant_override("margin_left", 10)
+	title_margin.add_theme_constant_override("margin_right", 10)
+	title_margin.add_theme_constant_override("margin_top", 10)
+	title_margin.add_theme_constant_override("margin_bottom", 10)
+
+	title_background.add_child(title_margin)
+	title_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	
+	title_margin.add_child(title)
 	title.set_anchors_preset(Control.PRESET_FULL_RECT)
 	
 	var credits_background: NinePatchRect = NinePatchRect.new()
@@ -231,10 +241,19 @@ func _build_credits_menu() -> void:
 	credits_label.add_theme_font_override("font", RECEIPT_FONT)
 	credits_label.add_theme_font_size_override("font_size", 40)
 	credits_label.add_theme_color_override("font_color", Color.BLACK)
-	credits_background.add_child(credits_label)
+	
+	var credits_margin := MarginContainer.new()
+	credits_margin.add_theme_constant_override("margin_left", 20)
+	credits_margin.add_theme_constant_override("margin_right", 20)
+	credits_margin.add_theme_constant_override("margin_top", 10)
+	credits_margin.add_theme_constant_override("margin_bottom", 10)
+
+	credits_background.add_child(credits_margin)
+	credits_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+
+	credits_margin.add_child(credits_label)
 	credits_label.set_anchors_preset(Control.PRESET_FULL_RECT)
-	credits_label.add_theme_constant_override("margin_top", 20)
-	credits_label.add_theme_constant_override("margin_bottom", 20)
+
 	
 	# Back Button
 	var price_tag: StyleBoxTexture = StyleBoxTexture.new()
