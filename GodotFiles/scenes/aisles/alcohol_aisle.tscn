@@ -47,7 +47,7 @@ script = ExtResource("4_dum62")
 
 [node name="Sprite2D" type="Sprite2D" parent="LiquorStoreNPC" index="0"]
 position = Vector2(568.9999, 233.99998)
-scale = Vector2(1.8750019, 2.05)
+scale = Vector2(3, 3)
 texture = ExtResource("5_tbfpc")
 
 [node name="GroceryStore23_png" type="Sprite2D" parent="." index="7"]

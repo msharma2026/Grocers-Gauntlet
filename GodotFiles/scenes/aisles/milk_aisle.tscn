@@ -39,15 +39,15 @@ script = ExtResource("3_pcvwx")
 
 [node name="Sprite2D" type="Sprite2D" parent="GrandmaNPC" index="0"]
 position = Vector2(501, 190)
-scale = Vector2(2.1875, 2.05)
+scale = Vector2(3, 3)
 texture = ExtResource("4_ertv6")
 
 [node name="GrandpaNPC" type="CharacterBody2D" parent="." index="5"]
 script = ExtResource("5_oaxh5")
 
 [node name="Sprite2D" type="Sprite2D" parent="GrandpaNPC" index="0"]
-position = Vector2(501, 215)
-scale = Vector2(1.8125, 2.1)
+position = Vector2(501, 228.00002)
+scale = Vector2(3, 3)
 texture = ExtResource("6_qjcwj")
 
 [node name="Bottom" parent="Walls" index="1"]

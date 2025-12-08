@@ -37,7 +37,7 @@ script = ExtResource("3_3qb4k")
 
 [node name="Sprite2D" type="Sprite2D" parent="BakerNPC" index="0"]
 position = Vector2(839, 258)
-scale = Vector2(2.875, 3.1999998)
+scale = Vector2(3, 3)
 texture = ExtResource("4_6smpv")
 
 [node name="Top" parent="Walls" index="0"]

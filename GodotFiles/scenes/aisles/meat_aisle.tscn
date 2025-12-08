@@ -43,7 +43,7 @@ script = ExtResource("4_cnejp")
 
 [node name="Sprite2D" type="Sprite2D" parent="ButcherNPC" index="0"]
 position = Vector2(15, 15.5)
-scale = Vector2(2.875, 2.55)
+scale = Vector2(3, 3)
 texture = ExtResource("5_0tjba")
 
 [node name="Left" parent="Walls" index="2"]
