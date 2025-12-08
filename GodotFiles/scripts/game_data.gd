@@ -29,11 +29,10 @@ var defense: int
 var current_markup_rate: float
 var budget: float = START_BUDGET
 
-# Cart information
+# Cart information 
 var cart_type: String
 var inventory: Array[ItemConfig] = []
-var max_capacity: int = 100
-
+var max_capacity: int = 44
 
 func reset() -> void:
 	map_depth = 0
