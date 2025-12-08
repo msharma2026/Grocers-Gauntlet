@@ -223,18 +223,18 @@ func _build_credits_menu() -> void:
 	credits_background.patch_margin_right = 25
 	credits_background.patch_margin_top = 25
 	credits_background.patch_margin_bottom = 25
-	credits_background.custom_minimum_size = Vector2(950, 200)
+	credits_background.custom_minimum_size = Vector2(750, 375)
 	credits_background.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	main_container.add_child(credits_background)
 	
 	# Credits Text
-	var credits_text := "Technical Artist + Player Onboarding and Tutorials:\
+	var credits_text := "Technical Artist + Player Onboarding and Tutorials:\n\
 						Joshua Clark\n\
-						Game Logic + Game Feel: Marq Lott\n\
-						Procedural Content Design + Audio: Manav Sharma\n\
-						Animations and Visuals + Narrative Design: Yugraj Dhillon\n\
-						Movement and Physics + Press Kit and Trailer: Aktan Azat\n\
-						User Interface and Input + Gameplay Testing: David Estrella"
+						Game Logic + Game Feel:\nMarq Lott\n\
+						Procedural Content Design + Audio:\nManav Sharma\n\
+						Animations and Visuals + Narrative Design:\nYugraj Dhillon\n\
+						Movement and Physics + Press Kit and Trailer:\nAktan Azat\n\
+						User Interface and Input + Gameplay Testing:\nDavid Estrella"
 	var credits_label: Label = Label.new()
 	credits_label.text = credits_text
 	credits_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
