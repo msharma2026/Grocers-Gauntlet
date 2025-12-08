@@ -279,6 +279,7 @@ func _swap_screen(scene: PackedScene):
 	return s
 
 func _burn_transition_start() -> void:
+	await get_tree().create_timer(1.0).timeout
 	await get_tree().process_frame
 	$BurnLayer/FakeScreen.texture = ImageTexture.create_from_image(get_viewport().get_texture().get_image())
 	
