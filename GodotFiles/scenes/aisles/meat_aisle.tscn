@@ -18,7 +18,7 @@ sources/0 = SubResource("TileSetAtlasSource_81w4h")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="." index="0"]
 scale = Vector2(16, 16)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAADAAEAAAAAAAAAAAACAAEAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAADAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAADAAIAAAAAAAAAAAABAAIAAAAAAAAAAAACAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAEAAAAAAAAAAAACAAEAAAAAAAAAAAADAAEAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_q5og1")
 
 [node name="Background" parent="." index="1"]
@@ -88,5 +88,35 @@ zoom = Vector2(1.8, 1.8)
 
 [node name="MeatShelf7" type="Sprite2D" parent="." index="14"]
 position = Vector2(790.00006, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf8" type="Sprite2D" parent="." index="15"]
+position = Vector2(114, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf9" type="Sprite2D" parent="." index="16"]
+position = Vector2(19, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf10" type="Sprite2D" parent="." index="17"]
+position = Vector2(-78, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf11" type="Sprite2D" parent="." index="18"]
+position = Vector2(982, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf12" type="Sprite2D" parent="." index="19"]
+position = Vector2(885, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("6_0tjba")
+
+[node name="MeatShelf13" type="Sprite2D" parent="." index="20"]
+position = Vector2(1077, 274)
 scale = Vector2(3, 3)
 texture = ExtResource("6_0tjba")

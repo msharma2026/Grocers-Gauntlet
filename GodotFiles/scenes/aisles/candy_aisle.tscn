@@ -100,3 +100,33 @@ texture = ExtResource("5_quo5r")
 [node name="Camera2D" type="Camera2D" parent="." index="6"]
 position = Vector2(580, 223)
 zoom = Vector2(1.7, 1.7)
+
+[node name="CandyShelf" type="Sprite2D" parent="." index="7"]
+position = Vector2(160, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf2" type="Sprite2D" parent="." index="8"]
+position = Vector2(65, 275)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf3" type="Sprite2D" parent="." index="9"]
+position = Vector2(-29, 276.00003)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf4" type="Sprite2D" parent="." index="10"]
+position = Vector2(1120, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf5" type="Sprite2D" parent="." index="11"]
+position = Vector2(1312, 273)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")
+
+[node name="CandyShelf6" type="Sprite2D" parent="." index="12"]
+position = Vector2(1216, 273)
+scale = Vector2(3, 3)
+texture = ExtResource("5_quo5r")

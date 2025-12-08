@@ -53,7 +53,7 @@ position = Vector2(189, 320)
 position = Vector2(1090, 325)
 
 [node name="BreadShelf" type="Sprite2D" parent="Walls" index="4"]
-position = Vector2(1090, 274)
+position = Vector2(1075, 274)
 scale = Vector2(3, 3)
 texture = ExtResource("5_6smpv")
 
@@ -93,10 +93,40 @@ scale = Vector2(3, 3)
 texture = ExtResource("5_6smpv")
 
 [node name="BreadShelf8" type="Sprite2D" parent="." index="13"]
-position = Vector2(989, 274)
+position = Vector2(978.00006, 274)
 scale = Vector2(3, 3)
 texture = ExtResource("5_6smpv")
 
 [node name="Camera2D" type="Camera2D" parent="." index="14"]
 position = Vector2(618, 261)
 zoom = Vector2(1.5, 1.5)
+
+[node name="BreadShelf9" type="Sprite2D" parent="." index="15"]
+position = Vector2(1171, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf10" type="Sprite2D" parent="." index="16"]
+position = Vector2(1266, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf11" type="Sprite2D" parent="." index="17"]
+position = Vector2(1362, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf12" type="Sprite2D" parent="." index="18"]
+position = Vector2(103, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf13" type="Sprite2D" parent="." index="19"]
+position = Vector2(199, 274)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
+
+[node name="BreadShelf14" type="Sprite2D" parent="." index="20"]
+position = Vector2(8, 275)
+scale = Vector2(3, 3)
+texture = ExtResource("5_6smpv")
