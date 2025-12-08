@@ -12,7 +12,7 @@ size = Vector2(1278, 20)
 size = Vector2(20, 648)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_85w88"]
-size = Vector2(100.70917, 114.0845)
+size = Vector2(248.2269, 445.77466)
 
 [node name="BossFight" type="Node2D"]
 script = ExtResource("1_script")
@@ -59,7 +59,7 @@ scale = Vector2(1.41, 1.42)
 texture = ExtResource("2_85w88")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BossArea"]
-position = Vector2(-1.418457, 2.8169098)
+position = Vector2(2.1276855, 77.112686)
 shape = SubResource("RectangleShape2D_85w88")
 
 [connection signal="body_entered" from="BossArea" to="." method="_on_boss_area_body_entered"]
