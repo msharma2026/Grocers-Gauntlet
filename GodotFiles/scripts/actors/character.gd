@@ -6,7 +6,7 @@ extends CharacterBody2D
 signal CharacterDirectionChange(facing:Facing)
 
 const GAME_OVER := game_data.PlayerStatus.IS_DEAD
-const DEFAULT_VELOCITY: float = 100.0
+const DEFAULT_VELOCITY: float = 150.0
 
 enum Facing {
 	IS_FACING_LEFT,

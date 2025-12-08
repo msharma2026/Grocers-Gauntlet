@@ -155,7 +155,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"move_up",
-"speed": 5.0
+"speed": 15.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g2els"]
