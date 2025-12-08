@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://bflc6bhxmejsn"]
+
+[ext_resource type="Script" uid="uid://5ede7nvebftd" path="res://scripts/boss_fight.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b74400gxr3c4q" path="res://assets/sprites/character/boss.png" id="2_85w88"]
+[ext_resource type="Texture2D" uid="uid://cympxuicbutuv" path="res://assets/sprites/aisle/grocery store2 -8.png.png" id="3_67f06"]
+[ext_resource type="Texture2D" uid="uid://bpxo06o1ixrad" path="res://assets/sprites/aisle/grocery store2 -7.png.png" id="4_31neg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(1278, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(20, 648)
+
+[node name="BossFight" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(206, 293)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(576, -10)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(576, 658)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-10, 324)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1162, 324)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(576, 324)
+
+[node name="Boss" type="Sprite2D" parent="."]
+position = Vector2(966, 214)
+scale = Vector2(1.41, 1.42)
+texture = ExtResource("2_85w88")
+
+[node name="GroceryStore28_png" type="Sprite2D" parent="."]
+position = Vector2(561, -82)
+scale = Vector2(4.5625, 4.5)
+texture = ExtResource("3_67f06")
+
+[node name="GroceryStore27_png" type="Sprite2D" parent="."]
+position = Vector2(817, 324)
+scale = Vector2(2.875, 2.6510417)
+texture = ExtResource("4_31neg")
