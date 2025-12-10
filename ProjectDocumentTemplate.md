@@ -114,7 +114,7 @@ Add addition contributions int he Other Contributions section.
 
 ### Sub-Role – Minigames & NPC Dialogue Logic
 - All haggle minigames: built coin-flip, reaction, and base haggle minigames; random selection, difficulty scaling, and signal wiring into aisle encounters (`GodotFiles/scripts/user interface/haggle_minigame*.gd`, `aisle_navigation.gd`). Commits: eeb726f, 3a3a2b5, 4153bd2, a058fda, e380632.
-- Dialogue logic (logic only, not text): NPC encounter start flow, branching, pacing, and choice handling for all aisles (`GodotFiles/scripts/aisle_navigation.gd`). Commits: 34d0779, 1e2f223, 20c96f5, 661bb70, f196959.
+- Dialogue logic (logic only, not text): NPC encounter start flow, branching, pacing, and choice handling for all aisles (`GodotFiles/scripts/aisle_navigation.gd`). Commits: 34d0779, 1e2f223, 20c96f5, 661bb70.
 
 ### Other Contributions
 - Black market scene & system: built the entire Black Market aisle (lighting, layout), merchant behaviors, dialogue flow, and pricing/mood handling (`GodotFiles/scripts/aisle_navigation.gd`, Black Market scene). Commits: 661bb70.
