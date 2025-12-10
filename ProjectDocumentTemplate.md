@@ -9,7 +9,7 @@
 [Web-playable version of your game.](https://generss.itch.io/grocers-gauntlet)  
 [Trailor](https://youtube.com)  
 [Press Kit](https://dopresskit.com/)  
-[Proposal: make your own copy of the linked doc.](https://docs.google.com/document/d/1qwWCpMwKJGOLQ-rRJt8G8zisCa2XHFhv6zSWars0eWM/edit?usp=sharing)  
+[Proposal: ](https://docs.google.com/document/d/18VpatOk0Jfa84PH4wl98wELmhRtDBi31oo71IgXP5bI/edit?usp=sharing)  
 
 ## Gameplay Explanation ##
 
