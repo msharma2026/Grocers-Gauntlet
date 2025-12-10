@@ -66,3 +66,20 @@ Add addition contributions int he Other Contributions section.
 ## Sub-Roles ##
 
 ## Other Contributions ##
+
+## Team Member: Aktan Azat (GitHub: tadoophom)
+
+### Main Role – Player Movement & Aisle Navigation
+- Player movement: directional controls, facing states, and start positions tuned for responsive traversal (`GodotFiles/scripts/actors/player.gd`). Commits: 666c2f0, 38b203d, baa4bb5.
+- Aisle navigation system and scene: built the AisleNavigation scene, encounter triggers, camera flow, and merchant patience/mood handling (`GodotFiles/scripts/aisle_navigation.gd`). Commits: 666c2f0, 8d3463f, db74605.
+- Merchant moods and patience tuning: personality system, mood-driven behavior, and visual indicators for NPCs. Commits: 15a34e9, 082c5b3.
+
+### Sub-Role – Minigames & NPC Dialogue Logic
+- All haggle minigames: built coin-flip, reaction, and base haggle minigames; random selection, difficulty scaling, and signal wiring into aisle encounters (`GodotFiles/scripts/user interface/haggle_minigame*.gd`, `aisle_navigation.gd`). Commits: eeb726f, 3a3a2b5, 4153bd2, a058fda, e380632.
+- Dialogue logic (logic only, not text): NPC encounter start flow, branching, pacing, and choice handling for all aisles (`GodotFiles/scripts/aisle_navigation.gd`). Commits: 34d0779, 1e2f223, 20c96f5, 661bb70, f196959.
+
+### Other Contributions
+- Black market scene & system: built the entire Black Market aisle (lighting, layout), merchant behaviors, dialogue flow, and pricing/mood handling (`GodotFiles/scripts/aisle_navigation.gd`, Black Market scene). Commits: 661bb70.
+- Dynamic pricing and scarcity: depth-based pricing, desperation modifiers, and scarcity tuning for merchants. Commits: ad61cb0, 9872f6e.
+- Encounter triggers: player spawn alignment and camera pans that start aisle encounters smoothly (`GodotFiles/scripts/aisle_navigation.gd`).
+- Bug fixes: initial aisle sprite visibility (eb0d5c7), forced purchase/charge after annoyed merchant (a4c12a5), and player position persistence when exiting dialogue in aisle selector (6473dbe).
