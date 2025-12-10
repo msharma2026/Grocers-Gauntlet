@@ -14,6 +14,7 @@
 ## Gameplay Explanation ##
 
 **In this section, explain how the game should be played. Treat this as a manual within a game. Explaining the button mappings and the most optimal gameplay strategy is encouraged.**
+
 The game can be played with arrow keys to move around, mouse to click on buttons, esc to access the pause menu, and i key to access the inventory directly. 
 
 In the first screen after the main menu, click the arrow keys to select your starting cart, this determines your beginning stats. 
