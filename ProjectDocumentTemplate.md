@@ -15,12 +15,11 @@
 
 **In this section, explain how the game should be played. Treat this as a manual within a game. Explaining the button mappings and the most optimal gameplay strategy is encouraged.**
 
-The game can be played with arrow keys to move around, mouse to click on buttons, esc to access the pause menu, and i key to access the inventory directly. 
+The game is controlled with the arrow keys for movement, the mouse for clicking on buttons, Esc to open the pause menu, and the I key to access the inventory.
 
-In the first screen after the main menu, click the arrow buttons to select your starting cart, this determines your beginning stats. 
-Then you get sent to an aisles screen where you will select from different aisles with your mouse, clicking on the aisle where you would like to go next. Each aisle represents a different item type
-Once you go down that aisle, you can buy the item being offered, haggle to lower the price or leave. Items will raise your stats in the final boss encounter
-After so many aisles, you then enter the boss fight where the different combat options use different stats, each bolstered by different items you purchased in the store. 
+After the main menu, the first screen allows you to choose your starting cart by clicking the arrow buttons. Your choice determines your initial stats. You are then taken to the aisles screen, where you use the mouse to select which aisle you want to visit next. Each aisle corresponds to a different item type.
+
+Once you enter an aisle, you can choose to buy the item offered, haggle to lower its price, or leave. Items you collect will increase the stats used in the final boss encounter. After you have visited a certain number of aisles, you will enter the boss fight, where each combat option relies on different stats, each boosted by the items you acquired throughout the game.
 
 **Add it here if you did work that should be factored into your grade but does not fit easily into the proscribed roles! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
 
