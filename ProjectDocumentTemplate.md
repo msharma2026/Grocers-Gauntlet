@@ -164,3 +164,35 @@ Add addition contributions int he Other Contributions section.
 - **Content/data:** expanded item_library with 23+ humorous, typed items with +10 buffs each, added non-alcoholic drinks, and rebalanced item types to match aisles with rich flavor text (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scenes/item_library.tscn`, `GodotFiles/resources/*`). **Commits:** 91d377a, a470e98, ad72204, f8dfa33.
 
 - **Bug fixes:** merge conflict cleanup, dialogue layout restoration with proper background handling, haggle price drop guarantee with charging logic fixes, and inventory return stability preventing freed-instance errors (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/dialogue_overlay.gd`). **Commits:** de07858, 778c80f, 0fe0848, 8b741df, f18102a, ab8eb52.
+
+## Team Member: Yugraj Dhillon (GitHub: YugrajD)
+
+### Main Role – Animation and Visuals
+
+**Animation and Design of Main Character:** I handled animating the main character when I imported the character sheet from itch.io. I later changed the speed of the main character to make the movement of the character to seem more realistic. **Commits:** fe9de78,
+
+**Created NPC Sprites:** In Piskel, I edited the colors and modified the looks of the NPCs in the character sheet to fit my narrative design. 
+
+**Item Creation:** Created items for the shelves in the item for each respective aisle. I went into Piskel and created these items from scratch which then I imported into our project. **Commits:** cd271e2, 772c84b
+
+
+
+---
+
+### Sub-Role – Narrative Design
+
+- **Dialogue:** Implemented the intro dialogue, implemented the dialogue between the aisle NPCs and the player, implemented the dialogue between the boss and the player, implemented the ending cutscene dialogue. **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0, a770236, 6933909
+
+- **World Building and Themes:** Used the themes of the aisles to give clues about the story and add to the story, for example the meat aisle was supposed to be a more violent area to show the aggressive way the player's wife passed. The milk area was meant to represent the abscene of the mother in the family, I wanted the idea of milk and the player's parents to represent that one, milk is generally assoicated with the mother due to breastfeeding, and two, having an older version of player essentially with his father being there, and his mother, showing that this would've been his life later down the line, with maybe his daughter visiting, the player also notices a huge change in age for his parents, signaling he has been absent for a while. The alcohol aisle being in Christmas theme while the player notes its May gives a hint that maybe this grocery store is not a real store. The coziness of the bread aisle with it's fresh bread was meant to represent the comfort he used to feel when his family was still together and happy, generally smelling freshly baked goods bring nostalgia in pop culture. The candy aisle was meant to represent the younger years of the daughter, the daughter the player mostly remembers as it was before his wife passed, which can be seen when the player cannot remember that the childhood friend of his daughter isn't her friend anymore. **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0
+
+- **Beginning and Ending:** I wanted to keep this seperate as I didn't want it to get swamped by the text in the last section. But in the beginning I mentioned a grocery list the player has from his daughter, I added that as a narrative device to give the person playing an idea of what type of family the player is in, and also to maybe wonder what is in that grocery list since the player never reads it. Which then the story will take you throught the aisles and you get more info about the player, then in the end I thought it would be a beautiful touch to have the player finally read that letter, the truth is, in real life, the player had already read the letter before, it's just now, after defeating the manager, which is the embodiment of the player's guilt and fear, he finally wakes up and actually understands the situation at hand, and hopefully he gets better. **Commits:** 5ae595f, 6933909
+
+---
+
+### Other Contributions
+
+- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice **Commits:** 0425352, d7f8405
+
+- **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0, 
+
+- **Bug Fixes:** Fixed a bug that caused the NPC to say their lines and then say the generic intro again. Fixed bug where if user walked in the area of an NPC, an encounter never occurs. **Commits:** 419f7ce, e2975f9
