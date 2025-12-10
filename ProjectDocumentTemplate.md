@@ -6,7 +6,7 @@
 
 ## Project Resources
 
-[Web-playable version of your game.](https://itch.io/)  
+[Web-playable version of your game.](https://generss.itch.io/grocers-gauntlet)  
 [Trailor](https://youtube.com)  
 [Press Kit](https://dopresskit.com/)  
 [Proposal: make your own copy of the linked doc.](https://docs.google.com/document/d/1qwWCpMwKJGOLQ-rRJt8G8zisCa2XHFhv6zSWars0eWM/edit?usp=sharing)  
@@ -14,7 +14,12 @@
 ## Gameplay Explanation ##
 
 **In this section, explain how the game should be played. Treat this as a manual within a game. Explaining the button mappings and the most optimal gameplay strategy is encouraged.**
+The game can be played with arrow keys to move around, mouse to click on buttons, esc to access the pause menu, and i key to access the inventory directly. 
 
+In the first screen after the main menu, click the arrow keys to select your starting cart, this determines your beginning stats. 
+Then you get sent to an aisles screen where you will select from different aisles with your mouse, clicking on the aisle where you would like to go next. Each aisle represents a different item type
+Once you go down that aisle, you can buy the item being offered, haggle to lower the price or leave. Items will raise your stats in the final boss encounter
+After so many aisles, you then enter the boss fight where the different combat options use different stats, each bolstered by different items you purchased in the store. 
 
 **Add it here if you did work that should be factored into your grade but does not fit easily into the proscribed roles! Please include links to resources and descriptions of game-related material that does not fit into roles here.**
 
@@ -23,6 +28,12 @@
 If your project contains code that: 1) your team did not write, and 2) does not fit cleanly into a role, please document it in this section. Please include the author of the code, where to find the code, and note which scripts, folders, or other files that comprise the external contribution. Additionally, include the license for the external code that permits you to use it. You do not need to include the license for code provided by the instruction team.
 
 If you used tutorials or other intellectual guidance to create aspects of your project, include reference to that information as well.
+
+## Joshua Clark - External resources
+- I learned how to make shaders and got a lot of ideas from this excellent tutorial https://www.youtube.com/watch?v=1pJyYtBAHks&t=192s
+- The developer for the game Loop Hero actually told me how I could replicate his disintegrate shader https://x.com/_FQteam/status/1355980077360680962
+- The shader flip.gdshader was made with help from an LLM but didn't actually make it into the game
+
 
 # Team Member Contributions
 
