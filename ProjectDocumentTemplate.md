@@ -169,11 +169,18 @@ Add addition contributions int he Other Contributions section.
 
 ### Main Role – Animation and Visuals
 
-**Animation and Design of Main Character:** I handled animating the main character when I imported the character sheet from itch.io. I later changed the speed of the main character to make the movement of the character to seem more realistic. **Commits:** fe9de78,
+**Animation and Design of Main Character:** I handled animating the main character when I imported the character sheet from itch.io. I later changed the speed of the main character to make the movement of the character to seem more realistic (`GodotFiles/assets/sprites/character/character_1-8.png`, `GodotFiles/scenes/player.tscn`, `GodotFiles/scripts/actors/character.gd`, `GodotFiles/scripts/actors/player.gd`). **Commits:** fe9de78, 772c84b
 
-**Created NPC Sprites:** In Piskel, I edited the colors and modified the looks of the NPCs in the character sheet to fit my narrative design. 
+**NPC Sprites:** In Piskel, I edited the colors and modified the looks of the NPCs in the character sheet to fit my narrative design (`GodotFiles/assets/sprites/character/baker.png`, `GodotFiles/assets/sprites/character/butcher.png`, `GodotFiles/assets/sprites/character/cf.png`, `GodotFiles/assets/sprites/character/grandma.png`, `GodotFiles/assets/sprites/character/grandpa.png`, `GodotFiles/assets/sprites/character/liquor.png`). **Commits:** 3bbef84
 
-**Item Creation:** Created items for the shelves in the item for each respective aisle. I went into Piskel and created these items from scratch which then I imported into our project. **Commits:** cd271e2, 772c84b
+**Item Creation:** Created items for the shelves in the item for each respective aisle. I went into Piskel and created these items from scratch which then I imported into our project (`GodotFiles/assets/sprites/aisle/bread_shelf.png`, `GodotFiles/assets/sprites/aisle/candy_shelf.png`, `GodotFiles/assets/sprites/aisle/meat_shelf.png`, `GodotFiles/assets/sprites/aisle/milk_shelf.png`, . **Commits:** cd271e2, 772c84b
+
+**Background Creation:** Created the floors for the aisles and created the ominous background in the end scene of the game after the boss fight, assets were created in Piskel from scratch (`GodotFiles/assets/sprites/aisle/alcohol_aisle.png`, `GodotFiles/assets/sprites/aisle/bread_aisle.png`, `GodotFiles/assets/sprites/aisle/candy_aisle.png`, `GodotFiles/assets/sprites/aisle/meat_aisle.png`, `GodotFiles/assets/sprites/aisle/milk_aisle.png`,   ). **Commits:** d0f2ec9
+
+**Inserted Floors:** Created a TileMapLayer to insert the floor sprites into the background (`GodotFiles/scenes/aisles/bread_aisle.tscn`, `GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/aisles/meat_aisle.tscn`, `GodotFiles/scenes/aisles/milk_aisle.tscn`). **Commits:** d0f2ec9
+
+**Edited Aisle Camera Position:** Inserted a fixed Camera2D node into each aisle to frame the each scene (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/aisles/milk_aisle.tscn`, `GodotFiles/scenes/aisles/meat_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/aisles/bread_aisle.tscn`, `GodotFiles/scenes/aisles/alcohol_aisle.tscn`). **Commits:** cd271e2
+
 
 
 
@@ -181,7 +188,7 @@ Add addition contributions int he Other Contributions section.
 
 ### Sub-Role – Narrative Design
 
-- **Dialogue:** Implemented the intro dialogue, implemented the dialogue between the aisle NPCs and the player, implemented the dialogue between the boss and the player, implemented the ending cutscene dialogue. **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0, a770236, 6933909
+- **Dialogue:** Implemented the intro dialogue, implemented the dialogue between the aisle NPCs and the player, implemented the dialogue between the boss and the player, implemented the ending cutscene dialogue (`GodotFiles/scripts/actors/baker_npc.gd`, `GodotFiles/scripts/actors/butcher_npc.gd`, `GodotFiles/scripts/actors/cashier_npc.gd`, `GodotFiles/scripts/actors/grandma_npc.gd`, `GodotFiles/scripts/actors/grandpa_npc.gd`, `GodotFiles/scripts/actors/liquor_store_npc.gd`, . **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0, a770236, 6933909, 1d66e13
 
 - **World Building and Themes:** Used the themes of the aisles to give clues about the story and add to the story, for example the meat aisle was supposed to be a more violent area to show the aggressive way the player's wife passed. The milk area was meant to represent the abscene of the mother in the family, I wanted the idea of milk and the player's parents to represent that one, milk is generally assoicated with the mother due to breastfeeding, and two, having an older version of player essentially with his father being there, and his mother, showing that this would've been his life later down the line, with maybe his daughter visiting, the player also notices a huge change in age for his parents, signaling he has been absent for a while. The alcohol aisle being in Christmas theme while the player notes its May gives a hint that maybe this grocery store is not a real store. The coziness of the bread aisle with it's fresh bread was meant to represent the comfort he used to feel when his family was still together and happy, generally smelling freshly baked goods bring nostalgia in pop culture. The candy aisle was meant to represent the younger years of the daughter, the daughter the player mostly remembers as it was before his wife passed, which can be seen when the player cannot remember that the childhood friend of his daughter isn't her friend anymore. **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0
 
@@ -193,6 +200,6 @@ Add addition contributions int he Other Contributions section.
 
 - **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice **Commits:** 0425352, d7f8405
 
-- **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0, 
+- **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0
 
 - **Bug Fixes:** Fixed a bug that caused the NPC to say their lines and then say the generic intro again. Fixed bug where if user walked in the area of an NPC, an encounter never occurs. **Commits:** 419f7ce, e2975f9
