@@ -109,3 +109,47 @@ Add addition contributions int he Other Contributions section.
 - Dynamic pricing and scarcity: depth-based pricing, desperation modifiers, and scarcity tuning for merchants. Commits: ad61cb0, 9872f6e.
 - Encounter triggers: player spawn alignment and camera pans that start aisle encounters smoothly (`GodotFiles/scripts/aisle_navigation.gd`).
 - Bug fixes: initial aisle sprite visibility (eb0d5c7), forced purchase/charge after annoyed merchant (a4c12a5), and player position persistence when exiting dialogue in aisle selector (6473dbe).
+
+## Team Member: Marq Lott (GitHub: Marqlo-C)
+
+### Main Role – Game Logic
+
+- **Game state management and screen system:** created exported dictionary for flexible screen loading from inspector, built unified `_change_screen()` handler supporting both PackedScenes and string IDs, and established screen flow architecture (`GodotFiles/scripts/game.gd`). **Commits:** 2ee699f, cf5c900, 8504e4c.
+
+- **Exit scene and quit confirmation:** implemented unified Exit.tscn with reusable quit confirmation logic, integrated exit handling across main menu and pause menu, and added proper cleanup on game exit (`GodotFiles/scenes/exit.tscn`, `GodotFiles/scripts/Exit.gd`, `GodotFiles/scripts/game.gd`). **Commits:** 8504e4c, 8c2ad81, 1f01469.
+
+- **Pause system gating:** prevented pause menu instantiation on non-gameplay screens (main menu/entrance), implemented ESC toggle with proper state checks, and coordinated pause/inventory overlay mutual exclusion (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, 057126e, cb04a8a, 0c2fc98.
+
+- **HUD lifecycle management:** removed editor-placed UI elements, instantiated HUD/HealthBar programmatically via code only during gameplay, and ensured proper visibility control tied to game state (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, cb04a8a.
+
+- **Game data integration:** coordinated with game_data singleton for cart stats, inventory state, and player progression; ensured proper reset flow and state persistence across screens (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/game_data.gd`). **Commits:** f1dcc22, a03c51f, b41ac11.
+  
+- **Inventory system:** item configs/library, add/use functions, buffs applied to game_data, inventory capacity handling, and UI integration with centralized add_to_inventory() method and use_item() logic (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** cfeac5f, af129e8, a470e98, 0da0ac3, f8dfa33.
+
+- **Aisle item selection:** fixed aisle→type mapping and selection from full library; Black Market pricing/moods and full-library pulls with proper encounter logic and inventory integration (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/item_library.gd`). **Commits:** 0da0ac3, 661bb70, d380058, f18102a.
+
+- **Overlay/nav stability:** inventory overlay pauses game, lives on its own CanvasLayer, avoids freed-instance errors, and gates input like pause with proper signal handling and state management (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** 778c80f, 0c2fc98, 6c81105, 0fe0848, 8b741df.
+
+- **Movement/input & pause fixes:** tuned input mapping, movement responsiveness, and pause menu gating of inventory with proper screen state checks and ESC toggle handling (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/actors/character.gd`, `GodotFiles/scenes/player.tscn`). **Commits:** 772c84b, 0c2fc98, cb04a8a, a67e2c6.
+
+---
+
+### Sub-Role – Game Feel
+
+- **Inventory UI styling:** retro banners, tooltips with buffs/descriptions, centered grid with bias/padding, viewport-based scaling, exportable backgrounds with stacking badges and hover-only tooltips (`GodotFiles/scripts/user interface/Inventory.gd`, `GodotFiles/scenes/screens/inventory.tscn`, `GodotFiles/scenes/item_library.tscn`). **Commits:** 2cb4080, ad72204, fc77cc5, b41ac11, f8d1b59.
+
+- **Dialogue polish:** retro outlines/shadows, all-caps option, configurable colors/sizes, aisle-specific pitches, dad-joke Black Market dialogue with mood-driven text variations (`GodotFiles/scripts/user interface/dialogue_overlay.gd`, `GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/user interface/dialogue_overlay.tscn`). **Commits:** 4f04087, f196959, 6ea1533, e2975f9, ab8eb52, 015ab85.
+
+- **Overlay UX:** pause-like inventory overlay that hides competing layers and keeps focus on UI with proper CanvasLayer ordering and centered menu positioning (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/pause_menu.gd`). **Commits:** 8e257ad, 53f4b09, 5ab5695, d2b1b9d.
+
+---
+
+### Other Contributions
+
+- **Cart choice screen & starter inventory:** implemented cart selection UI with character stat display, texture loading, and starter item assignment via cohesive item type resources (`GodotFiles/scripts/entrance.gd`, `GodotFiles/scripts/item_library.gd`, `GodotFiles/scenes/screens/entrance.tscn`). **Commits:** 4c74206, 5d2a5c1, b55916a, a44bdf9, f1dcc22, b4d0e60.
+
+- **How to Play/onboarding:** contributed tutorial image integration and screen array setup for onboarding flow (`GodotFiles/scripts/user interface/how_to_play.gd`, `GodotFiles/scenes/screens/how_to_play.tscn`). **Commits:** 443c027, 2f206ed.
+
+- **Content/data:** expanded item_library with 23+ humorous, typed items with +10 buffs each, added non-alcoholic drinks, and rebalanced item types to match aisles with rich flavor text (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scenes/item_library.tscn`, `GodotFiles/resources/*`). **Commits:** 91d377a, a470e98, ad72204, f8dfa33.
+
+- **Bug fixes:** merge conflict cleanup, dialogue layout restoration with proper background handling, haggle price drop guarantee with charging logic fixes, and inventory return stability preventing freed-instance errors (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/dialogue_overlay.gd`). **Commits:** de07858, 778c80f, 0fe0848, 8b741df, f18102a, ab8eb52.
