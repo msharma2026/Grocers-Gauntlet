@@ -67,6 +67,32 @@ Add addition contributions int he Other Contributions section.
 
 ## Other Contributions ##
 
+## Team Member: Joshua Clark (Github: Generss, MrGeners (both)) 
+
+### Main Role - Technical Artist 
+
+- All mentioned shaders below were written by me, they can all be found in (`GodotFiles/assets/shaders`) many of these didn't end up making it into the game
+- Pixelate transition: Implemented with a shader, animationPlayer, and await subroutines, the pixelate transition plays between each screen (`GodotFiles/scripts/game.gd`) commits: 6f42fbc 6d284f3
+- Text Scrolling: Text scrolling on all text box related dialogue (`GodotFiles/scripts/user interface/dialogue_overlay.gd`) commits: 6458fa8
+- The fog effect: A fog effect lazily hovers over the Aisles scene, implemented with a noise texture and a shader (`GodotFiles/assets/shaders/fog.gdshader`) (`GodotFiles/scenes/Aisle.tscn`) commits: 4e360d1 5d91885
+- Various lighting effects and textures: In many different scenes I set up lighting systems and created textures Commits: 89bc296 4e360d1 6d029d4
+- Created a camera system along with Camera shake, and camera panning/logic in various scenes (`GodotFiles/scripts/camera_2d.gd`)(`GodotFiles/scripts/game.gd`) Commits: e9bbcb5 1129909 81166c4 80d5253 0e9ff09
+- Switching carts animation: Used an animation Curve to animate switching between different carts in Entrance as well as a subview node to keep it within a certain section of the screen. Also made the cart sprites. (`GodotFiles/scripts/entrance.gd`) Commits: a44bdf9
+- Added outlines on hover, and also a "spawn" effect to the aisle sprites with shaders (`GodotFiles/scripts/aisle.gd`) Commits: 5c4e159
+- Created the game over screen, with a silhouette shader, and a press any button to continue text that fades out and in: (`GodotFiles/scripts/game_over.gd`) Commits: a54aa35 2e36cbf
+- Added Quality stat to items, gave "perfect" items a rainbow shader, and "rough" items a dirty shader, as well as stat changes Commits: f8dfa33 
+- Added the disintegration transition animation for the boss fight, used the disintegration shader (the implementation of this animation was especially fun, had to grab the texture of the view after processing a frame to make it appear as though the previous screen was burning) (`GodotFiles/scripts/game.gd`) Commits: df1a644 0ec3f38
+- Mood coloring update to clerks, used pulsate red shader and render_color shader: Commits 0e9ff09
+
+### Sub-Role - Tutorial 
+- Visual tutorial accessable through the main menu (`GodotFiles/scripts/user interface/how_to_play.gd`) (`GodotFiles/assets/sprites/tutorial.png`) Commits: 443c027
+
+### Other Contributions
+- Created the Aisles scene where the player chooses which path to go next, as well as the random generation associated with it (`GodotFiles/scripts/aisle.gd`)(`GodotFiles/scripts/aisles.gd`) Commits: 3c2e5e8 2fd52e8 5c4e159
+- Created the audio system, music transitions (fade out), and added sound effects for the mini games, and the tick sound effect in the main menu (`GodotFiles/scripts/audio.gd`) Commits: 8f15077 0e9ff09 2812394 d7fb2dc
+- Created the system that handles changing screens, as well as the abstract class that all screens inherit from (`GodotFiles/scripts/game.gd`) Commits: 3b3b246 b561c4b 2190c98 fa1664c
+- Bug fixes Commits: 58d4c32 42a3cd0 62b6c95 34500cf 289f63b 9412460
+
 ## Team Member: Aktan Azat (GitHub: tadoophom)
 
 ### Main Role – Player Movement & Aisle Navigation
