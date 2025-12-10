@@ -17,7 +17,7 @@
 
 The game can be played with arrow keys to move around, mouse to click on buttons, esc to access the pause menu, and i key to access the inventory directly. 
 
-In the first screen after the main menu, click the arrow keys to select your starting cart, this determines your beginning stats. 
+In the first screen after the main menu, click the arrow buttons to select your starting cart, this determines your beginning stats. 
 Then you get sent to an aisles screen where you will select from different aisles with your mouse, clicking on the aisle where you would like to go next. Each aisle represents a different item type
 Once you go down that aisle, you can buy the item being offered, haggle to lower the price or leave. Items will raise your stats in the final boss encounter
 After so many aisles, you then enter the boss fight where the different combat options use different stats, each bolstered by different items you purchased in the store. 
