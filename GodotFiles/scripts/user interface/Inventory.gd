@@ -3,6 +3,15 @@
 class_name Inventory
 extends Screen
 
+const RAINBOW_SHADER:Shader = preload("res://assets/shaders/rainbow.gdshader")
+const DIRTY_SHADER:Shader = preload("res://assets/shaders/dirty.gdshader")
+const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
+const TEXT_FONT_COLOR = Color.WHITE
+const TITLE_FONT_COLOR = Color.BLACK
+const BUTTON_FONT_COLOR = Color.WHITE
+const FONT_BASE_RES := Vector2(1280, 720)
+const SCALE_CLAMP := 3
+
 @export var item_spacing: int = 10
 @export var default_row_size: int = 11
 @export var default_col_size: int = 4
@@ -26,16 +35,6 @@ extends Screen
 @export var header_bias: int = -60
 @export var banner_background_texture: Texture2D
 
-const RAINBOW_SHADER:Shader = preload("res://assets/shaders/rainbow.gdshader")
-const DIRTY_SHADER:Shader = preload("res://assets/shaders/dirty.gdshader")
-
-const RECEIPT_FONT = preload("res://assets/fonts/Merchant_Copy.ttf")
-const TEXT_FONT_COLOR = Color.WHITE
-const TITLE_FONT_COLOR = Color.BLACK
-const BUTTON_FONT_COLOR = Color.WHITE
-const FONT_BASE_RES := Vector2(1280, 720)
-const SCALE_CLAMP := 3
-
 var canvas_layer_node: CanvasLayer
 
 class TooltipHolder:
@@ -48,10 +47,12 @@ class TooltipHolder:
 			return builder.call(item)
 		return null
 
+
 func _ready() -> void:
 	var vp := get_viewport()
 	if vp and not vp.size_changed.is_connected(_on_viewport_resized):
 		vp.size_changed.connect(_on_viewport_resized)
+		
 	_build_inventory()
 
 
@@ -62,6 +63,7 @@ func _on_viewport_resized() -> void:
 func _build_inventory() -> void:
 	if canvas_layer_node:
 		canvas_layer_node.queue_free()
+		
 	canvas_layer_node = CanvasLayer.new()
 	add_child(canvas_layer_node)
 	
@@ -183,6 +185,7 @@ func _build_grid() -> Control:
 			var key := _item_key(item)
 			var count: int = item_counts.get(key, 1)
 			slot_inner.add_child(_build_item_entry(item, content_size, count))
+			
 		grid.add_child(slot)
 	
 	return grid
@@ -213,8 +216,10 @@ func _build_item_entry(item: ItemConfig, content_size: Vector2, count: int) -> V
 	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	if(icon_holder.item.quality == icon_holder.item.QUALITY.PERFECT):
 		icon_rect.material = _get_perfect_shader()
+		
 	elif(icon_holder.item.quality == icon_holder.item.QUALITY.ROUGH):
 		icon_rect.material = _get_rough_shader()
+		
 	icon_holder.add_child(icon_rect)
 	# Use custom tooltip to show name, stats, and description.
 	icon_holder.tooltip_text = " "  # needs a non-empty tooltip to trigger _make_custom_tooltip
@@ -344,16 +349,19 @@ func _item_key(item: ItemConfig) -> String:
 			type_id = item.type.resource_path
 		else:
 			type_id = item.type.resource_name
+			
 	return "%s::%s" % [item.item_id, type_id]
 
 
 func _apply_tooltip_background(node: Control, tex: Texture2D = tooltip_background_texture, color: Color = Color(0.1, 0.1, 0.1, 0.9)) -> void:
 	if node == null:
 		return
+		
 	# Remove any previous bg we added
 	for child in node.get_children():
 		if child is Control and child.name == "__bg":
 			child.queue_free()
+			
 	var bg: Control
 	if tex:
 		var tex_rect := TextureRect.new()
@@ -375,6 +383,7 @@ func _apply_tooltip_background(node: Control, tex: Texture2D = tooltip_backgroun
 		color_rect.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		color_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bg = color_rect
+		
 	node.add_child(bg)
 	node.move_child(bg, 0)
 
@@ -382,6 +391,7 @@ func _apply_tooltip_background(node: Control, tex: Texture2D = tooltip_backgroun
 func _prettify_name(new_name: String) -> String:
 	if new_name.is_empty():
 		return "Unknown Item"
+		
 	return new_name.capitalize()
 
 
@@ -389,6 +399,7 @@ func _scaled_font_size(base: int, min_size: int) -> int:
 	var vp := get_viewport()
 	if vp == null:
 		return base
+		
 	var size := vp.get_visible_rect().size
 	var new_scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
 	return clamp(int(round(base * new_scale)), min_size, 200)
@@ -398,6 +409,7 @@ func _scaled_px(base: int) -> int:
 	var vp := get_viewport()
 	if vp == null:
 		return base
+		
 	var size := vp.get_visible_rect().size
 	var new_scale: int = max(size.x / FONT_BASE_RES.x, size.y / FONT_BASE_RES.y)
 	var max_val := int(base * SCALE_CLAMP)
@@ -553,6 +565,7 @@ func _build_title() -> Control:
 		style.corner_radius_bottom_left = 6
 		style.corner_radius_bottom_right = 6
 		wrapper.add_theme_stylebox_override("panel", style)
+		
 	var pad: int = max(0, _scaled_px(title_padding_px))
 	var margin := MarginContainer.new()
 	var extra_pad := _scaled_px(16)
@@ -597,6 +610,7 @@ func _build_inventory_banner() -> Control:
 		style.corner_radius_bottom_left = 6
 		style.corner_radius_bottom_right = 6
 		wrapper.add_theme_stylebox_override("panel", style)
+		
 	var pad: int = max(0, _scaled_px(title_padding_px))
 	var margin := MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", pad)
@@ -615,6 +629,7 @@ func _get_perfect_shader() -> ShaderMaterial:
 	mat.shader = RAINBOW_SHADER
 	#mat.set_shader_parameter("outline_thickness", 3.0)
 	return mat
+	
 	
 func _get_rough_shader() -> ShaderMaterial:
 	var mat := ShaderMaterial.new()
