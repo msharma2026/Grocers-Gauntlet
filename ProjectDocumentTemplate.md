@@ -2,7 +2,7 @@
 
 ## Summary ##
 
-**A paragraph-length pitch for your game.**
+Grocer's Gauntlet follows a single dad as he navigates through an unusual grocery store with a grocery list from his daughter and $100 in his pocket. Navigate each aisle as they symbolize a piece of the main character's life and look for the best deal possible as you negotiate with the character in each aisle. Choose wisely as spending too much money early will catapult you into the boss fight prematurely, leaving you in a tough position to fight the store manager in a turn base format. Think your way through the store and be prepared for the manager as you enter a deep story about fatherhood and dealing with loss. Grocer's Gauntlet combines the fast-paced gameplay with emotional storytelling to deliver a reflective and heart touching story through the guise of a simple grocery store visit. 
 
 ## Project Resources
 
