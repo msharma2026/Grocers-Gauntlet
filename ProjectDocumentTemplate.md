@@ -131,6 +131,12 @@ Add addition contributions int he Other Contributions section.
 - Created the system that handles changing screens, as well as the abstract class that all screens inherit from (`GodotFiles/scripts/game.gd`) Commits: 3b3b246 b561c4b 2190c98 fa1664c
 - Bug fixes Commits: 58d4c32 42a3cd0 62b6c95 34500cf 289f63b 9412460
 
+### Deliverables
+
+| Main Role/Sub Role | Design Deliverables | Technical Deliverables | Documentation Deliverables | Integration Deliverables |
+| --- | --- | --- | --- | --- |
+|Technical Artist/ Tutorial | Transition animations and camera animations easily accessable through systems autoload, all used to unify visual elements | Shaders for moods, spotlighting in most scenes, fog shader and animation.  | Optomization through preloading all shaders, keeping all music and camera in a single system to reduce having to load new assets. Use of light simplex noise instead of perlin.   | Exported the game and tested functionality made sure the game ran at a consistent frame rate with current systems. |
+
 ## Team Member: Aktan Azat (GitHub: tadoophom)
 
 ### Main Role – Player Movement & Aisle Navigation
