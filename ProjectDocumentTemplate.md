@@ -62,7 +62,7 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 - Used the Godot documentation and Gemini 3 to experiment with constants, exports, and spacing logic for the inventory interface.
 - Understood **pause menu behavior** and integrated that functionality into the inventory overlay with help from:  
   https://youtu.be/OWtwYp2lIlQ?si=Cpyx-4mJmKmJAe2E
-- LLM Use: Used Gemini 3 for conceptual guidance on tilesheet workflows, UI spacing, resource imports, and general Godot systems.  
+- LLM Use: Used Gemini 3 for conceptual guidance on tilesheet workflows, UI spacing, resource imports, general Godot systems, and to figure out mermaid flowchart, charts, and other markdown implememtation in documentation.  
 
 ## Aktan Azat - External Resources / LLM Use
 - Used an LLM to draft the mermaid motion-system flowchart text; final asset captured in `motion-system-flow.png`.
