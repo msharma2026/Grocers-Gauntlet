@@ -187,7 +187,6 @@ Add addition contributions int he Other Contributions section.
 ---
 
 ### Sub-Role – Narrative Design
-
 - **Dialogue:** Implemented the intro dialogue, implemented the dialogue between the aisle NPCs and the player, implemented the dialogue between the boss and the player, implemented the ending cutscene dialogue (`GodotFiles/scripts/actors/baker_npc.gd`, `GodotFiles/scripts/actors/butcher_npc.gd`, `GodotFiles/scripts/actors/cashier_npc.gd`, `GodotFiles/scripts/actors/grandma_npc.gd`, `GodotFiles/scripts/actors/grandpa_npc.gd`, `GodotFiles/scripts/actors/liquor_store_npc.gd`, . **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0, a770236, 6933909, 1d66e13
 
 - **World Building and Themes:** Used the themes of the aisles to give clues about the story and add to the story, for example the meat aisle was supposed to be a more violent area to show the aggressive way the player's wife passed. The milk area was meant to represent the abscene of the mother in the family, I wanted the idea of milk and the player's parents to represent that one, milk is generally assoicated with the mother due to breastfeeding, and two, having an older version of player essentially with his father being there, and his mother, showing that this would've been his life later down the line, with maybe his daughter visiting, the player also notices a huge change in age for his parents, signaling he has been absent for a while. The alcohol aisle being in Christmas theme while the player notes its May gives a hint that maybe this grocery store is not a real store. The coziness of the bread aisle with it's fresh bread was meant to represent the comfort he used to feel when his family was still together and happy, generally smelling freshly baked goods bring nostalgia in pop culture. The candy aisle was meant to represent the younger years of the daughter, the daughter the player mostly remembers as it was before his wife passed, which can be seen when the player cannot remember that the childhood friend of his daughter isn't her friend anymore. **Commits:** f196959, 6ea1533, 419f7ce, 2fdc9f0
@@ -203,3 +202,21 @@ Add addition contributions int he Other Contributions section.
 - **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0
 
 - **Bug Fixes:** Fixed a bug that caused the NPC to say their lines and then say the generic intro again. Fixed bug where if user walked in the area of an NPC, an encounter never occurs. **Commits:** 419f7ce, e2975f9
+
+## Team Member: Manav Sharma (GitHub: msharma2026)
+
+### Main Role – Procedural Content Design
+- **Procedural level creation:** Worked on transitioning from entrance screen into aisles, refreshing aisles upon return, assigned chances of aisles, created level-navigation logic. Added hovering texture / yellow select texture, and defined item types.
+  **Commits:** 9f27255, 7fb29f1
+
+### Sub-Role – Audio
+- I ended up not working on audio, as others found assets online and used them.
+
+### Other Contributions
+- **Art drawings:** Drew initial character sprite (paint), created sprites for each aisle, placeholder sprites, drew the Boss Sprite 
+  **Commits:** 9f27255, 7fb29f1
+- **Boss Battle:** Created the boss fight. Implemented multiple fighting mechanics (attack, dodge, manuveur), added boss dialogue, added fighting dialogue, boss stats, boss actions, player attribute scaling. Also connected boss fight signal to end scene.
+  **Commits:** a7236ed, 3e707e7, 56c6399, 635f9f2, 1ad5a80, e23b116, f0accc8, 7511ead
+- **Branch Merging / Conflict handling:** Merged branches, solved conflicts & bugs
+  **Commits:** 9449c89, 54c5a1c, e07370a, cfc8e48, b8310d8, 436f64f, ebf1b23, f76e348
+- **Semi-producer:** Created initial commits, project to-do documents, discussed deadlines and goals with group
