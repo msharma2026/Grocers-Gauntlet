@@ -348,8 +348,8 @@ The licenses for the assets are in external resources.
 - **Designed UI Layout:** UI Document Deliverables: [UI Map](./UIDocumentDeliverables/UI%20Map.pdf), [Input Mapping](./UIDocumentDeliverables/Input%20Mapping.pdf), [Interaction Documentation](./UIDocumentDeliverables/Interaction%20Documentation.pdf)
 
 ### Sub-Role - Gameplay Testing
-- **Playtesting:** Hosted a playtest session and collected [8 reviews of Grocer's Gauntlet](https://docs.google.com/document/d/1gA90b1WbKwZKRkysMX04RpCA7GOHiOM4b4B0kXErl_s/edit?usp=sharing) and wrote an analysis to detail key feedback from playtesters.
+- **Playtesting:** Hosted a playtest session, collected [8 reviews of Grocer's Gauntlet](https://docs.google.com/document/d/1gA90b1WbKwZKRkysMX04RpCA7GOHiOM4b4B0kXErl_s/edit?usp=sharing), and wrote an analysis to detail key feedback from playtesters which was shared with the team.
 
 ### Other Contributions
-- **Debugging:** Implemented fixes to multiple major gameplay issues such as: opening inventory advancing the round bugs, budget charging bugs, hp not resetting between restarting, camera zoom bugs, and items not applying to the player's stats.
+- **Debugging:** Implemented fixes to multiple huge, gamebreaking bugs such as: opening the inventory advancing the round, getting charged upon leaving an aisle, hp not resetting between restarting, camera getting stuck on zoomed mode, and items not applying to the player's stats.
 - **Commits:** 0fe0848, 1f01469, f18102a, 8b741df, 9bfe7c4, b660099, fbfb7c1
