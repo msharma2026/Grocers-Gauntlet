@@ -170,32 +170,79 @@ Add addition contributions int he Other Contributions section.
 
 ### Main Role - Game Logic
 
-- **Game state management and screen system:** created exported dictionary for flexible screen loading from inspector, built unified `_change_screen()` handler supporting both PackedScenes and string IDs, and established screen flow architecture (`GodotFiles/scripts/game.gd`). **Commits:** 2ee699f, cf5c900, 8504e4c.
+  #### How Game Flow Works:
 
-- **Exit scene and quit confirmation:** implemented unified Exit.tscn with reusable quit confirmation logic, integrated exit handling across main menu and pause menu, and added proper cleanup on game exit (`GodotFiles/scenes/exit.tscn`, `GodotFiles/scripts/Exit.gd`, `GodotFiles/scripts/game.gd`). **Commits:** 8504e4c, 8c2ad81, 1f01469.
-
-- **Pause system gating:** prevented pause menu instantiation on non-gameplay screens (main menu/entrance), implemented ESC toggle with proper state checks, and coordinated pause/inventory overlay mutual exclusion (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, 057126e, cb04a8a, 0c2fc98.
-
-- **HUD lifecycle management:** removed editor-placed UI elements, instantiated HUD/HealthBar programmatically via code only during gameplay, and ensured proper visibility control tied to game state (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, cb04a8a.
-
-- **Game data integration:** coordinated with game_data singleton for cart stats, inventory state, and player progression; ensured proper reset flow and state persistence across screens (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/game_data.gd`). **Commits:** f1dcc22, a03c51f, b41ac11.
+- **Scope & Responsibilities**: Centralized game state and data flow. Managed cart selection → GameState initialization (charisma/dex/defense/capacity), inventory seeding/usage, aisle navigation/haggling logic, pause/menu state, and HUD hookups.
   
+- **Key States & Data**:
+  - `GameState` singleton: `PlayerStatus` enum (navigating, haggling, heisting, checkout, dead), `health_percentage`, `charisma`, `dexterity`, `defense`, `attack`, `budget`, `current_markup_rate`, `cart_type`, `max_capacity`, `inventory`, `map_depth`, intro/beat flags via metadata.
+  - `game.gd` acts as the central game runner: it initializes the player, HUD, and GameState, manages screen/encounter loading and transitions (including pause/inventory overlays), routes input for pausing/inventory, toggles gameplay visibility, and keeps camera defaults/reset while     swapping scenes.
+  - Screens/flow: entrance → aisles → boss/checkouts, with pause/inventory overlays.
+  - Inventory data: item configs carry stat buffs (health/charisma/dexterity/defense/budget).
+    
+- **Design Patterns/Structure**:
+  - **Autoload singleton** (`game_data` / `GameState`) as the game manager: holds authoritative state, metadata flags, and player stats.
+  - **Scene-driven UI** (menus, HUD, cart selector) that reads/writes `game_data` for consistency.
+  - **Single-responsibility scripts**: `item_library.gd` owns add/use logic and starter seeding; `aisle_navigation.gd` handles encounters, pricing, and dialogue; `entrance.gd` binds cart selection to state.
+  - **Guardrails**: capacity checks before inventory append; clamped stat updates to `MAX_*` constants; early returns on null/invalid configs; metadata flags to avoid repeated intros.
+    
+- **Integration Points**:
+  - Cart selection writes stats/capacity to `game_data`, then seeds starter items via `ItemLibrary`.
+  - Aisle navigation pulls `budget`, `charisma`, `dexterity`, `defense`, and inventory to drive haggling, affordability, and encounter text.
+  - HUD bars read health/budget; pause/inventory menus toggle off shared input bindings.
+  - Item use applies buffs/debuffs and removes items from inventory; purchase flow moves store items into inventory with capacity checks.
+
+  ```mermaid
+    flowchart LR
+    Entrance["Entrance (Cart Select)<br>- choose cart<br>- set cha/dex/def/capacity"]
+    GameState["GameState Singleton<br>- stats, budget, capacity<br>- inventory<br>- status enum<br>- metadata flags"]
+    ItemLib["ItemLibrary<br>- starter seeding<br>- add/use item<br>- capacity checks"]
+    Inventory["Inventory UI<br>- stacking/tooltips<br>- use/drop<br>- capacity gating"]
+    AisleNav["Aisle Navigation<br>- haggling/afford checks<br>- dialogue by budget/status<br>- purchases to inventory"]
+    HUD["HUD / UI Bars<br>- health/budget display<br>- pause/inventory toggles"]
+
+    Entrance --> GameState
+    GameState <--> ItemLib
+    ItemLib --> Inventory
+    GameState <--> Inventory
+    GameState <--> AisleNav
+    Inventory --> AisleNav
+    GameState --> HUD
+    AisleNav --> HUD
+    HUD --> GameState
+ 
+ #### Personal Contributions:
+
+- **Game state management and screen system:** created exported dictionary for flexible screen loading from inspector, built unified `_change_screen()` handler supporting both PackedScenes and string IDs, and established screen flow architecture (`GodotFiles/scripts/game.gd`). **Commits:** 2ee699f, cf5c900, 8504e4c.
+- **Exit scene and quit confirmation:** implemented unified Exit.tscn with reusable quit confirmation logic, integrated exit handling across main menu and pause menu, and added proper cleanup on game exit (`GodotFiles/scenes/exit.tscn`, `GodotFiles/scripts/Exit.gd`, `GodotFiles/scripts/game.gd`). **Commits:** 8504e4c, 8c2ad81, 1f01469.
+- **Pause system gating:** prevented pause menu instantiation on non-gameplay screens (main menu/entrance), implemented ESC toggle with proper state checks, and coordinated pause/inventory overlay mutual exclusion (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, 057126e, cb04a8a, 0c2fc98.
+- **HUD lifecycle management:** removed editor-placed UI elements, instantiated HUD/HealthBar programmatically via code only during gameplay, and ensured proper visibility control tied to game state (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, cb04a8a.
+- **Game data integration:** coordinated with game_data singleton for cart stats, inventory state, and player progression; ensured proper reset flow and state persistence across screens (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/game_data.gd`). **Commits:** f1dcc22, a03c51f, b41ac11.
 - **Inventory system:** item configs/library, add/use functions, buffs applied to game_data, inventory capacity handling, and UI integration with centralized add_to_inventory() method and use_item() logic (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** cfeac5f, af129e8, a470e98, 0da0ac3, f8dfa33.
-
 - **Aisle item selection:** fixed aisle→type mapping and selection from full library; Black Market pricing/moods and full-library pulls with proper encounter logic and inventory integration (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/item_library.gd`). **Commits:** 0da0ac3, 661bb70, d380058, f18102a.
-
 - **Overlay/nav stability:** inventory overlay pauses game, lives on its own CanvasLayer, avoids freed-instance errors, and gates input like pause with proper signal handling and state management (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** 778c80f, 0c2fc98, 6c81105, 0fe0848, 8b741df.
-
 - **Movement/input & pause fixes:** tuned input mapping, movement responsiveness, and pause menu gating of inventory with proper screen state checks and ESC toggle handling (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/actors/character.gd`, `GodotFiles/scenes/player.tscn`). **Commits:** 772c84b, 0c2fc98, cb04a8a, a67e2c6.
 
 ---
 
 ### Sub-Role - Game Feel
 
+- **Goals**: Smooth playability across movement, shopping, and encounters; immediate, legible feedback in UI; reduced friction in menus/inventory.
+- **Tweaks & Additions**:
+  - **Movement feel**: Directional movement scripts and input mapping for responsive control; ensured HUD/healthbar track live player state.
+  - **Inventory feel**: Stacking, sizing, hover/tooltips, item info clicks; capacity gating to avoid overload; starter item seeding for early agency.
+  - **UI flow**: Inline cart selector with left/right cycling; pause and inventory toggles from aisles; streamlined menu containers and button configs to reduce clicks.
+  - **Feedback loops**: Health and budget clamped with clear updates; item use immediately applies stat changes; aisle dialogue reflects budget/status for tone.
+  - **Friction reduction**: Fixed inventory bugs and aisle purchase-to-inventory wiring; cleaned pause/menu layering so overlays don’t conflict with gameplay.
+- **Notable Touches**:
+  - Cart stats (cha/dex/def/capacity) set up meaningful starting archetypes.
+  - Haggling/aisle pacing tied to charisma and map depth for escalating tension.
+  - How-to-Play screen documents controls and flow so players onboard quickly.
+ 
+#### Personal Contributions:
+  
 - **Inventory UI styling:** retro banners, tooltips with buffs/descriptions, centered grid with bias/padding, viewport-based scaling, exportable backgrounds with stacking badges and hover-only tooltips (`GodotFiles/scripts/user interface/Inventory.gd`, `GodotFiles/scenes/screens/inventory.tscn`, `GodotFiles/scenes/item_library.tscn`). **Commits:** 2cb4080, ad72204, fc77cc5, b41ac11, f8d1b59.
-
 - **Dialogue polish:** retro outlines/shadows, all-caps option, configurable colors/sizes, aisle-specific pitches, dad-joke Black Market dialogue with mood-driven text variations (`GodotFiles/scripts/user interface/dialogue_overlay.gd`, `GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/user interface/dialogue_overlay.tscn`). **Commits:** 4f04087, f196959, 6ea1533, e2975f9, ab8eb52, 015ab85.
-
 - **Overlay UX:** pause-like inventory overlay that hides competing layers and keeps focus on UI with proper CanvasLayer ordering and centered menu positioning (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/pause_menu.gd`). **Commits:** 8e257ad, 53f4b09, 5ab5695, d2b1b9d.
 
 ---
