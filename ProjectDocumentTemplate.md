@@ -250,11 +250,8 @@ Add addition contributions int he Other Contributions section.
 ### Other Contributions
 
 - **Cart choice screen & starter inventory:** implemented cart selection UI with character stat display, texture loading, and starter item assignment via cohesive item type resources (`GodotFiles/scripts/entrance.gd`, `GodotFiles/scripts/item_library.gd`, `GodotFiles/scenes/screens/entrance.tscn`). **Commits:** 4c74206, 5d2a5c1, b55916a, a44bdf9, f1dcc22, b4d0e60.
-
 - **How to Play/onboarding:** contributed tutorial image integration and screen array setup for onboarding flow (`GodotFiles/scripts/user interface/how_to_play.gd`, `GodotFiles/scenes/screens/how_to_play.tscn`). **Commits:** 443c027, 2f206ed.
-
 - **Content/data:** expanded item_library with 23+ humorous, typed items with +10 buffs each, added non-alcoholic drinks, and rebalanced item types to match aisles with rich flavor text (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scenes/item_library.tscn`, `GodotFiles/resources/*`). **Commits:** 91d377a, a470e98, ad72204, f8dfa33.
-
 - **Bug fixes:** merge conflict cleanup, dialogue layout restoration with proper background handling, haggle price drop guarantee with charging logic fixes, and inventory return stability preventing freed-instance errors (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/dialogue_overlay.gd`). **Commits:** de07858, 778c80f, 0fe0848, 8b741df, f18102a, ab8eb52.
 
 ---
