@@ -145,6 +145,7 @@ Add addition contributions int he Other Contributions section.
 - Player movement: directional controls, facing states, and start positions tuned for responsive traversal (`GodotFiles/scripts/actors/player.gd`). Commits: 666c2f0, 38b203d, baa4bb5.
 - Aisle navigation system and scene: built the AisleNavigation scene, encounter triggers, camera flow, and merchant patience/mood handling (`GodotFiles/scripts/aisle_navigation.gd`). Commits: 666c2f0, 8d3463f, db74605.
 - Merchant moods and patience tuning: personality system, mood-driven behavior, and visual indicators for NPCs. Commits: 15a34e9, 082c5b3.
+- Motion system flowchart reference: `motion-system-flow.png` (input → facing/anim → velocity → move_and_slide).
 
 ### Sub-Role, Narrative Design & Story Integration
 - Dialogue system foundation: built dialogue overlay flow, choice handling, patience/mood hooks, and trigger logic so narrative beats can progress; teammates supplied the dialogue text (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/user interface/dialogue_overlay.tscn`). Commits: baa4bb5.
