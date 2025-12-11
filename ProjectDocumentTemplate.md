@@ -35,12 +35,14 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 - The shader flip.gdshader was made with help from an LLM but didn't actually make it into the game
 
 ## Yugraj Dhillon- External resources
-- I learned howw to animate and use a spritesheet from https://www.youtube.com/watch?v=VlD7PtFIRlo and https://www.youtube.com/watch?v=HrAhbgP5HRo&t=2s
+- I learned how to animate and use a spritesheet from https://www.youtube.com/watch?v=VlD7PtFIRlo and https://www.youtube.com/watch?v=HrAhbgP5HRo&t=2s
 - I learned how to use a TileMapLayer from here https://www.youtube.com/watch?v=vEyDbROrw0Q
 - LLM Use: I used Gemini 3 to figure out how to implement the dialogue as the tutorials online seemed to not fit my situation, I used it as a template to implement the script that I wrote into the game, any of the dialogue code would fall under this, although I added onto it to fit my scenario, I did not have it implement it in for me.
 - Characters and sprites from Super Retro World Character Pack by Gif https://gif-superretroworld.itch.io/character-pack
 - Music: “Tropical Dreams, Spring and Summer Music Pack” by David KBD, licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). Source: itch.io/davidkbd/tropical-dreams-spring-and-summer-music-pack
 - Music by <a href="https://pixabay.com/users/u_b2pci6vjx1-53360220/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">u_b2pci6vjx1</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">Pixabay</a>
+- Music by <a href="https://pixabay.com/users/begench_begenjov-15353249/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=190879">Begench Begenjov</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=190879">Pixabay</a>
+- https://earlof.itch.io/shore-of-forgotten-memories 
 
 ## Marq Lott - External Resources
 
@@ -223,6 +225,8 @@ Add addition contributions int he Other Contributions section.
 
 **Edited Aisle Camera Position:** Inserted a fixed Camera2D node into each aisle to frame the each scene (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/aisles/milk_aisle.tscn`, `GodotFiles/scenes/aisles/meat_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/aisles/bread_aisle.tscn`, `GodotFiles/scenes/aisles/alcohol_aisle.tscn`). **Commits:** cd271e2
 
+The licenses for the assests are in external resources. 
+
 ---
 
 ### Sub-Role - Narrative Design
@@ -236,7 +240,7 @@ Add addition contributions int he Other Contributions section.
 
 ### Other Contributions
 
-- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice (`GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/screens/aisles.tscn`, `GodotFiles/scenes/screens/main_menu.tscn`). **Commits:** 0425352, d7f8405
+- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice (`GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/screens/aisles.tscn`, `GodotFiles/scenes/screens/main_menu.tscn`). **Commits:** 0425352, d7f8405 The licenses for the assets are in external resources. 
 
 - **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0
 
