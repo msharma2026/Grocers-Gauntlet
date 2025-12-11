@@ -202,11 +202,11 @@ Add addition contributions int he Other Contributions section.
 
 ### Other Contributions
 
-- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice **Commits:** 0425352, d7f8405
+- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice (`GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/screens/aisles.tscn`, `GodotFiles/scenes/screens/main_menu.tscn`). **Commits:** 0425352, d7f8405
 
 - **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0
 
-- **Bug Fixes:** Fixed a bug that caused the NPC to say their lines and then say the generic intro again. Fixed bug where if user walked in the area of an NPC, an encounter never occurs. **Commits:** 419f7ce, e2975f9
+- **Bug Fixes:** Fixed a bug that caused the NPC to say their lines and then say the generic intro again. Fixed bug where if user walked in the area of an NPC, an encounter never occurs (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/aisle_navigation.gd`). **Commits:** 419f7ce, e2975f9
 
 ## Team Member: Manav Sharma (GitHub: msharma2026)
 
