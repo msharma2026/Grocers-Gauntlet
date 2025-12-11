@@ -508,6 +508,11 @@ func _handle_buy() -> void:
 	print("Player bought item for: ", charge)
 	# Update GameData
 	game_data.budget = max(1.0, game_data.budget - charge)
+	
+	if _item_library and item_config:
+		item_config.finalize_quality()
+		_item_library.use_item(item_config)
+		
 	_record_merchant_beaten()
 	_add_market_item_to_inventory()
 	
