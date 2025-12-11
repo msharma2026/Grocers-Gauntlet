@@ -225,7 +225,7 @@ Add addition contributions int he Other Contributions section.
 
 **Edited Aisle Camera Position:** Inserted a fixed Camera2D node into each aisle to frame the each scene (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/aisles/milk_aisle.tscn`, `GodotFiles/scenes/aisles/meat_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/aisles/bread_aisle.tscn`, `GodotFiles/scenes/aisles/alcohol_aisle.tscn`). **Commits:** cd271e2
 
-The licenses for the assests are in external resources. 
+The licenses for the assets are in external resources. 
 
 ---
 
@@ -240,7 +240,7 @@ The licenses for the assests are in external resources.
 
 ### Other Contributions
 
-- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice (`GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/screens/aisles.tscn`, `GodotFiles/scenes/screens/main_menu.tscn`). **Commits:** 0425352, d7f8405 The licenses for the assets are in external resources. 
+- **Music:** Inserted music for the main menu, entrance aisle, candy aisle, and alcohol aisle. Specificially only for the candy and alcohol aisles because I felt like their content was too different to have the same music if you were wondering why I went with that choice (`GodotFiles/scenes/aisles/alcohol_aisle.tscn`, `GodotFiles/scenes/aisles/candy_aisle.tscn`, `GodotFiles/scenes/screens/aisles.tscn`, `GodotFiles/scenes/screens/main_menu.tscn`). **Commits:** 0425352, d7f8405 The licenses for the music are in external resources. 
 
 - **Level Design:** Other than the entrance aisle scene, I designed and implemented the layout for all the aisles, and the boss fight room. Orignally we decided that having vertical aisles was going to be best, but later on I realized that horizontal row were going to be a better layout for each aisle as it allowed for the user to see the items on the shelf and be able to see both character's faces clearly as one isn't facing away from the player. **Commits:** cd271e2, a770236, 2fdc9f0
 
