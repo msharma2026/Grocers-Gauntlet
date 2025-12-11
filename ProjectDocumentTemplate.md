@@ -34,6 +34,14 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 - The developer for the game Loop Hero actually told me how I could replicate his disintegrate shader https://x.com/_FQteam/status/1355980077360680962
 - The shader flip.gdshader was made with help from an LLM but didn't actually make it into the game
 
+## Yugraj Dhillon- External resources
+- I learned howw to animate and use a spritesheet from https://www.youtube.com/watch?v=VlD7PtFIRlo and https://www.youtube.com/watch?v=HrAhbgP5HRo&t=2s
+- I learned how to use a TileMapLayer from here https://www.youtube.com/watch?v=vEyDbROrw0Q
+- LLM Use: I used Gemini 3 to figure out how to implement the dialogue as the tutorials online seemed to not fit my situation, I used it as a template to implement the script that I wrote into the game, any of the dialogue code would fall under this, although I added onto it to fit my scenario, I did not have it implement it in for me.
+- Characters and sprites from Super Retro World Character Pack by Gif https://gif-superretroworld.itch.io/character-pack
+- Music: “Tropical Dreams, Spring and Summer Music Pack” by David KBD, licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). Source: itch.io/davidkbd/tropical-dreams-spring-and-summer-music-pack
+- Music by <a href="https://pixabay.com/users/u_b2pci6vjx1-53360220/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">u_b2pci6vjx1</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">Pixabay</a>
+
 
 # Team Member Contributions
 
