@@ -236,7 +236,7 @@ Add addition contributions int he Other Contributions section.
 - **Inventory system:** item configs/library, add/use functions, buffs applied to game_data, inventory capacity handling, and UI integration with centralized add_to_inventory() method and use_item() logic (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** cfeac5f, af129e8, a470e98, 0da0ac3, f8dfa33.
 - **Aisle item selection:** fixed aisle→type mapping and selection from full library; Black Market pricing/moods and full-library pulls with proper encounter logic and inventory integration (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/item_library.gd`). **Commits:** 0da0ac3, 661bb70, d380058, f18102a.
 - **Overlay/nav stability:** inventory overlay pauses game, lives on its own CanvasLayer, avoids freed-instance errors, and gates input like pause with proper signal handling and state management (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** 778c80f, 0c2fc98, 6c81105, 0fe0848, 8b741df.
-- **Movement/input & pause fixes:** tuned input mapping, movement responsiveness, and pause menu gating of inventory with proper screen state checks and ESC toggle handling (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/actors/character.gd`, `GodotFiles/scenes/player.tscn`). **Commits:** 772c84b, 0c2fc98, cb04a8a, a67e2c6.
+- **Movement/input & pause fixes:** tuned input mapping, movement responsiveness, and pause menu gating of inventory with proper screen state checks and ESC toggle handling (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/actors/character.gd`, `GodotFiles/scenes/player.tscn`). **Commits:** 772c84b, 0c2fc98, cb04a8a.
 
 ---
 
