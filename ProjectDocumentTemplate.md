@@ -327,3 +327,23 @@ The licenses for the assets are in external resources.
 - **Branch Merging / Conflict handling:** Merged branches, solved conflicts & bugs
   **Commits:** 9449c89, 54c5a1c, e07370a, cfc8e48, b8310d8, 436f64f, ebf1b23, f76e348
 - **Semi-producer:** Created initial commits, project to-do documents, discussed deadlines and goals with group
+
+## Team Member: David Estrella (GitHub: estrelladavid)
+
+### Main Role – User Interface and Input
+- **Main Menu:** Designed and implemented the main menu screen with the original Grocer's Gauntlet logo drawing from the Initial Plan document and menu buttons using the pixel art price tag sprite I drew. Built credits sub-menu screen that lists every member of the group and their roles.
+  **Commits:** 0f2af09, aa5c11d, 01271be, 82d37ec, 8e257ad, 4d0327c, a470ff1
+  **Pause Menu:** Designed and implemented the pause menu screen with my own pixel art and a font I found online. Built buttons with an options sub-menu that allows players to toggle fullscreen and change the master volume of the game.
+  **Commits:** 01271be, 09e2b7a, c3d49fc, 6cae129, 020ba6a, bfca273, 26b3b57, 1f01469, 53f4b09, 8e257ad
+  **Rehauled and styled UI elements:** Added styling to the dialogue boxes and other buttons (like budget) in the HUD using pixel art sprite I made. Applied styling to the cart selection screen and rehauled it.
+  **Commits:** b136477, 3114678, c3fa7f5, 5d2a5c1, 4c74206, fe70583, 0379b3a
+  **Made sprites for UI:** Drew the Pause Menu, Price Tag, and Dialogue Overlay sprites using Piskel.
+  **Health Bar:** Created the health bar display and connected it to the player's health so it updates dynamically.
+  **Commits:** 660e7c0, 7a55b22, 42b20b7
+
+### Sub-Role – Gameplay Testing
+- **Playtesting:** Hosted a playtest session and collected 8 reviews of Grocer's Gauntlet and wrote an analysis to detail key feedback from playtesters.
+
+### Other Contributions
+- **Debugging:** Implemented fixes to multiple major gameplay issues such as: inventory bugs, budget charging bugs, hp not resetting between restarting, zoom bugs, and items applying to the player's stats.
+  **Commits:** 0fe0848, 1f01469, f18102a, 8b741df, 9bfe7c4, b660099, fbfb7c1
