@@ -338,8 +338,8 @@ The licenses for the assets are in external resources.
 ### Main Role - User Interface and Input
 - **Main Menu:** Designed and implemented the main menu screen with the original Grocer's Gauntlet logo drawing from the Initial Plan document and menu buttons using the pixel art price tag sprite I drew. Built credits sub-menu screen that lists every member of the group and their roles.
 - **Commits:** 0f2af09, aa5c11d, 01271be, 82d37ec, 8e257ad, 4d0327c, a470ff1
-- **Pause Menu:** Designed and implemented the pause menu screen with my own pixel art and a font I found online. Built buttons with an options sub-menu that allows players to toggle fullscreen and change the master volume of the game. Mapped the 'ESC' input key to open and close the pause menu as well.
-- **Commits:** 01271be, 09e2b7a, c3d49fc, 6cae129, 020ba6a, bfca273, 26b3b57, 1f01469, 53f4b09, 8e257ad
+- **Pause Menu:** Designed and implemented the pause menu screen with my own pixel art and a font I found online. Built buttons with an options sub-menu that allows players to toggle fullscreen and change the master volume of the game. Mapped the 'ESC' input key to open and close the pause menu as well. Please note that I had a merge conflict on the initial implementation of the pause menu so I had to give Marq my code for the pause menu and have him push it.
+- **Commits:** 01271be, 09e2b7a, c3d49fc, 6cae129, 020ba6a, bfca273, 26b3b57, 1f01469, 53f4b09, 8e257ad, a67e2c6 (Marq's commit for my code)
 - **Rehauled and styled UI elements:** Added styling to the dialogue boxes and other buttons (like budget) in the HUD using pixel art sprite I made. Applied styling to the cart selection screen and rehauled it.
 - **Commits:** b136477, 3114678, c3fa7f5, 5d2a5c1, 4c74206, fe70583, 0379b3a
 - **Made sprites for UI:** Drew the Pause Menu, Price Tag, and Dialogue Overlay sprites using Piskel.
