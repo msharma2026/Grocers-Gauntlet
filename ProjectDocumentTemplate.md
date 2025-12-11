@@ -351,5 +351,5 @@ The licenses for the assets are in external resources.
 - **Playtesting:** Hosted a playtest session and collected [8 reviews of Grocer's Gauntlet](https://docs.google.com/document/d/1gA90b1WbKwZKRkysMX04RpCA7GOHiOM4b4B0kXErl_s/edit?usp=sharing) and wrote an analysis to detail key feedback from playtesters.
 
 ### Other Contributions
-- **Debugging:** Implemented fixes to multiple major gameplay issues such as: inventory bugs, budget charging bugs, hp not resetting between restarting, zoom bugs, and items applying to the player's stats.
+- **Debugging:** Implemented fixes to multiple major gameplay issues such as: inventory bugs, budget charging bugs, hp not resetting between restarting, camera zoom bugs, and items not applying to the player's stats.
 - **Commits:** 0fe0848, 1f01469, f18102a, 8b741df, 9bfe7c4, b660099, fbfb7c1
