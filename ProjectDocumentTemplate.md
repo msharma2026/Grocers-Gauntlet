@@ -42,6 +42,25 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 - Music: “Tropical Dreams, Spring and Summer Music Pack” by David KBD, licensed under Creative Commons Attribution 4.0 International (CC BY 4.0). Source: itch.io/davidkbd/tropical-dreams-spring-and-summer-music-pack
 - Music by <a href="https://pixabay.com/users/u_b2pci6vjx1-53360220/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">u_b2pci6vjx1</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=441733">Pixabay</a>
 
+## Marq Lott - External Resources
+
+### **Art & Asset Resources**
+- Grocery aisle shelves tilesheet by **gurokitty**  
+  Source: https://gurokitty.itch.io/grocery-store-assets
+- Food item tilesheet by **piiixl**  
+  Source: https://piiixl.itch.io/food
+
+### **Learning Resources & Tutorials**
+- Learned how to cut items out of tilesheets and use **AtlasTextures / resource imports** using Gemini 3 guidance and:  
+  https://youtu.be/LOhfqjmasi0?si=xYrNzQjCHv9VV4tN
+- Learned the basics of creating an **inventory UI screen** from:  
+  https://youtu.be/X3J0fSodKgs?si=bkAEhVbIq6Wz_ywR
+- Learned **tile spacing, Controls, CanvasLayers, and Containers** from:  
+  https://youtu.be/5Hog6a0EYa0?si=ru9CUKutIWjM_q8Y
+- Used the Godot documentation and Gemini 3 to experiment with constants, exports, and spacing logic for the inventory interface.
+- Understood **pause menu behavior** and integrated that functionality into the inventory overlay with help from:  
+  https://youtu.be/OWtwYp2lIlQ?si=Cpyx-4mJmKmJAe2E
+- LLM Use: Used Gemini 3 for conceptual guidance on tilesheet workflows, UI spacing, resource imports, and general Godot systems.  
 
 # Team Member Contributions
 
@@ -131,7 +150,7 @@ Add addition contributions int he Other Contributions section.
 
 ## Team Member: Marq Lott (GitHub: Marqlo-C)
 
-### Main Role – Game Logic
+### Main Role - Game Logic
 
 - **Game state management and screen system:** created exported dictionary for flexible screen loading from inspector, built unified `_change_screen()` handler supporting both PackedScenes and string IDs, and established screen flow architecture (`GodotFiles/scripts/game.gd`). **Commits:** 2ee699f, cf5c900, 8504e4c.
 
@@ -153,7 +172,7 @@ Add addition contributions int he Other Contributions section.
 
 ---
 
-### Sub-Role – Game Feel
+### Sub-Role - Game Feel
 
 - **Inventory UI styling:** retro banners, tooltips with buffs/descriptions, centered grid with bias/padding, viewport-based scaling, exportable backgrounds with stacking badges and hover-only tooltips (`GodotFiles/scripts/user interface/Inventory.gd`, `GodotFiles/scenes/screens/inventory.tscn`, `GodotFiles/scenes/item_library.tscn`). **Commits:** 2cb4080, ad72204, fc77cc5, b41ac11, f8d1b59.
 
