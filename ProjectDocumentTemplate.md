@@ -64,6 +64,12 @@ If you used tutorials or other intellectual guidance to create aspects of your p
   https://youtu.be/OWtwYp2lIlQ?si=Cpyx-4mJmKmJAe2E
 - LLM Use: Used Gemini 3 for conceptual guidance on tilesheet workflows, UI spacing, resource imports, and general Godot systems.  
 
+## Aktan Azat - External Resources / LLM Use
+- Used an LLM to draft the mermaid motion-system flowchart text; final asset captured in `motion-system-flow.png`.
+- Used an LLM for base dialogue text ideas; teammates edited/finalized all narrative prose.
+- Used an LLM to brainstorm attribute effects on merchants (pricing/mood reactions); implementation and tuning done manually.
+- Dialogue system (signals/branching) reference: Nathan Hoad’s Dialogue Manager - https://youtube.com/live/UhPFk8FSbd8
+
 # Team Member Contributions
 
 This section be repeated once for each team member. Each team member should provide their name and GitHub user information.
