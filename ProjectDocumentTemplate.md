@@ -1,4 +1,4 @@
-# Grocer's Gauntlet #
+#progr Grocer's Gauntlet #
 
 ## Summary ##
 
@@ -184,12 +184,12 @@ Add addition contributions int he Other Contributions section.
   - **Autoload singleton** (`game_data` / `GameState`) as the game manager: holds authoritative state, metadata flags, and player stats.
   - **Scene-driven UI** (menus, HUD, cart selector) that reads/writes `game_data` for consistency.
   - **Single-responsibility scripts**: `item_library.gd` owns add/use logic and starter seeding; `aisle_navigation.gd` handles encounters, pricing, and dialogue; `entrance.gd` binds cart selection to state.
-  - **Guardrails**: capacity checks before inventory append; clamped stat updates to `MAX_*` constants; early returns on null/invalid configs; metadata flags to avoid repeated intros.
+  - **Guardrails**: capacity checked before inventory append; clamped stat updates to `MAX_*` constants; early returns on null/invalid configs; flags added to avoid repeated intros.
     
 - **Integration Points**:
   - Cart selection writes stats/capacity to `game_data`, then seeds starter items via `ItemLibrary`.
   - Aisle navigation pulls `budget`, `charisma`, `dexterity`, `defense`, and inventory to drive haggling, affordability, and encounter text.
-  - HUD bars read health/budget; pause/inventory menus toggle off shared input bindings.
+  - HUD bars read health/budget; pause/inventory menus toggle off shared input bindings to prevent both from showing at same time.
   - Item use applies buffs/debuffs and removes items from inventory; purchase flow moves store items into inventory with capacity checks.
 
   ```mermaid
@@ -216,7 +216,7 @@ Add addition contributions int he Other Contributions section.
 - **Game state management and screen system:** created exported dictionary for flexible screen loading from inspector, built unified `_change_screen()` handler supporting both PackedScenes and string IDs, and established screen flow architecture (`GodotFiles/scripts/game.gd`). **Commits:** 2ee699f, cf5c900, 8504e4c.
 - **Exit scene and quit confirmation:** implemented unified Exit.tscn with reusable quit confirmation logic, integrated exit handling across main menu and pause menu, and added proper cleanup on game exit (`GodotFiles/scenes/exit.tscn`, `GodotFiles/scripts/Exit.gd`, `GodotFiles/scripts/game.gd`). **Commits:** 8504e4c, 8c2ad81, 1f01469.
 - **Pause system gating:** prevented pause menu instantiation on non-gameplay screens (main menu/entrance), implemented ESC toggle with proper state checks, and coordinated pause/inventory overlay mutual exclusion (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, 057126e, cb04a8a, 0c2fc98.
-- **HUD lifecycle management:** removed editor-placed UI elements, instantiated HUD/HealthBar programmatically via code only during gameplay, and ensured proper visibility control tied to game state (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, cb04a8a.
+- **HUD lifecycle management:** removed editor-placed UI elements, instantiated HUD/HealthBar via code only during gameplay, and ensured proper visibility controls tied to game state (`GodotFiles/scripts/game.gd`). **Commits:** 5ab5695, cb04a8a.
 - **Game data integration:** coordinated with game_data singleton for cart stats, inventory state, and player progression; ensured proper reset flow and state persistence across screens (`GodotFiles/scripts/game.gd`, `GodotFiles/scripts/game_data.gd`). **Commits:** f1dcc22, a03c51f, b41ac11.
 - **Inventory system:** item configs/library, add/use functions, buffs applied to game_data, inventory capacity handling, and UI integration with centralized add_to_inventory() method and use_item() logic (`GodotFiles/scripts/item_library.gd`, `GodotFiles/scripts/user interface/Inventory.gd`). **Commits:** cfeac5f, af129e8, a470e98, 0da0ac3, f8dfa33.
 - **Aisle item selection:** fixed aisle→type mapping and selection from full library; Black Market pricing/moods and full-library pulls with proper encounter logic and inventory integration (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/item_library.gd`). **Commits:** 0da0ac3, 661bb70, d380058, f18102a.
