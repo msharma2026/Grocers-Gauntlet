@@ -42,7 +42,7 @@ func add_item_to_inventory(config: ItemConfig) -> bool:
 	config.finalize_quality()
 	if config == null:
 		return false
-	if game_data.inventory.size() >= MAX_ITEMS_AT_START:
+	if game_data.inventory.size() >= game_data.max_capacity:
 		return false
 	game_data.inventory.append(config)
 	return true
