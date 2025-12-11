@@ -99,9 +99,20 @@ func _ready() -> void:
 	var aisle_camera: Camera2D = get_node_or_null("Camera2D") as Camera2D
 		
 	if not game_data.has_meta(current_aisle_id + "_intro_shown"):
+		# Prevents player from moving while camera pans
+		if player:
+			player.set_physics_process(false)
+			player.set_process_unhandled_input(false)
+			
 		await systems.camera.start_camera_pan()
+		
 		if aisle_camera:
 			await systems.camera.ease_to_new_location(aisle_camera.position,aisle_camera.zoom)
+		# Enables player movement after camera finishes panning
+		if player:
+			player.set_physics_process(true)
+			player.set_process_unhandled_input(true)
+			
 	elif aisle_camera:
 		systems.camera.set_new_location(aisle_camera.position,aisle_camera.zoom)
 		#aisle_camera.make_current()
