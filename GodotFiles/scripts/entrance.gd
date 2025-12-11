@@ -32,7 +32,6 @@ var next_end: Vector2
 
 var selected_cart_index: int = 0
 var cart_label: Label
-var stats_label: Label
 var ui_root: Control
 
 # for transition animation 
@@ -191,14 +190,6 @@ func _build_cart_menu() -> void:
 	cart_label.add_theme_color_override("font_color", Color.BLACK)
 	info_column.add_child(cart_label)
 
-	stats_label = Label.new()
-	stats_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	stats_label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	stats_label.add_theme_font_override("font", RECEIPT_FONT)
-	stats_label.add_theme_font_size_override("font_size", 24)
-	stats_label.add_theme_color_override("font_color", Color.BLACK)
-	info_column.add_child(stats_label)
-
 	var next_button := Button.new()
 	next_button.text = ">"
 	next_button.flat = true
@@ -289,8 +280,6 @@ func _update_cart_display() -> void:
 		return
 	if cart_label:
 		cart_label.text = _format_cart_label(cart)
-	if stats_label:
-		stats_label.text = "Capacity: %d" % cart.max_capacity
 
 
 func _ensure_default_carts() -> void:
