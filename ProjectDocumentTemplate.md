@@ -70,6 +70,10 @@ If you used tutorials or other intellectual guidance to create aspects of your p
 - Used an LLM to brainstorm attribute effects on merchants (pricing/mood reactions); implementation and tuning done manually.
 - Dialogue system (signals/branching) reference: Nathan Hoad’s Dialogue Manager - https://youtube.com/live/UhPFk8FSbd8
 
+## Manav Sharma - External resources
+- For art, I used PixilArt, and gained inspiration from online available icons and AI generated icons. (I didn't use AI generated images, but I used them for inspiration)
+- LLM Use: I used Gemini 3 for coding guidance. I used it to figure out how to implement some procedural-generation steps and debugging code.
+
 # Team Member Contributions
 
 This section be repeated once for each team member. Each team member should provide their name and GitHub user information.
