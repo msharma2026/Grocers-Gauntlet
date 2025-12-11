@@ -192,6 +192,11 @@ Add addition contributions int he Other Contributions section.
 
 - **Bug fixes:** merge conflict cleanup, dialogue layout restoration with proper background handling, haggle price drop guarantee with charging logic fixes, and inventory return stability preventing freed-instance errors (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scripts/game.gd`, `GodotFiles/scripts/user interface/dialogue_overlay.gd`). **Commits:** de07858, 778c80f, 0fe0848, 8b741df, f18102a, ab8eb52.
 
+| Main Role/Sub Role | Design Deliverables | Technical Deliverables | Documentation Deliverables | Integration Deliverables |
+| --- | --- | --- | --- | --- |
+| Game Logic / Game Feel | Cart stat/capacity rules; inventory flow/feel (stacking, sizing, usage timing); item/aisle dialogue flavor; player movement feel & input conventions; haggling/aisle encounter pacing | ItemLibrary add/use methods; starter item seeding; store purchase-to-inventory wiring; inventory bug fixes/refactors; cart selection logic and capacity handling; player movement scripts/input mapping; aisle navigation tweaks; item stat application to player | Notes in code/commits on inventory behavior, cart options, external resources; in-game How-to-Play guidance relevant to inputs/flow | GameState updates for charisma/dex/defense/health/budget; inventory integrated with aisle navigation and cart selection; menus/UI tied into state (pause/inventory toggles, cart choice); HUD/healthbar linked to player state |
+
+
 ## Team Member: Yugraj Dhillon (GitHub: YugrajD)
 
 ### Main Role – Animation and Visuals
