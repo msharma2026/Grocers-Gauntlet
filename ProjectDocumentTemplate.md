@@ -149,7 +149,7 @@ Add addition contributions int he Other Contributions section.
 
 ### Sub-Role, Narrative Design & Story Integration
 - Dialogue system foundation: built dialogue overlay flow, choice handling, patience/mood hooks, and trigger logic so narrative beats can progress; teammates supplied the dialogue text (`GodotFiles/scripts/aisle_navigation.gd`, `GodotFiles/scenes/user interface/dialogue_overlay.tscn`). Commits: baa4bb5.
-- Narrative documentation collected in `NarrativeDesign_AktanAzat.md`.
+- Documentation (deliverable): Narrative shows in aisle encounters and boss flow; I built the dialogue logic/triggers/choice + patience/mood handling, while teammates wrote the prose. See `GodotFiles/scripts/aisle_navigation.gd`, dialogue overlay scene, commit baa4bb5.
 - Press kit not delivered: Monday build was unstable, so I shifted time to bug fixes instead.
 
 ### Other Contributions
@@ -158,6 +158,13 @@ Add addition contributions int he Other Contributions section.
 - Haggle minigames: built coin-flip, reaction, and base haggle flows with random selection and difficulty scaling into aisle encounters (`GodotFiles/scripts/user interface/haggle_minigame*.gd`, `GodotFiles/scripts/aisle_navigation.gd`). Commits: eeb726f, 3a3a2b5, 4153bd2, a058fda, e380632.
 - Encounter triggers: player spawn alignment and camera pans that start aisle encounters smoothly (`GodotFiles/scripts/aisle_navigation.gd`).
 - Bug fixes: initial aisle sprite visibility (eb0d5c7), forced purchase/charge after annoyed merchant (a4c12a5), and player position persistence when exiting dialogue in aisle selector (6473dbe).
+
+### Deliverables
+
+| Role | Design Deliverables | Technical Deliverables | Documentation Deliverables | Integration Deliverables |
+| --- | --- | --- | --- | --- |
+| Movement / Physics | Movement feel conventions (facing/idle/move tuning); motion flow visual | Player movement/physics in `GodotFiles/scripts/actors/player.gd`; flowchart `motion-system-flow.png` (commits: 666c2f0, 38b203d, baa4bb5) | Flowchart reference noted in role section | Consistent facing/velocity handling across aisles; GAME_OVER gate to block motion |
+| Narrative Design & Story Integration | Embedded narrative moments via dialogue flow/triggers (text by teammates) | Dialogue overlay logic, choices, patience/mood hooks (`GodotFiles/scripts/aisle_navigation.gd`, dialogue overlay scene) (commit: baa4bb5) | Doc: narrative expressed through aisle encounters and boss dialogue using my trigger/choice/mood logic; prose by teammates; refs `GodotFiles/scripts/aisle_navigation.gd`, dialogue_overlay.tscn, baa4bb5 | Dialogue system tied to game state and UI for encounters |
 
 ## Team Member: Marq Lott (GitHub: Marqlo-C)
 
