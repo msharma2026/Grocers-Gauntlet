@@ -335,7 +335,7 @@ The licenses for the assets are in external resources.
 
 ## Team Member: David Estrella (GitHub: estrelladavid)
 
-### Main Role – User Interface and Input
+### Main Role - User Interface and Input
 - **Main Menu:** Designed and implemented the main menu screen with the original Grocer's Gauntlet logo drawing from the Initial Plan document and menu buttons using the pixel art price tag sprite I drew. Built credits sub-menu screen that lists every member of the group and their roles.
   **Commits:** 0f2af09, aa5c11d, 01271be, 82d37ec, 8e257ad, 4d0327c, a470ff1
 - **Pause Menu:** Designed and implemented the pause menu screen with my own pixel art and a font I found online. Built buttons with an options sub-menu that allows players to toggle fullscreen and change the master volume of the game.
@@ -347,7 +347,7 @@ The licenses for the assets are in external resources.
   **Commits:** 660e7c0, 7a55b22, 42b20b7
 - **Designed UI Layout:** UI Document Deliverables: [UI Map](./UIDocumentDeliverables/UI%20Map.pdf), [Input Mapping](./UIDocumentDeliverables/Input%20Mapping.pdf), [Interaction Documentation](./UIDocumentDeliverables/Interaction%20Documentation.pdf)
 
-### Sub-Role – Gameplay Testing
+### Sub-Role - Gameplay Testing
 - **Playtesting:** Hosted a playtest session and collected [8 reviews of Grocer's Gauntlet](https://docs.google.com/document/d/1gA90b1WbKwZKRkysMX04RpCA7GOHiOM4b4B0kXErl_s/edit?usp=sharing) and wrote an analysis to detail key feedback from playtesters.
 
 ### Other Contributions
